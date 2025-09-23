@@ -5,10 +5,21 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Smartphone, Globe, Database, Shield, Cpu, Cloud } from "lucide-react"
 import Link from "next/link"
+import { useLanguage } from "@/lib/i18n"
+
+// Define the shape of a product to ensure TypeScript understands the structure
+interface Product {
+  icon: React.ComponentType<{ className?: string }>
+  title: string
+  description: string
+  features: string[]
+  image: string
+}
 
 export function ProductsSection() {
   const [isVisible, setIsVisible] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
+  const { t } = useLanguage()
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -27,46 +38,46 @@ export function ProductsSection() {
     return () => observer.disconnect()
   }, [])
 
-  const products = [
+  const products: Product[] = [
     {
       icon: Smartphone,
-      title: "Ứng dụng di động",
-      description: "Phát triển ứng dụng iOS và Android với giao diện hiện đại, tối ưu trải nghiệm người dùng.",
-      features: ["React Native", "Flutter", "Native iOS/Android"],
+      title: t("products.mobile.title"),
+      description: t("products.mobile.description"),
+        features: ["React Native", "Flutter", "Native iOS/Android"],
       image: "/mobile-app-development.png",
     },
     {
       icon: Globe,
-      title: "Website & Web App",
-      description: "Thiết kế và phát triển website responsive, web application với công nghệ tiên tiến.",
-      features: ["Next.js", "React", "Vue.js"],
+      title: t("products.web.title"),
+      description: t("products.web.description"),
+     features: ["Next.js", "React", "Vue.js"],
       image: "/modern-website-design.png",
     },
     {
       icon: Database,
-      title: "Hệ thống quản lý",
-      description: "Xây dựng hệ thống ERP, CRM, quản lý kho bãi tùy chỉnh theo nhu cầu doanh nghiệp.",
-      features: ["ERP", "CRM", "Inventory Management"],
+      title: t("products.management.title"),
+      description: t("products.management.description"),
+     features: ["ERP", "CRM", "Inventory Management"],
       image: "/business-management-system.jpg",
     },
     {
       icon: Shield,
-      title: "Bảo mật & An toàn",
-      description: "Giải pháp bảo mật toàn diện, kiểm tra lỗ hổng bảo mật và tư vấn an toàn thông tin.",
-      features: ["Security Audit", "Penetration Testing", "Compliance"],
+      title: t("products.security.title"),
+      description: t("products.security.description"),
+     features: ["Security Audit", "Penetration Testing", "Compliance"],
       image: "/cybersecurity-solutions.jpg",
     },
     {
       icon: Cpu,
-      title: "AI & Machine Learning",
-      description: "Ứng dụng trí tuệ nhân tạo vào quy trình kinh doanh, tự động hóa và phân tích dữ liệu.",
-      features: ["Computer Vision", "NLP", "Predictive Analytics"],
+      title: t("products.ai.title"),
+      description: t("products.ai.description"),
+       features: ["Computer Vision", "NLP", "Predictive Analytics"],
       image: "/artificial-intelligence-technology.png",
     },
     {
       icon: Cloud,
-      title: "Cloud & DevOps",
-      description: "Triển khai hạ tầng đám mây, tối ưu hiệu suất và đảm bảo khả năng mở rộng.",
+      title: t("products.cloud.title"),
+      description: t("products.cloud.description"),
       features: ["AWS", "Azure", "Docker & Kubernetes"],
       image: "/cloud-computing-infrastructure.jpg",
     },
@@ -81,10 +92,10 @@ export function ProductsSection() {
           }`}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-balance mb-6">
-            Sản phẩm & <span className="text-primary">Dịch vụ</span>
+            {t("products.title")} <span className="text-primary">{t("products.subtitle")}</span>
           </h2>
           <p className="text-xl text-muted-foreground text-balance max-w-3xl mx-auto leading-relaxed">
-            Chúng tôi cung cấp đa dạng giải pháp công nghệ từ phát triển ứng dụng đến tư vấn chuyển đổi số
+            {t("products.description")}
           </p>
         </div>
 
@@ -114,14 +125,20 @@ export function ProductsSection() {
                 </div>
                 <p className="text-muted-foreground mb-4 leading-relaxed">{product.description}</p>
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {product.features.map((feature, featureIndex) => (
-                    <span key={featureIndex} className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">
-                      {feature}
+                  {Array.isArray(product.features) ? (
+                    product.features.map((feature, featureIndex) => (
+                      <span key={featureIndex} className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">
+                        {feature}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">
+                      No features available
                     </span>
-                  ))}
+                  )}
                 </div>
-                <Button variant="ghost" className="group-hover:text-white hover:bg-primary transition-colors p-0 transition-bg">
-                  Tìm hiểu thêm
+                <Button variant="ghost" className="group-hover:text-primary hover:bg-primary transition-colors p-0 transition-bg">
+                  {t("products.learnMore")}
                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </div>
@@ -132,7 +149,7 @@ export function ProductsSection() {
         <div className="text-center">
           <Link href="/products">
             <Button size="lg" className="text-lg px-8 py-6">
-              Xem tất cả sản phẩm
+              {t("products.viewAll")}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>

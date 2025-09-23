@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { Card } from "@/components/ui/card"
+import { useLanguage } from "@/lib/i18n"
 
 interface CounterProps {
   end: number
@@ -56,6 +57,7 @@ function Counter({ end, duration = 2000, suffix = "" }: CounterProps) {
 export function AchievementsSection() {
   const [isVisible, setIsVisible] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
+  const { t } = useLanguage()
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -78,26 +80,26 @@ export function AchievementsSection() {
     {
       number: 10,
       suffix: "+",
-      label: "Năm kinh nghiệm",
-      description: "Trong lĩnh vực công nghệ",
+      label: t("achievements.experience"),
+      description: t("achievements.experienceDescription"),
     },
     {
       number: 500,
       suffix: "+",
-      label: "Dự án hoàn thành",
-      description: "Với chất lượng cao",
+      label: t("achievements.projects"),
+      description: t("achievements.projectsDescription"),
     },
     {
       number: 200,
       suffix: "+",
-      label: "Khách hàng tin tưởng",
-      description: "Trên toàn quốc",
+      label: t("achievements.clients"),
+      description: t("achievements.clientsDescription"),
     },
     {
       number: 50,
       suffix: "+",
-      label: "Chuyên gia",
-      description: "Giàu kinh nghiệm",
+      label: t("achievements.team"),
+      description: t("achievements.teamDescription"),
     },
   ]
 
@@ -108,10 +110,10 @@ export function AchievementsSection() {
           className={`text-center mb-16 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-balance mb-6">
-            Thành tựu & <span className="text-primary">Kinh nghiệm</span>
+            {t("achievements.title")} <span className="text-primary">{t("achievements.subtitle")}</span>
           </h2>
           <p className="text-xl text-muted-foreground text-balance max-w-3xl mx-auto leading-relaxed">
-            Những con số ấn tượng minh chứng cho sự tin cậy và chất lượng dịch vụ của chúng tôi
+            {t("achievements.description")}
           </p>
         </div>
 

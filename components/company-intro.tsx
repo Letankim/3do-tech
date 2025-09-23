@@ -3,10 +3,12 @@
 import { useEffect, useRef, useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Target, Eye, Lightbulb } from "lucide-react"
+import { useLanguage } from "@/lib/i18n"
 
 export function CompanyIntro() {
   const [isVisible, setIsVisible] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
+  const { t } = useLanguage()
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -32,11 +34,10 @@ export function CompanyIntro() {
           className={`text-center mb-16 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-balance mb-6">
-            Về <span className="text-primary">3DO TECH</span>
+            {t("company.intro.title")} <span className="text-primary">{t("company.intro.subtitle")}</span>
           </h2>
           <p className="text-xl text-muted-foreground text-balance max-w-4xl mx-auto leading-relaxed">
-            Chúng tôi là đội ngũ chuyên gia công nghệ với hơn 10 năm kinh nghiệm, cam kết mang đến những giải pháp sáng
-            tạo và hiệu quả nhất cho khách hàng.
+            {t("company.intro.description")}
           </p>
         </div>
 
@@ -44,22 +45,20 @@ export function CompanyIntro() {
           {[
             {
               icon: Target,
-              title: "Sứ mệnh",
-              description:
-                "Tạo ra những sản phẩm công nghệ có tác động tích cực đến cuộc sống và kinh doanh của khách hàng.",
+              title: t("company.mission.title"),
+              description: t("company.mission.description"),
               delay: "delay-200",
             },
             {
               icon: Eye,
-              title: "Tầm nhìn",
-              description: "Trở thành công ty công nghệ hàng đầu Việt Nam, tiên phong trong việc ứng dụng AI và IoT.",
+              title: t("company.vision.title"),
+              description: t("company.vision.description"),
               delay: "delay-400",
             },
             {
               icon: Lightbulb,
-              title: "Giá trị cốt lõi",
-              description:
-                "Đổi mới sáng tạo, chất lượng vượt trội, và cam kết phục vụ khách hàng với tâm huyết cao nhất.",
+              title: t("company.coreValues.title"),
+              description: t("company.coreValues.description"),
               delay: "delay-600",
             },
           ].map((item, index) => (

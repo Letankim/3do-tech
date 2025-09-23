@@ -3,10 +3,12 @@
 import { useEffect, useRef, useState } from "react"
 import useEmblaCarousel from "embla-carousel-react"
 import AutoPlay from "embla-carousel-autoplay"
+import { useLanguage } from "@/lib/i18n"
 
 export function PartnersSection() {
   const [isVisible, setIsVisible] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
+  const { t } = useLanguage()
 
   const [emblaRef] = useEmblaCarousel(
     {
@@ -56,10 +58,10 @@ export function PartnersSection() {
           }`}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-balance mb-6">
-            Đối tác <span className="text-primary">tin cậy</span>
+            {t("partners.title")} <span className="text-primary">{t("partners.subtitle")}</span>
           </h2>
           <p className="text-xl text-muted-foreground text-balance max-w-3xl mx-auto leading-relaxed">
-            Chúng tôi tự hào hợp tác cùng những thương hiệu hàng đầu thế giới
+            {t("partners.description")}
           </p>
         </div>
 
@@ -91,7 +93,7 @@ export function PartnersSection() {
 
         <div className="text-center mt-12">
           <p className="text-muted-foreground">
-            Và hơn <span className="font-semibold text-primary">200+ đối tác</span> khác trên toàn cầu
+            {t("partners.additional")} <span className="font-semibold text-primary">{t("partners.additionalHighlight")}</span>{t("partners.additionalmore")}
           </p>
         </div>
       </div>

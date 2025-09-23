@@ -4,11 +4,15 @@ import { Button } from "@/components/ui/button"
 import { Menu, Phone, X } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
+import { useLanguage } from "@/lib/i18n"
+import { LanguageSwitcher } from "./language-switcher"
 
 export function StickyHeader() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const router = useRouter();
+  const { t } = useLanguage()
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 100)
@@ -30,7 +34,7 @@ export function StickyHeader() {
           <div className="text-xl lg:text-2xl font-bold text-primary">
             <img onClick={()=> {
               router.push("/");
-            }} className="w-[70px] h-[70px] object-cover object-center" src="/logo.png"/>
+            }} className="w-[50px] h-[50px] object-cover object-center" src="/logo.png"/>
           </div>
 
           {/* Desktop Navigation */}
@@ -39,31 +43,42 @@ export function StickyHeader() {
               href="#gioi-thieu"
               className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
             >
-              Giới thiệu
+              {t("nav.about")}
             </a>
             <a href="#san-pham" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">
-              Sản phẩm
+              {t("nav.services")}
             </a>
             <a
               href="#san-pham-thuc-te"
               className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
             >
-              Dự án thực tế
+              {t("nav.projects")}
             </a>
             <a href="#doi-tac" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">
-              Đối tác
+              {t("nav.products")}
             </a>
             <a href="#lien-he" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">
-              Liên hệ
+              {t("nav.contact")}
             </a>
           </nav>
 
-          {/* Desktop CTA */}
-          <div className="hidden lg:block">
-            <Button size="lg" className="font-medium flex align-center gap-2 p-2">
-                <span>Liên hệ ngay</span>
-                 <Phone size={18} />
+          {/* Desktop CTA and Language Switcher */}
+          <div className="hidden lg:flex items-center space-x-4">
+            <LanguageSwitcher />
+          <a
+            href="https://zalo.me/0865341745"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button
+              size="lg"
+              className="font-medium flex items-center gap-2 p-2 relative overflow-hidden group"
+            >
+              <span>{t("nav.contact")}</span>
+              <Phone size={18} />
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-500 ease-out"></span>
             </Button>
+          </a>
           </div>
 
           {/* Mobile menu button */}
@@ -84,39 +99,40 @@ export function StickyHeader() {
                 className="block px-3 py-2 text-base font-medium text-foreground/80 hover:text-primary hover:bg-muted/50 rounded-md transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Giới thiệu
+                {t("nav.about")}
               </a>
               <a
                 href="#san-pham"
                 className="block px-3 py-2 text-base font-medium text-foreground/80 hover:text-primary hover:bg-muted/50 rounded-md transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Sản phẩm
+                {t("nav.services")}
               </a>
               <a
                 href="#san-pham-thuc-te"
                 className="block px-3 py-2 text-base font-medium text-foreground/80 hover:text-primary hover:bg-muted/50 rounded-md transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Dự án thực tế
+                {t("nav.projects")}
               </a>
               <a
                 href="#doi-tac"
                 className="block px-3 py-2 text-base font-medium text-foreground/80 hover:text-primary hover:bg-muted/50 rounded-md transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Đối tác
+                {t("nav.products")}
               </a>
               <a
                 href="#lien-he"
                 className="block px-3 py-2 text-base font-medium text-foreground/80 hover:text-primary hover:bg-muted/50 rounded-md transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Liên hệ
+                {t("nav.contact")}
               </a>
-              <div className="px-3 py-2">
+              <div className="px-3 py-2 space-y-2">
+                <LanguageSwitcher />
                 <Button size="sm" className="w-full font-medium">
-                  Liên hệ ngay
+                  {t("nav.contact")}
                 </Button>
               </div>
             </div>
