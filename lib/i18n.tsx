@@ -236,7 +236,7 @@ const translations = {
   "testimonials.trustIndicators.values.averageRating": "5★",
 
     // CTA
-      "cta.title": "Sẵn sàng biến ý tưởng thành",
+  "cta.title": "Sẵn sàng biến ý tưởng thành",
   "cta.titleHighlight": "hiện thực?",
   "cta.description": "Hãy để 3DO TECH đồng hành cùng bạn trong hành trình chuyển đổi số. Chúng tôi cam kết mang đến giải pháp tối ưu nhất cho doanh nghiệp của bạn.",
 
@@ -256,6 +256,7 @@ const translations = {
   "cta.trustElements.warranty.description": "Bảo hành dài hạn",
   "cta.trustElements.support.title": "24/7",
   "cta.trustElements.support.description": "Hỗ trợ kỹ thuật",
+  "cta.badge": "Đặc biệt",
 
     // Footer
    "footer.newsletter.title": "Nhận tin tức công nghệ mới nhất",
@@ -541,6 +542,7 @@ const translations = {
     "cta.trustElements.warranty.description": "Long-Term Warranty",
     "cta.trustElements.support.title": "24/7",
     "cta.trustElements.support.description": "Technical Support",
+    "cta.badge": "Special",
 
     // Footer
     "footer.newsletter.title": "Stay Updated with the Latest Tech News",
@@ -824,6 +826,7 @@ const translations = {
     "cta.trustElements.warranty.description": "长期保修",
     "cta.trustElements.support.title": "24/7",
     "cta.trustElements.support.description": "技术支持",
+     "cta.badge": "特别",
 
     // Footer
     "footer.newsletter.title": "获取最新技术资讯",
@@ -1107,6 +1110,7 @@ const translations = {
     "cta.trustElements.warranty.description": "長期保証",
     "cta.trustElements.support.title": "24/7",
     "cta.trustElements.support.description": "技術サポート",
+     "cta.badge": "特別",
 
     // Footer
     "footer.newsletter.title": "最新の技術ニュースを入手",
@@ -1390,6 +1394,7 @@ const translations = {
     "cta.trustElements.warranty.description": "장기 보증",
     "cta.trustElements.support.title": "24/7",
     "cta.trustElements.support.description": "기술 지원",
+     "cta.badge": "특별",
 
     // Footer
     "footer.newsletter.title": "최신 기술 뉴스 받아보기",
