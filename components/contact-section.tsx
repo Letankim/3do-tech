@@ -93,6 +93,7 @@ export function ContactSection({ lang = "vi" }: { lang?: string }) {
 
   return (
     <section
+      id="lien-he"
       ref={sectionRef}
       className={`py-10 bg-gradient-to-br from-primary/5 to-accent/5 overflow-x-hidden transition-all duration-700 ease-in-out ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 sm:translate-y-0"
