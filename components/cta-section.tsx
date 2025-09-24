@@ -30,7 +30,7 @@ export function CTASection() {
 
   return (
     <section ref={sectionRef} className="py-24 bg-primary/5">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className=" px-2 max-w-7xl mx-auto md:px-6">
         <div
           className={`transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"

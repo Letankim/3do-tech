@@ -105,7 +105,7 @@ export function AchievementsSection() {
 
   return (
     <section ref={sectionRef} className="py-24 bg-primary/5">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-2 md:px-6">
         <div
           className={`text-center mb-16 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
         >
@@ -117,11 +117,11 @@ export function AchievementsSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-8">
           {achievements.map((achievement, index) => (
             <Card
               key={index}
-              className={`p-8 text-center hover:shadow-lg transition-all duration-500 ${isVisible ? `opacity-100 translate-y-0` : "opacity-0 translate-y-10"}`}
+              className={`p-4 md:p-8 text-center hover:shadow-lg transition-all duration-500 ${isVisible ? `opacity-100 translate-y-0` : "opacity-0 translate-y-10"}`}
               style={{ transitionDelay: `${index * 200}ms` }}
             >
               <div className="text-4xl md:text-5xl font-bold text-primary mb-2">

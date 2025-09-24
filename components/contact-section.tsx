@@ -36,6 +36,7 @@ export function ContactSection({ lang = "vi" }: { lang?: string }) {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true)
+          observer.disconnect() // Stop observing once visible
         }
       },
       { threshold: 0.1 },
@@ -90,15 +91,20 @@ export function ContactSection({ lang = "vi" }: { lang?: string }) {
   }
 
   return (
-    <section ref={sectionRef} className="py-10 bg-gradient-to-br from-primary/5 to-accent/5">
-      <div className="max-w-7xl mx-auto px-6">
+    <section
+      ref={sectionRef}
+      className={`py-10 bg-gradient-to-br from-primary/5 to-accent/5 overflow-x-hidden transition-all duration-700 ease-in-out ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 sm:translate-y-0"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-0 sm:px-6">
         <div
           className={`transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
           {/* Header */}
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 px-4 sm:px-0">
             <h2 className="text-4xl md:text-5xl font-bold text-balance mb-6">
               {t("contact.header.title")} <span className="text-primary">{t("contact.header.titleHighlight")}</span>
             </h2>
@@ -107,14 +113,14 @@ export function ContactSection({ lang = "vi" }: { lang?: string }) {
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12">
+          <div className="grid lg:grid-cols-2 gap-6 sm:gap-12">
             {/* Contact Info */}
             <div
               className={`transition-all duration-1000 delay-200 ${
-                isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
+                isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10 sm:-translate-x-0"
               }`}
             >
-              <Card className="p-8 h-full bg-gradient-to-br from-primary to-primary/80 text-white relative overflow-hidden">
+              <Card className="p-6 sm:p-8 h-full bg-gradient-to-br from-primary to-primary/80 text-white relative overflow-hidden mx-4 sm:mx-0">
                 <div className="absolute inset-0 opacity-10">
                   <div className="absolute inset-0 bg-[url('/tech-circuit-pattern.jpg')] bg-repeat opacity-20"></div>
                 </div>
@@ -180,10 +186,10 @@ export function ContactSection({ lang = "vi" }: { lang?: string }) {
             {/* Contact Form */}
             <div
               className={`transition-all duration-1000 delay-400 ${
-                isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"
+                isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10 sm:translate-x-0"
               }`}
             >
-              <Card className="p-8 h-full">
+              <Card className="p-6 sm:p-8 h-full mx-4 sm:mx-0">
                 <h3 className="text-2xl font-bold mb-8">{t("contact.form.title")}</h3>
 
                 <form onSubmit={handleSubmit} className="space-y-6">

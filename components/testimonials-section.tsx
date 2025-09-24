@@ -92,7 +92,7 @@ export function TestimonialsSection() {
 
   return (
     <section ref={sectionRef} className="py-24 bg-background">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="px-2 max-w-7xl mx-auto md:px-6">
         <div
           className={`text-center mb-16 transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
@@ -119,7 +119,7 @@ export function TestimonialsSection() {
                   className="embla__slide flex-[0_0_auto] min-w-0 pl-4 md:pl-6"
                   style={{ flex: "0 0 90%" }}
                 >
-                  <Card className="p-8 h-full bg-card/50 backdrop-blur-sm border-primary/10 hover:shadow-lg transition-all duration-300">
+                  <Card className="p-4 md:p-6 h-full bg-card/50 backdrop-blur-sm border-primary/10 hover:shadow-lg transition-all duration-300">
                     <div className="flex items-start justify-between mb-6">
                       <Quote className="h-8 w-8 text-primary/30" />
                       <div className="flex items-center space-x-1">

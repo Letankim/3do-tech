@@ -15,28 +15,6 @@ export function Footer() {
 
   return (
     <footer className="bg-background border-t">
-      {/* Newsletter section */}
-      <div className="bg-primary/5 py-16">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center max-w-2xl mx-auto">
-            <h3 className="text-2xl md:text-3xl font-bold mb-4">{t("footer.newsletter.title")}</h3>
-            <p className="text-muted-foreground mb-8 leading-relaxed">{t("footer.newsletter.description")}</p>
-
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-              <Input
-                type="email"
-                placeholder={t("footer.newsletter.inputPlaceholder")}
-                className="flex-1 px-4 py-3 text-base"
-              />
-              <Button className="group p-4">
-                {t("footer.newsletter.subscribeButton")}
-                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Main footer content */}
       <div className="py-16">
         <div className="max-w-7xl mx-auto px-6">
@@ -160,7 +138,7 @@ export function Footer() {
       {/* Bottom footer */}
       <div className="py-8">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+          <div className="flex flex-col md:flex-row justify-start items-start space-y-4 md:space-y-0">
             
             {/* Bên trái: bản quyền */}
             <div className="text-muted-foreground text-sm">
