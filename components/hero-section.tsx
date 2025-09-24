@@ -80,6 +80,7 @@ export function HeroSection() {
                 className="bg-primary hover:bg-primary/90 text-accent-foreground text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 w-full sm:w-auto"
               >
                 {t("hero.cta.primary")}
+                
                 <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
               </Button>
               <Button

@@ -5,6 +5,7 @@ import { Suspense } from "react"
 import { FloatingContactWidget } from "@/components/floating-contact-widget"
 import "./globals.css"
 import { LanguageProvider } from "@/lib/i18n"
+import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
   title: "3DO TECH - Công nghệ chuyển đổi số",
@@ -41,6 +42,7 @@ export default function RootLayout({
                 }>{children}</Suspense>
           <FloatingContactWidget />
         </LanguageProvider>
+        <Toaster />
         <Analytics />
       </body>
     </html>

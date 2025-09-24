@@ -28,7 +28,7 @@ export function Footer() {
                       onClick={() => {
                         router.push("/")
                       }}
-                      src="/logo.png"
+                      src="/android-chrome-192x192.png"
                       alt="Logo footer"
                       className="w-[60px] h-[60px] object-contain"
                     />
@@ -138,7 +138,7 @@ export function Footer() {
       {/* Bottom footer */}
       <div className="py-8">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-start items-start space-y-4 md:space-y-0">
+          <div className="flex flex-col md:flex-row justify-start items-start md:justify-between md:align-center space-y-4 md:space-y-0">
             
             {/* Bên trái: bản quyền */}
             <div className="text-muted-foreground text-sm">

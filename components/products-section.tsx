@@ -137,10 +137,17 @@ export function ProductsSection() {
                     </span>
                   )}
                 </div>
-                <Button variant="ghost" className="group-hover:text-primary hover:bg-primary transition-colors p-0 transition-bg">
-                  {t("products.learnMore")}
+                <Button 
+                  variant="ghost" 
+                  className="relative overflow-hidden group p-0 transition-colors hover:bg-primary/10"
+                >
+                  <span>{t("products.learnMore")}</span>
                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+
+                  {/* Hiệu ứng sáng chạy ngang */}
+                  <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent transform -skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 ease-out"></span>
                 </Button>
+
               </div>
             </Card>
           ))}

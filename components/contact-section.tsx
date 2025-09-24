@@ -36,7 +36,7 @@ export function ContactSection({ lang = "vi" }: { lang?: string }) {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true)
-          observer.disconnect() // Stop observing once visible
+          observer.disconnect() 
         }
       },
       { threshold: 0.1 },
@@ -58,37 +58,38 @@ export function ContactSection({ lang = "vi" }: { lang?: string }) {
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
+  e.preventDefault()
+  setIsSubmitting(true)
 
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      })
+  try {
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
 
-      if (response.ok) {
-        toast({
-          title: t("contact.form.success.title"),
-          description: t("contact.form.success.description"),
-        })
-        setFormData({ name: "", email: "", subject: "", message: "" })
-      } else {
-        throw new Error("Failed to send message")
-      }
-    } catch (error) {
+    if (response.ok) {
       toast({
-        title: t("contact.form.error.title"),
-        description: t("contact.form.error.description"),
-        variant: "destructive",
+        title: t("contact.form.success.title"),
+        description: t("contact.form.success.description"),
       })
-    } finally {
-      setIsSubmitting(false)
+      setFormData({ name: "", email: "", subject: "", message: "" })
+    } else {
+      throw new Error("Failed to send message")
     }
+  } catch (error) {
+    toast({
+      title: t("contact.form.error.title"),
+      description: t("contact.form.error.description"),
+      variant: "destructive",
+    })
+  } finally {
+    setIsSubmitting(false)
   }
+}
+
 
   return (
     <section
@@ -126,7 +127,7 @@ export function ContactSection({ lang = "vi" }: { lang?: string }) {
                 </div>
 
                 <div className="relative z-10">
-                  <h3 className="text-2xl font-bold mb-8">{t("contact.info.title")}</h3>
+                  <h3 className="text-2xl font-bold mb-4">{t("contact.info.title")}</h3>
 
                   <div className="space-y-6 mb-8">
                     <div className="flex items-center space-x-4">
@@ -190,7 +191,7 @@ export function ContactSection({ lang = "vi" }: { lang?: string }) {
               }`}
             >
               <Card className="p-6 sm:p-8 h-full mx-4 sm:mx-0">
-                <h3 className="text-2xl font-bold mb-8">{t("contact.form.title")}</h3>
+                <h3 className="text-2xl font-bold mb-4">{t("contact.form.title")}</h3>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-4">
@@ -250,24 +251,27 @@ export function ContactSection({ lang = "vi" }: { lang?: string }) {
                     />
                   </div>
 
-                  <Button
-                    type="submit"
-                    size="lg"
-                    disabled={isSubmitting}
-                    className="w-full bg-primary hover:bg-primary/90 text-white font-semibold group"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                        {t("contact.form.submitting")}
-                      </>
-                    ) : (
-                      <>
-                        <Send className="mr-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                        {t("contact.form.submitButton")}
-                      </>
-                    )}
-                  </Button>
+                 <Button
+  type="submit"
+  size="lg"
+  disabled={isSubmitting}
+  className="w-full bg-primary hover:bg-primary/90 text-white font-semibold relative overflow-hidden group"
+>
+  {isSubmitting ? (
+    <>
+      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+      {t("contact.form.submitting")}
+    </>
+  ) : (
+    <>
+      <Send className="mr-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+      {t("contact.form.submitButton")}
+    </>
+  )}
+
+  <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-500 ease-out"></span>
+</Button>
+
 
                   <p className="text-sm text-muted-foreground text-center">
                     {t("contact.form.consent")}

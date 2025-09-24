@@ -17,21 +17,16 @@ export function StickyHeader() {
   const headerRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    // Trigger initial slide-down animation on mount
     setTimeout(() => setIsVisible(true), 100)
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY
-
-      // Update scrolled state for background change
       setIsScrolled(currentScrollY > 100)
 
-      // Handle slide-up/slide-down based on scroll direction
       if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        // Scrolling down: hide header
+
         setIsVisible(false)
       } else if (currentScrollY < lastScrollY) {
-        // Scrolling up: show header
         setIsVisible(true)
       }
 
@@ -58,7 +53,7 @@ export function StickyHeader() {
                 router.push("/")
               }}
               className="w-[50px] h-[50px] object-cover object-center"
-              src="/logo.png"
+              src="/android-chrome-192x192.png"
               alt="Logo"
             />
           </div>
