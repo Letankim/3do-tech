@@ -9,6 +9,7 @@ import { ExternalLink, Calendar, Users, Search } from "lucide-react"
 import { useState, useMemo } from "react"
 import projectsData from "@/data/projects.json"
 import { useLanguage } from "@/lib/i18n"
+import { useRouter } from "next/navigation"
 
 const categories = [
   "Tất cả",
@@ -26,6 +27,7 @@ export default function ProjectsPage() {
   const { t } = useLanguage()
   const [selectedCategory, setSelectedCategory] = useState("Tất cả")
   const [searchQuery, setSearchQuery] = useState("")
+  const router = useRouter()
 
   const filteredProjects = useMemo(() => {
     return projectsData.filter((project) => {
@@ -165,6 +167,7 @@ export default function ProjectsPage() {
                       variant="ghost"
                       size="sm"
                       className="h-8 px-3 hover:bg-primary hover:text-white transition-colors"
+                       onClick={() => router.push(`${project?.link}`)}
                     >
                       <ExternalLink className="h-3 w-3" />
                     </Button>

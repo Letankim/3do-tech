@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { useToast } from "@/hooks/use-toast"
 import { Phone, Mail, MapPin, Github, Facebook, Send, CheckCircle, Clock, Youtube } from "lucide-react"
 import { useLanguage } from "@/lib/i18n"
+import { useRouter } from "next/navigation"
 
 interface ContactFormData {
   name: string
@@ -30,6 +31,7 @@ export function ContactSection({ lang = "vi" }: { lang?: string }) {
   const sectionRef = useRef<HTMLElement>(null)
   const { toast } = useToast()
   const { t } = useLanguage()
+  const router = useRouter();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -169,6 +171,7 @@ export function ContactSection({ lang = "vi" }: { lang?: string }) {
                         size="sm"
                         variant="outline"
                         className="border-white/30 text-white hover:bg-white/10 bg-transparent"
+                         onClick={() => router.push("https://www.youtube.com/@3DO-Corp")}
                       >
                         <Youtube className="h-4 w-4" />
                       </Button>
@@ -176,6 +179,7 @@ export function ContactSection({ lang = "vi" }: { lang?: string }) {
                         size="sm"
                         variant="outline"
                         className="border-white/30 text-white hover:bg-white/10 bg-transparent"
+                        onClick={() => router.push("https://www.facebook.com/le.tan.kim.159265")}
                       >
                         <Facebook className="h-4 w-4" />
                       </Button>

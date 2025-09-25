@@ -153,7 +153,7 @@ export function ProductsSection() {
         </div>
 
         <div className="text-center">
-          <Link href="/products">
+          <Link href="/projects">
             <Button size="lg" className="text-lg px-8 py-6">
               {t("products.viewAll")}
               <ArrowRight className="ml-2 h-5 w-5" />

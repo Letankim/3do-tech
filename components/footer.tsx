@@ -41,19 +41,10 @@ export function Footer() {
 
               {/* Social links */}
               <div className="flex space-x-4">
-                <Button variant="outline" size="icon" className="hover:bg-primary hover:text-white bg-transparent">
+                <Button variant="outline" size="icon" className="hover:bg-primary hover:text-white bg-transparent"   onClick={() => router.push("https://www.facebook.com/le.tan.kim.159265")} >
                   <Facebook className="h-4 w-4" />
                 </Button>
-                <Button variant="outline" size="icon" className="hover:bg-primary hover:text-white bg-transparent">
-                  <Twitter className="h-4 w-4" />
-                </Button>
-                <Button variant="outline" size="icon" className="hover:bg-primary hover:text-white bg-transparent">
-                  <Linkedin className="h-4 w-4" />
-                </Button>
-                <Button variant="outline" size="icon" className="hover:bg-primary hover:text-white bg-transparent">
-                  <Instagram className="h-4 w-4" />
-                </Button>
-                <Button variant="outline" size="icon" className="hover:bg-primary hover:text-white bg-transparent">
+                <Button variant="outline" size="icon" className="hover:bg-primary hover:text-white bg-transparent"     onClick={() => router.push("https://www.youtube.com/@3DO-Corp")} >
                   <Youtube className="h-4 w-4" />
                 </Button>
               </div>
@@ -64,32 +55,32 @@ export function Footer() {
               <h4 className="text-lg font-semibold mb-6">{t("footer.services.title")}</h4>
               <ul className="space-y-4">
                 <li>
-                  <Link href="#san-pham" className="text-muted-foreground hover:text-primary transition-colors">
+                  <Link href="#dich-vu" className="text-muted-foreground hover:text-primary transition-colors">
                     {t("footer.services.websiteDevelopment")}
                   </Link>
                 </li>
                 <li>
-                  <Link href="#san-pham" className="text-muted-foreground hover:text-primary transition-colors">
+                  <Link href="#dich-vu" className="text-muted-foreground hover:text-primary transition-colors">
                     {t("footer.services.mobileApps")}
                   </Link>
                 </li>
                 <li>
-                  <Link href="#san-pham" className="text-muted-foreground hover:text-primary transition-colors">
+                  <Link href="#dich-vu" className="text-muted-foreground hover:text-primary transition-colors">
                     {t("footer.services.systemIntegration")}
                   </Link>
                 </li>
                 <li>
-                  <Link href="#san-pham" className="text-muted-foreground hover:text-primary transition-colors">
+                  <Link href="#dich-vu" className="text-muted-foreground hover:text-primary transition-colors">
                     {t("footer.services.aiSolutions")}
                   </Link>
                 </li>
                 <li>
-                  <Link href="#san-pham" className="text-muted-foreground hover:text-primary transition-colors">
+                  <Link href="#dich-vu" className="text-muted-foreground hover:text-primary transition-colors">
                     {t("footer.services.cloudServices")}
                   </Link>
                 </li>
                 <li>
-                  <Link href="#san-pham" className="text-muted-foreground hover:text-primary transition-colors">
+                  <Link href="#dich-vu" className="text-muted-foreground hover:text-primary transition-colors">
                     {t("footer.services.networkSecurity")}
                   </Link>
                 </li>
@@ -150,19 +141,19 @@ export function Footer() {
               {/* Links */}
               <div className="flex flex-col sm:flex-row sm:space-x-6 sm:space-y-0 space-y-2 md:space-y-0">
                 <Link
-                  href="/privacy"
+                  href="#"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
                   {t("footer.bottom.privacyPolicy")}
                 </Link>
                 <Link
-                  href="/terms"
+                  href="#"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
                   {t("footer.bottom.termsOfUse")}
                 </Link>
                 <Link
-                  href="/cookies"
+                  href="#"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
                   {t("footer.bottom.cookiePolicy")}

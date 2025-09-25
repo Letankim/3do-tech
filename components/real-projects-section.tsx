@@ -151,7 +151,7 @@ export function RealProjectsSection() {
         </div>
 
         {/* Nút xem tất cả */}
-        {/* <div className="text-center">
+        <div className="text-center">
           <Link href="/projects">
             <Button
               size="lg"
@@ -162,7 +162,7 @@ export function RealProjectsSection() {
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>
-        </div> */}
+        </div>
       </div>
     </section>
   )
