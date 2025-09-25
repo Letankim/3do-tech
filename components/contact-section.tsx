@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/hooks/use-toast"
-import { Phone, Mail, MapPin, Github, Facebook, Send, CheckCircle, Clock } from "lucide-react"
+import { Phone, Mail, MapPin, Github, Facebook, Send, CheckCircle, Clock, Youtube } from "lucide-react"
 import { useLanguage } from "@/lib/i18n"
 
 interface ContactFormData {
@@ -170,7 +170,7 @@ export function ContactSection({ lang = "vi" }: { lang?: string }) {
                         variant="outline"
                         className="border-white/30 text-white hover:bg-white/10 bg-transparent"
                       >
-                        <Github className="h-4 w-4" />
+                        <Youtube className="h-4 w-4" />
                       </Button>
                       <Button
                         size="sm"

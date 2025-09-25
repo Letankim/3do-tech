@@ -67,7 +67,7 @@ export function StickyHeader() {
               {t("nav.about")}
             </a>
             <a
-              href="#san-pham"
+              href="#dich-vu"
               className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
             >
               {t("nav.services")}

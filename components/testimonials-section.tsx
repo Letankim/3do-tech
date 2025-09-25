@@ -1,16 +1,49 @@
 "use client"
+
 import { useEffect, useRef, useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import useEmblaCarousel from "embla-carousel-react"
 import AutoPlay from "embla-carousel-autoplay"
-import { Star, Quote } from "lucide-react"
+import { Star, Quote, StarHalf } from "lucide-react"
 import { useLanguage } from "@/lib/i18n"
 
+interface Testimonial {
+  name: string;
+  position: string;
+  company: string;
+  avatar: string;
+  rating: string | number;
+  content: string;
+}
+
+function RatingStars({ rating }: { rating: number | string }) {
+  const value = Number(rating) || 0
+  const fullStars = Math.floor(value)
+  const hasHalf = value % 1 >= 0.5
+  const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0)
+
+  return (
+    <div className="flex items-center">
+      {[...Array(fullStars)].map((_, i) => (
+        <Star key={`full-${i}`} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+      ))}
+      {hasHalf && (
+        <StarHalf key="half" className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+      )}
+      {[...Array(emptyStars)].map((_, i) => (
+        <Star key={`empty-${i}`} className="h-5 w-5 text-gray-300" />
+      ))}
+    </div>
+  )
+}
+
 export function TestimonialsSection() {
-  const { t } = useLanguage() 
+  const { t } = useLanguage()
   const [isVisible, setIsVisible] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]); 
+  const [averageRating, setAverageRating] = useState(0);
 
   const [emblaRef] = useEmblaCarousel(
     {
@@ -23,9 +56,81 @@ export function TestimonialsSection() {
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
+      async ([entry]) => {
         if (entry.isIntersecting) {
-          setIsVisible(true)
+          setIsVisible(true);
+          try {
+            const response = await fetch("/api/feedback");
+            if(!response.ok) {
+              throw new Error("Fail to get feedback");
+            }
+
+            const data  = [
+  {
+    name: "Nguyễn Văn Hùng",
+    position: "CEO",
+    company: "HMS",
+    avatar: "https://hms-client-psi.vercel.app/thang.jpg",
+    rating: "5",
+    content:
+      "Hệ thống quản lý sức khỏe được triển khai rất chuyên nghiệp. Tính năng AI gợi ý dinh dưỡng và theo dõi sức khỏe giúp ích rất nhiều cho khách hàng của chúng tôi.",
+  },
+  {
+    name: "Trần Văn Tiến",
+    position: "Giám đốc Marketing",
+    company: "FPT Telecom",
+    avatar: "https://hms-client-psi.vercel.app/an.jpg",
+    rating: "4.5",
+    content:
+      "Website đăng ký dịch vụ internet được phát triển nhanh chóng, giao diện thân thiện và dễ sử dụng. Khách hàng phản hồi rất tích cực.",
+  },
+  {
+    name: "Phạm Minh Quân",
+    position: "CTO",
+    company: "ELearning - F",
+    avatar: "https://hms-client-psi.vercel.app/cuong.jpg",
+    rating: "5",
+    content:
+      "Nền tảng E-learning hoạt động ổn định, có thể phục vụ hàng chục nghìn học viên cùng lúc. Đặc biệt, video streaming và quiz tự động rất hữu ích.",
+  },
+  {
+    name: "Lê Tấn Kim",
+    position: "Quản lý Dự án",
+    company: "LAC.ID.VN",
+    avatar: "https://hms-client-psi.vercel.app/kim.jpg",
+    rating: "4",
+    content:
+      "Website thương mại điện tử về board game được thiết kế đẹp và dễ sử dụng. Thanh toán online và quản lý kho hàng hoạt động ổn định, chỉ cần cải thiện thêm tốc độ tải trang.",
+  },
+  {
+    name: "Đỗ Văn Thành",
+    position: "Founder",
+    company: "Dotesco",
+    avatar: "https://hms-client-psi.vercel.app/an.jpg",
+    rating: "5",
+    content:
+      "Website dịch vụ kỹ thuật được triển khai rất chuyên nghiệp. Hệ thống đặt lịch và quản lý khách hàng giúp chúng tôi tiết kiệm nhiều thời gian vận hành.",
+  },
+  {
+    name: "Nguyễn Trọng Lượng",
+    position: "Huấn luyện viên cá nhân",
+    company: "PT",
+    avatar: "https://nguyen-trong-luong.vercel.app/avatar.jpg",
+    rating: "4.8",
+    content:
+      "Landing page quảng bá cá nhân được thiết kế hiện đại, tối ưu SEO và thu hút nhiều khách hàng tiềm năng. Tôi rất hài lòng.",
+  },
+];
+
+            setTestimonials(data || []);
+            if(data?.length > 0) {
+              const ratings = data?.map((f: any)=> Number(f.rating) || 0);
+              const sumRating = ratings.reduce((sum: number, f: number)=> sum+f, 0);
+              setAverageRating(Math.round(sumRating / ratings.length));
+            }
+          }catch(e) {
+            console.log(e);
+          }
         }
       },
       { threshold: 0.1 },
@@ -37,58 +142,6 @@ export function TestimonialsSection() {
 
     return () => observer.disconnect()
   }, [])
-
-  // Testimonials data using translation keys
-  const testimonials = [
-    {
-      name: t("testimonials.items.1.name"),
-      position: t("testimonials.items.1.position"),
-      company: t("testimonials.items.1.company"),
-      avatar: "/customer-avatar-1.jpg",
-      rating: t("testimonials.items.1.rating"),
-      content: t("testimonials.items.1.content"),
-    },
-    {
-      name: t("testimonials.items.2.name"),
-      position: t("testimonials.items.2.position"),
-      company: t("testimonials.items.2.company"),
-      avatar: "/customer-avatar-2.jpg",
-      rating: t("testimonials.items.2.rating"),
-      content: t("testimonials.items.2.content"),
-    },
-    {
-      name: t("testimonials.items.3.name"),
-      position: t("testimonials.items.3.position"),
-      company: t("testimonials.items.3.company"),
-      avatar: "/customer-avatar-3.jpg",
-      rating: t("testimonials.items.3.rating"),
-      content: t("testimonials.items.3.content"),
-    },
-    {
-      name: t("testimonials.items.4.name"),
-      position: t("testimonials.items.4.position"),
-      company: t("testimonials.items.4.company"),
-      avatar: "/customer-avatar-4.jpg",
-      rating: t("testimonials.items.4.rating"),
-      content: t("testimonials.items.4.content"),
-    },
-    {
-      name: t("testimonials.items.5.name"),
-      position: t("testimonials.items.5.position"),
-      company: t("testimonials.items.5.company"),
-      avatar: "/customer-avatar-5.jpg",
-      rating: t("testimonials.items.5.rating"),
-      content: t("testimonials.items.5.content"),
-    },
-    {
-      name: t("testimonials.items.6.name"),
-      position: t("testimonials.items.6.position"),
-      company: t("testimonials.items.6.company"),
-      avatar: "/customer-avatar-6.jpg",
-      rating: t("testimonials.items.6.rating"),
-      content: t("testimonials.items.6.content"),
-    },
-  ]
 
   return (
     <section ref={sectionRef} className="py-24 bg-background">
@@ -123,9 +176,7 @@ export function TestimonialsSection() {
                     <div className="flex items-start justify-between mb-6">
                       <Quote className="h-8 w-8 text-primary/30" />
                       <div className="flex items-center space-x-1">
-                        {[...Array(Number(testimonial.rating))].map((_, i) => (
-                          <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                        ))}
+                        <RatingStars rating={testimonial.rating} />
                       </div>
                     </div>
 
@@ -157,7 +208,6 @@ export function TestimonialsSection() {
           </div>
         </div>
 
-        {/* Trust indicators */}
         <div className="mt-16 text-center">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="text-center">
@@ -185,8 +235,9 @@ export function TestimonialsSection() {
               </div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-primary mb-2">
-                {t("testimonials.trustIndicators.values.averageRating")}
+              <div className="flex justify-center items-center gap-1 text-3xl font-bold text-primary mb-2">
+                 <span>{averageRating}</span>
+                 <Star className="w-6 h-6"/>
               </div>
               <div className="text-sm text-muted-foreground">
                 {t("testimonials.trustIndicators.averageRating")}
@@ -198,3 +249,4 @@ export function TestimonialsSection() {
     </section>
   )
 }
+

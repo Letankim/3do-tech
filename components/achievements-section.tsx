@@ -78,25 +78,25 @@ export function AchievementsSection() {
 
   const achievements = [
     {
-      number: 10,
+      number: 2,
       suffix: "+",
       label: t("achievements.experience"),
       description: t("achievements.experienceDescription"),
     },
     {
-      number: 500,
+      number: 20,
       suffix: "+",
       label: t("achievements.projects"),
       description: t("achievements.projectsDescription"),
     },
     {
-      number: 200,
+      number: 5,
       suffix: "+",
       label: t("achievements.clients"),
       description: t("achievements.clientsDescription"),
     },
     {
-      number: 50,
+      number: 30,
       suffix: "+",
       label: t("achievements.team"),
       description: t("achievements.teamDescription"),

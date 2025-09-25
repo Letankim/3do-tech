@@ -18,7 +18,7 @@ const translations = {
     "nav.home": "Trang Chủ",
     "nav.about": "Giới Thiệu",
     "nav.services": "Dịch Vụ",
-    "nav.products": "Sản Phẩm",
+    "nav.products": "Đối tác",
     "nav.projects": "Dự Án",
     "nav.contact": "Liên Hệ",
 
@@ -61,9 +61,9 @@ const translations = {
     // Partners
     "partners.title": "Đối Tác",
     "partners.subtitle": " tin cậy",
-    "partners.description": "Chúng tôi tự hào hợp tác cùng các thương hiệu hàng đầu thế giới",
+    "partners.description": "Chúng tôi tự hào hợp tác cùng các thương hiệu hàng đầu",
     "partners.additional": "Và hơn ",
-    "partners.additionalHighlight": " 200+ đối tác ",
+    "partners.additionalHighlight": " 5+ đối tác ",
     "partners.additionalmore": "khác trên toàn cầu",
 
      "products.title": "Sản phẩm",
@@ -102,12 +102,12 @@ const translations = {
 
   "products.cloud.title": "Cloud & DevOps",
   "products.cloud.description": "Triển khai hạ tầng đám mây, tối ưu hiệu suất và đảm bảo khả năng mở rộng.",
-  "products.cloud.features.0": "AWS",
-  "products.cloud.features.1": "Azure",
-  "products.cloud.features.2": "Docker & Kubernetes",
+    "products.cloud.features.0": "AWS",
+    "products.cloud.features.1": "Azure",
+    "products.cloud.features.2": "Docker & Kubernetes",
 
-  "products.learnMore": "Tìm hiểu thêm",
-  "products.viewAll": "Xem tất cả sản phẩm",
+    "products.learnMore": "Tìm hiểu thêm",
+    "products.viewAll": "Xem tất cả sản phẩm",
 
     // Services
     "services.title": "Dịch Vụ Của Chúng Tôi",
@@ -145,42 +145,41 @@ const translations = {
   "realProjects.sucesss": "Hoàn thành",
   "realProjects.isProgress": "Đang triển khai",
 
-  // Projects Data
-  "realProjects.projects.1.title": "Hệ thống quản lý bán hàng VinMart",
-  "realProjects.projects.1.description": "Phát triển hệ thống POS và quản lý kho hàng cho chuỗi siêu thị VinMart với hơn 200 cửa hàng trên toàn quốc.",
-  "realProjects.projects.1.category": "Hệ thống quản lý",
-  "realProjects.projects.1.client": "VinGroup",
+ // Projects Data
+"realProjects.projects.1.title": "Hệ thống quản lý sức khỏe",
+"realProjects.projects.1.description": "Phát triển nền tảng quản lý sức khỏe cá nhân tích hợp AI, gợi ý chế độ ăn uống và bài tập phù hợp, đồng thời kết nối với PT online để theo dõi và hỗ trợ người dùng.",
+"realProjects.projects.1.category": "HealthTech & AI",
+"realProjects.projects.1.client": "HMS",
 
-  "realProjects.projects.2.title": "Ứng dụng Banking Mobile TPBank",
-  "realProjects.projects.2.description": "Thiết kế và phát triển ứng dụng mobile banking với tính năng chuyển tiền, thanh toán và quản lý tài chính cá nhân.",
-  "realProjects.projects.2.category": "Ứng dụng di động",
-  "realProjects.projects.2.client": "TPBank",
+"realProjects.projects.2.title": "Website đăng kí lắp đặt mạng FPT Telecom",
+"realProjects.projects.2.description": "Xây dựng website đăng ký dịch vụ internet, tích hợp bản đồ vùng phủ sóng và quản lý yêu cầu của khách hàng.",
+"realProjects.projects.2.category": "Website dịch vụ",
+"realProjects.projects.2.client": "FPT Telecom",
 
-  "realProjects.projects.3.title": "Nền tảng E-learning FPT Education",
-  "realProjects.projects.3.description": "Xây dựng hệ thống học trực tuyến với video streaming, bài kiểm tra tự động và quản lý tiến độ học tập.",
-  "realProjects.projects.3.category": "Giáo dục",
-  "realProjects.projects.3.client": "FPT Education",
+"realProjects.projects.3.title": "Nền tảng E-learning Education",
+"realProjects.projects.3.description": "Xây dựng hệ thống học trực tuyến với video streaming, bài kiểm tra tự động và quản lý tiến độ học tập.",
+"realProjects.projects.3.category": "Giáo dục",
+"realProjects.projects.3.client": "ELearning - F",
 
-  "realProjects.projects.4.title": "Hệ thống IoT Smart Factory",
-  "realProjects.projects.4.description": "Triển khai giải pháp IoT cho nhà máy thông minh, giám sát thiết bị và tối ưu hóa quy trình sản xuất.",
-  "realProjects.projects.4.category": "IoT & AI",
-  "realProjects.projects.4.client": "Vinamilk",
+"realProjects.projects.4.title": "Website bán board game lịch sử Lac.id.vn",
+"realProjects.projects.4.description": "Thiết kế và phát triển website thương mại điện tử chuyên về board game lịch sử, tích hợp thanh toán online và quản lý kho.",
+"realProjects.projects.4.category": "Thương mại điện tử",
+"realProjects.projects.4.client": "LAC.ID.VN",
 
-  "realProjects.projects.5.title": "Website Thương mại điện tử Shopee",
-  "realProjects.projects.5.description": "Phát triển các tính năng mới cho nền tảng Shopee, tối ưu hóa hiệu suất và trải nghiệm người dùng.",
-  "realProjects.projects.5.category": "Thương mại điện tử",
-  "realProjects.projects.5.client": "Shopee Vietnam",
+"realProjects.projects.5.title": "Website dịch vụ kĩ thuật - Dotesco",
+"realProjects.projects.5.description": "Phát triển website giới thiệu dịch vụ kỹ thuật, tích hợp hệ thống đặt lịch và quản lý khách hàng.",
+"realProjects.projects.5.category": "Doanh nghiệp dịch vụ",
+"realProjects.projects.5.client": "Dotesco",
 
-  "realProjects.projects.6.title": "Ứng dụng Giao hàng Grab Express",
-  "realProjects.projects.6.description": "Tối ưu hóa thuật toán định tuyến và phát triển tính năng theo dõi đơn hàng real-time cho Grab Express.",
-  "realProjects.projects.6.category": "Logistics",
-  "realProjects.projects.6.client": "Grab Vietnam",
-
+"realProjects.projects.6.title": "Landing quảng bá cho PT",
+"realProjects.projects.6.description": "Thiết kế landing page hiện đại cho huấn luyện viên cá nhân, tối ưu SEO và tương tác với khách hàng tiềm năng.",
+"realProjects.projects.6.category": "Marketing",
+"realProjects.projects.6.client": "Nguyễn Trọng Lượng",
     // Testimonials
   "testimonials.title": "Lời chứng thực",
   "testimonials.titleHighlight": "từ khách hàng",
   "testimonials.subtitle": "Khách hàng nói gì về chúng tôi",
-  "testimonials.description": "Hơn 200+ khách hàng đã tin tưởng và hài lòng với dịch vụ của chúng tôi",
+  "testimonials.description": "Hơn 5+ khách hàng đã tin tưởng và hài lòng với dịch vụ của chúng tôi",
 
   "testimonials.badge.rating": "Đánh giá",
   "testimonials.badge.star": "Ngôi sao",
@@ -247,7 +246,7 @@ const translations = {
   "cta.contact.email": "3do.service@gmail.com",
   "cta.contact.chat": "Chat trực tuyến",
 
-  "cta.trustElements.tagline": "Được tin tưởng bởi hơn 200+ doanh nghiệp tại Việt Nam",
+  "cta.trustElements.tagline": "Được tin tưởng bởi hơn 5+ doanh nghiệp tại Việt Nam",
   "cta.trustElements.quickResponse.title": "24h",
   "cta.trustElements.quickResponse.description": "Phản hồi nhanh",
   "cta.trustElements.dataSecurity.title": "100%",
@@ -337,7 +336,7 @@ const translations = {
     "nav.home": "Home",
     "nav.about": "About",
     "nav.services": "Services",
-    "nav.products": "Products",
+    "nav.products": "Partners",
     "nav.projects": "Projects",
     "nav.contact": "Contact",
 
@@ -378,7 +377,7 @@ const translations = {
     "partners.subtitle": "Partners",
     "partners.description": "We are proud to collaborate with leading global brands.",
     "partners.additional": "And over",
-    "partners.additionalHighlight": "200+ partners",
+    "partners.additionalHighlight": "5+ partners",
     "partners.additionalmore": "worldwide",
 
     "products.title": "Products",
@@ -479,7 +478,7 @@ const translations = {
     "testimonials.title": "Testimonials",
     "testimonials.titleHighlight": "from Clients",
     "testimonials.subtitle": "What Our Clients Say",
-    "testimonials.description": "Over 200+ clients have trusted and are satisfied with our services.",
+    "testimonials.description": "Over 5+ clients have trusted and are satisfied with our services.",
     "testimonials.badge.rating": "Rating",
     "testimonials.badge.star": "Star",
     "testimonials.meta.name": "Name",
@@ -533,7 +532,7 @@ const translations = {
     "cta.contact.phone": "+84 865341745",
     "cta.contact.email": "3do.service@gmail.com",
     "cta.contact.chat": "Live Chat",
-    "cta.trustElements.tagline": "Trusted by over 200+ businesses in Vietnam",
+    "cta.trustElements.tagline": "Trusted by over 5+ businesses in Vietnam",
     "cta.trustElements.quickResponse.title": "24h",
     "cta.trustElements.quickResponse.description": "Fast Response",
     "cta.trustElements.dataSecurity.title": "100%",
@@ -662,7 +661,7 @@ const translations = {
     "partners.subtitle": "合作伙伴",
     "partners.description": "我们为与全球领先品牌合作感到自豪。",
     "partners.additional": "以及超过",
-    "partners.additionalHighlight": "200+合作伙伴",
+    "partners.additionalHighlight": "5+合作伙伴",
     "partners.additionalmore": "遍布全球",
 
     "products.title": "产品",

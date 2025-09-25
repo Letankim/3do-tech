@@ -37,16 +37,19 @@ export function PartnersSection() {
     return () => observer.disconnect()
   }, [])
 
-  // Sample partner logos - in a real app, these would be actual partner logos
   const partners = [
-    { name: "Microsoft", logo: "/microsoft-logo.png" },
-    { name: "Google", logo: "/google-logo.png" },
-    { name: "Amazon", logo: "/amazon-logo.png" },
-    { name: "Meta", logo: "/meta-logo-abstract.png" },
-    { name: "Apple", logo: "/apple-logo.png" },
-    { name: "Samsung", logo: "/samsung-logo.png" },
-    { name: "Intel", logo: "/intel-logo.png" },
-    { name: "IBM", logo: "/ibm-logo.png" },
+    { name: "Dotesco", logo: "/dotesco.png" },
+    { name: "FPT Telecom", logo: "/fpttelecom.png" },
+    { name: "HMS", logo: "/hms.png" },
+    { name: "3DO Court", logo: "/meta-logo-abstract.png" },
+    { name: "LAC.ID.VN", logo: "/lac.jpg" },
+    { name: "Letankim.ID.VN", logo: "/letankim.jpg" },
+    { name: "Dotesco", logo: "/dotesco.png" },
+    { name: "FPT Telecom", logo: "/fpttelecom.png" },
+    { name: "HMS", logo: "/hms.png" },
+    { name: "3DO Court", logo: "/meta-logo-abstract.png" },
+    { name: "LAC.ID.VN", logo: "/lac.jpg" },
+    { name: "Letankim.ID.VN", logo: "/letankim.jpg" },
   ]
 
   return (

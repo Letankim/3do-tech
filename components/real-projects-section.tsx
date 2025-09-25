@@ -10,59 +10,60 @@ import { useLanguage } from "@/lib/i18n"
 const products = [
   {
     id: 1,
-    titleKey: "products.mobile.title",
-    descriptionKey: "products.mobile.description",
-    features: ["React Native", "Flutter", "Native iOS/Android"],
-    image: "/mobile-app-development.png",
-    category: "Mobile",
+    titleKey: "realProjects.projects.1.title",
+    descriptionKey: "realProjects.projects.1.description",
+    features: ["AI Gợi ý dinh dưỡng", "Theo dõi sức khỏe", "PT Online"],
+    image: "/hms_product.png",
+    category: "HealthTech & AI",
     status: "realProjects.sucesss",
   },
   {
     id: 2,
-    titleKey: "products.web.title",
-    descriptionKey: "products.web.description",
+    titleKey: "realProjects.projects.2.title",
+    descriptionKey: "realProjects.projects.2.description",
     features: ["Next.js", "React", "Vue.js"],
-    image: "/modern-website-design.png",
-    category: "Web",
+    image: "/project_fpttelecom.png",
+    category: "Website dịch vụ",
     status: "realProjects.sucesss",
   },
   {
     id: 3,
-    titleKey: "products.management.title",
-    descriptionKey: "products.management.description",
-    features: ["ERP", "CRM", "Inventory Management"],
-    image: "/business-management-system.jpg",
-    category: "Management",
-    status: "realProjects.sucesss",
-  },
-  {
-    id: 4,
-    titleKey: "products.security.title",
-    descriptionKey: "products.security.description",
-    features: ["Security Audit", "Penetration Testing", "Compliance"],
-    image: "/cybersecurity-solutions.jpg",
-    category: "Security",
+    titleKey: "realProjects.projects.3.title",
+    descriptionKey: "realProjects.projects.3.description",
+    features: ["Video Streaming", "Quiz Tự động", "Quản lý tiến độ học tập"],
+    image: "/project_elearning.png",
+    category: "Giáo dục",
     status: "realProjects.isProgress",
   },
   {
+    id: 4,
+    titleKey: "realProjects.projects.4.title",
+    descriptionKey: "realProjects.projects.4.description",
+    features: ["Thanh toán Online", "Quản lý kho", "E-commerce"],
+    image: "/project_lac.id.vn.png",
+    category: "Thương mại điện tử",
+    status: "realProjects.sucesss",
+  },
+  {
     id: 5,
-    titleKey: "products.ai.title",
-    descriptionKey: "products.ai.description",
-    features: ["Computer Vision", "NLP", "Predictive Analytics"],
-    image: "/artificial-intelligence-technology.png",
-    category: "AI & Data",
-    status: "Hoàn thành",
+    titleKey: "realProjects.projects.5.title",
+    descriptionKey: "realProjects.projects.5.description",
+    features: ["Đặt lịch dịch vụ", "Quản lý khách hàng", "Giới thiệu dịch vụ"],
+    image: "/project_dotesco.png",
+    category: "Doanh nghiệp dịch vụ",
+    status: "realProjects.sucesss",
   },
   {
     id: 6,
-    titleKey: "products.cloud.title",
-    descriptionKey: "products.cloud.description",
-    features: ["AWS", "Azure", "Docker & Kubernetes"],
-    image: "/cloud-computing-infrastructure.jpg",
-    category: "Cloud",
+    titleKey: "realProjects.projects.6.title",
+    descriptionKey: "realProjects.projects.6.description",
+    features: ["Landing Page", "SEO", "Tối ưu Marketing"],
+    image: "/project_landing_page_Pt.png",
+    category: "Marketing",
     status: "realProjects.sucesss",
   },
-]
+];
+
 
 export function RealProjectsSection() {
   const [isVisible, setIsVisible] = useState(false)
@@ -150,7 +151,7 @@ export function RealProjectsSection() {
         </div>
 
         {/* Nút xem tất cả */}
-        <div className="text-center">
+        {/* <div className="text-center">
           <Link href="/projects">
             <Button
               size="lg"
@@ -161,7 +162,7 @@ export function RealProjectsSection() {
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>
-        </div>
+        </div> */}
       </div>
     </section>
   )

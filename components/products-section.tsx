@@ -7,7 +7,6 @@ import { ArrowRight, Smartphone, Globe, Database, Shield, Cpu, Cloud } from "luc
 import Link from "next/link"
 import { useLanguage } from "@/lib/i18n"
 
-// Define the shape of a product to ensure TypeScript understands the structure
 interface Product {
   icon: React.ComponentType<{ className?: string }>
   title: string
@@ -84,7 +83,7 @@ export function ProductsSection() {
   ]
 
   return (
-    <section ref={sectionRef} id="san-pham" className="py-24 bg-muted/30">
+    <section ref={sectionRef} id="dich-vu" className="py-24 bg-muted/30">
       <div className="max-w-7xl mx-auto px-6">
         <div
           className={`text-center mb-16 transition-all duration-1000 ${

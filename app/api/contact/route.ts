@@ -18,3 +18,20 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Proxy request failed" }, { status: 500 })
   }
 }
+
+export async function GET() {
+  try {
+    const res = await fetch("https://letankim.id.vn/3do/tracker/user", {
+      method: "GET",
+    })
+
+    if (!res.ok) {
+      return NextResponse.json({ error: "Upstream request failed" }, { status: res.status })
+    }
+
+    const data = await res.json() 
+    return NextResponse.json(data, { status: 200 })
+  } catch (err) {
+    return NextResponse.json({ error: "Proxy request failed" }, { status: 500 })
+  }
+}
