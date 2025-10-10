@@ -41,7 +41,7 @@ export function Footer() {
 
               {/* Social links */}
               <div className="flex space-x-4">
-                <Button variant="outline" size="icon" className="hover:bg-primary hover:text-white bg-transparent"   onClick={() => router.push("https://www.facebook.com/le.tan.kim.159265")} >
+                <Button variant="outline" size="icon" className="hover:bg-primary hover:text-white bg-transparent"   onClick={() => router.push("https://www.facebook.com/profile.php?id=61581499790956")} >
                   <Facebook className="h-4 w-4" />
                 </Button>
                 <Button variant="outline" size="icon" className="hover:bg-primary hover:text-white bg-transparent"     onClick={() => router.push("https://www.youtube.com/@3DO-Corp")} >

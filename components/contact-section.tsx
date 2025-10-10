@@ -179,7 +179,7 @@ export function ContactSection({ lang = "vi" }: { lang?: string }) {
                         size="sm"
                         variant="outline"
                         className="border-white/30 text-white hover:bg-white/10 bg-transparent"
-                        onClick={() => router.push("https://www.facebook.com/le.tan.kim.159265")}
+                        onClick={() => router.push("https://www.facebook.com/profile.php?id=61581499790956")}
                       >
                         <Facebook className="h-4 w-4" />
                       </Button>
