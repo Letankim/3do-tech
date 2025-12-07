@@ -35,7 +35,7 @@ const LandingPage = () => {
   }, []);
 
   const handleTryNow = () => {
-    window.location.href = "tel:0865341745";
+    window.location.href = "tel:0774889191";
   };
 
   const features = [
