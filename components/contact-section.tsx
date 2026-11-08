@@ -143,13 +143,22 @@ export function ContactSection({ lang = "vi" }: { lang?: string }) {
                       </div>
                     </div>
 
-                    <div className="flex items-center space-x-4">
-                      <div className="bg-white/20 p-3 rounded-lg">
+                    <div className="flex items-start space-x-4">
+                      <div className="bg-white/20 p-3 rounded-lg mt-0.5">
                         <Phone className="h-6 w-6" />
                       </div>
-                      <div>
+                      <div className="space-y-1">
                         <p className="font-semibold">{t("contact.info.phone")}</p>
-                        <p className="text-white/90">{t("contact.info.phoneValue")}</p>
+                        <div>
+                          <a href="tel:0774889191" className="text-white hover:underline font-bold text-base block">
+                            0774.88.9191 <span className="font-normal text-xs text-white/80">(Mr. Cường - Kỹ thuật Add-in)</span>
+                          </a>
+                        </div>
+                        <div>
+                          <a href="tel:0865341745" className="text-white hover:underline font-bold text-base block">
+                            0865.341.745 <span className="font-normal text-xs text-white/80">(Mr. Kim - Tư vấn Giải pháp)</span>
+                          </a>
+                        </div>
                       </div>
                     </div>
 

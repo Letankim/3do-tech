@@ -24,21 +24,33 @@ export function FloatingContactWidget() {
   const contactOptions = [
     {
       icon: Phone,
-      href: "tel:+0865341745",
-      color: "bg-green-500 hover:bg-green-600",
-      label: "Phone",
+      href: "tel:0774889191",
+      color: "bg-emerald-500 hover:bg-emerald-600",
+      label: "Gọi Mr. Cường (0774.88.9191)",
     },
     {
       icon: ZaloIcon,
-      href: "https://zalo.me/84865341745",
+      href: "https://zalo.me/0774889191",
       color: "bg-blue-500 hover:bg-blue-600",
-      label: "Zalo",
+      label: "Zalo Mr. Cường",
+    },
+    {
+      icon: Phone,
+      href: "tel:0865341745",
+      color: "bg-green-500 hover:bg-green-600",
+      label: "Gọi Mr. Kim (0865.341.745)",
+    },
+    {
+      icon: ZaloIcon,
+      href: "https://zalo.me/0865341745",
+      color: "bg-sky-500 hover:bg-sky-600",
+      label: "Zalo Mr. Kim",
     },
     {
       icon: Mail,
       href: "mailto:3do.service@gmail.com",
       color: "bg-purple-500 hover:bg-purple-600",
-      label: "Email",
+      label: "Email Hỗ Trợ",
     },
   ]
 

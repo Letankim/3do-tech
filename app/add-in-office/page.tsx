@@ -18,12 +18,15 @@ import {
   Sliders, 
   Eye, 
   BookOpen, 
-  Zap,
-  CheckCheck,
-  Building2,
-  FileCheck,
-  Layers,
-  Info
+  Zap, 
+  CheckCheck, 
+  Building2, 
+  FileCheck, 
+  Layers, 
+  Info,
+  Phone,
+  MessageCircle,
+  UserCheck
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -104,9 +107,9 @@ export default function AddInOfficePage() {
       <section className="relative pt-28 pb-16 lg:pt-36 lg:pb-24 overflow-hidden bg-gradient-to-br from-primary/10 via-background to-secondary/50">
         {/* Animated background glows đồng bộ với trang chính */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/20 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-accent/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse delay-500"></div>
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/20 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-accent/10 rounded-full blur-3xl animate-pulse delay-1000" />
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse delay-500" />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -133,40 +136,38 @@ export default function AddInOfficePage() {
             và căn chỉnh trang in Excel chuẩn A4 hoàn hảo chỉ với 1 cú click chuột.
           </p>
 
-          {/* Action Buttons */}
+          {/* Action Buttons: Đã tinh chỉnh Hover thanh lịch, không bị xanh lá đột ngột */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
             <a href="/downloads/addin-office/Bo_Cai_Dat_AddIn_Windows.zip" download>
-              <Button
-                size="lg"
-                className="bg-primary hover:bg-primary/90 text-accent-foreground text-base sm:text-lg px-8 py-6 w-full sm:w-auto shadow-lg hover:scale-105 transition-all group relative overflow-hidden"
+              <button
+                type="button"
+                className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground text-base sm:text-lg font-semibold px-8 py-4 sm:py-5 rounded-xl shadow-lg shadow-primary/25 hover:scale-105 transition-all duration-300 group w-full sm:w-auto relative overflow-hidden"
               >
-                <Laptop className="mr-2 h-5 w-5" />
+                <Laptop className="h-5 w-5" />
                 <span>Tải Bản Windows (.zip)</span>
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 ease-out" />
-              </Button>
+              </button>
             </a>
 
             <a href="/downloads/addin-office/Bo_Cai_Dat_AddIn_Mac.zip" download>
-              <Button
-                variant="outline"
-                size="lg"
-                className="text-base sm:text-lg px-8 py-6 bg-transparent w-full sm:w-auto border-primary/30 text-primary hover:bg-primary/5 hover:text-primary/90 shadow-sm"
+              <button
+                type="button"
+                className="inline-flex items-center justify-center gap-2 bg-background/80 hover:bg-primary/10 text-foreground border border-primary/30 hover:border-primary/60 text-base sm:text-lg font-semibold px-8 py-4 sm:py-5 rounded-xl shadow-xs transition-all duration-300 w-full sm:w-auto"
               >
-                <Apple className="mr-2 h-5 w-5" />
+                <Apple className="h-5 w-5 text-primary" />
                 <span>Tải Bản macOS (.zip)</span>
-              </Button>
+              </button>
             </a>
 
             <a href="#huong-dan">
-              <Button
-                variant="ghost"
-                size="lg"
-                className="text-base sm:text-lg px-6 py-6 text-muted-foreground hover:text-foreground"
+              <button
+                type="button"
+                className="inline-flex items-center justify-center gap-2 bg-muted/60 hover:bg-primary/10 text-muted-foreground hover:text-primary border border-border/80 hover:border-primary/40 text-base sm:text-lg font-medium px-7 py-4 sm:py-5 rounded-xl transition-all duration-300 w-full sm:w-auto"
               >
-                <BookOpen className="mr-2 h-5 w-5" />
+                <BookOpen className="h-5 w-5" />
                 <span>Hướng Dẫn Cài Đặt</span>
-              </Button>
+              </button>
             </a>
           </div>
 
@@ -672,36 +673,125 @@ export default function AddInOfficePage() {
             <Card className="p-6 border-border hover:shadow-md transition-shadow">
               <h3 className="text-base sm:text-lg font-semibold mb-2.5 flex items-center gap-2.5">
                 <HelpCircle className="w-5 h-5 text-primary shrink-0" />
-                <span>Tôi muốn gỡ cài đặt thì làm thế nào?</span>
+                <span>Cần hỗ trợ kỹ thuật cài đặt thì liên hệ ai?</span>
               </h3>
               <p className="text-sm sm:text-base text-muted-foreground leading-relaxed pl-7">
-                Trong thư mục giải nén có sẵn file <code className="text-xs bg-muted px-1.5 py-0.5 rounded font-mono">GoCaiDat_Windows.bat</code>. Bạn chỉ cần nhấp đúp tệp này là toàn bộ Add-in sẽ được gỡ sạch sẽ khỏi Word và Excel.
+                Bạn có thể liên hệ trực tiếp đội ngũ kỹ thuật của chúng tôi:
+                <br />• <strong>Mr. Cường (Hỗ trợ kỹ thuật & Add-in)</strong>: <a href="tel:0774889191" className="text-primary font-semibold hover:underline">0774.88.9191</a> (Zalo: 0774.88.9191)
+                <br />• <strong>Mr. Kim (Tư vấn giải pháp công nghệ)</strong>: <a href="tel:0865341745" className="text-primary font-semibold hover:underline">0865.341.745</a> (Zalo: 0865.341.745)
               </p>
             </Card>
           </div>
         </div>
       </section>
 
-      {/* CTA Bottom Banner */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 via-primary to-indigo-600 text-white">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
+      {/* Modern High-Tech Support & Contact Banner with 2 Hotlines: Kim & Cường */}
+      <section className="py-20 bg-gradient-to-br from-blue-700 via-primary to-indigo-800 text-white relative overflow-hidden">
+        {/* Glow decoration */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-400/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+          <Badge className="mb-4 bg-white/20 text-white hover:bg-white/30 border-white/30 text-xs px-3.5 py-1">
+            Đội Ngũ Hỗ Trợ 24/7
+          </Badge>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 tracking-tight">
             Nâng Cao Năng Suất Soạn Thảo Ngay Hôm Nay
           </h2>
-          <p className="text-white/85 max-w-2xl mx-auto mb-10 text-base sm:text-lg leading-relaxed">
-            Tiết kiệm hàng giờ đồng hồ căn lề, chỉnh font chữ, tiêu ngữ và trang in A4 mỗi ngày.
+          <p className="text-white/85 max-w-2xl mx-auto mb-12 text-base sm:text-lg leading-relaxed">
+            Tiết kiệm hàng giờ đồng hồ căn lề, chỉnh font chữ, tiêu ngữ và trang in A4. Nếu gặp bất kỳ vướng mắc nào, hãy liên hệ trực tiếp với chúng tôi:
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
+
+          {/* 2 Chuyên Viên Liên Hệ Trực Tiếp: Cường & Kim */}
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-10">
+            {/* Thẻ Mr. Cường */}
+            <div className="bg-white/10 backdrop-blur-md border border-white/25 rounded-2xl p-6 sm:p-7 text-left shadow-xl hover:bg-white/15 transition-all duration-300">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-13 h-13 rounded-2xl bg-white/20 flex items-center justify-center shrink-0 border border-white/30">
+                  <UserCheck className="w-7 h-7 text-white" />
+                </div>
+                <div>
+                  <div className="inline-block px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold mb-1 border border-emerald-400/30">
+                    Hỗ Trợ Kỹ Thuật & Add-in
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-white">Mr. Cường</h3>
+                </div>
+              </div>
+
+              <div className="mb-6 flex items-center gap-2">
+                <Phone className="w-4 h-4 text-emerald-300 shrink-0" />
+                <span className="text-lg sm:text-xl font-bold text-white tracking-wide">0774.88.9191</span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <a 
+                  href="tel:0774889191"
+                  className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white text-primary hover:bg-white/90 font-bold text-sm shadow-md transition-all duration-200 hover:scale-102"
+                >
+                  <Phone className="w-4 h-4 text-emerald-600" />
+                  <span>Gọi Ngay</span>
+                </a>
+                <a 
+                  href="https://zalo.me/0774889191" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-bold text-sm shadow-md transition-all duration-200 hover:scale-102 border border-blue-400/40"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  <span>Chat Zalo</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Thẻ Mr. Kim */}
+            <div className="bg-white/10 backdrop-blur-md border border-white/25 rounded-2xl p-6 sm:p-7 text-left shadow-xl hover:bg-white/15 transition-all duration-300">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-13 h-13 rounded-2xl bg-white/20 flex items-center justify-center shrink-0 border border-white/30">
+                  <UserCheck className="w-7 h-7 text-white" />
+                </div>
+                <div>
+                  <div className="inline-block px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-xs font-semibold mb-1 border border-cyan-400/30">
+                    Tư Vấn Giải Pháp Công Nghệ
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-white">Mr. Kim</h3>
+                </div>
+              </div>
+
+              <div className="mb-6 flex items-center gap-2">
+                <Phone className="w-4 h-4 text-cyan-300 shrink-0" />
+                <span className="text-lg sm:text-xl font-bold text-white tracking-wide">0865.341.745</span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <a 
+                  href="tel:0865341745"
+                  className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white text-primary hover:bg-white/90 font-bold text-sm shadow-md transition-all duration-200 hover:scale-102"
+                >
+                  <Phone className="w-4 h-4 text-cyan-600" />
+                  <span>Gọi Ngay</span>
+                </a>
+                <a 
+                  href="https://zalo.me/0865341745" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-bold text-sm shadow-md transition-all duration-200 hover:scale-102 border border-blue-400/40"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  <span>Chat Zalo</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-4 border-t border-white/20">
             <a href="/downloads/addin-office/Bo_Cai_Dat_AddIn_Windows.zip" download>
-              <Button size="lg" className="bg-white text-primary hover:bg-white/90 font-bold text-base px-8 py-6 shadow-xl">
-                <Download className="mr-2 h-5 w-5" />
-                <span>Tải Bản Windows Miễn Phí</span>
-              </Button>
-            </a>
-            <a href="https://zalo.me/0865341745" target="_blank" rel="noopener noreferrer">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 font-semibold text-base px-8 py-6">
-                Liên Hệ Hỗ Trợ Kỹ Thuật
-              </Button>
+              <button
+                type="button"
+                className="inline-flex items-center justify-center gap-2 bg-white/20 hover:bg-white text-white hover:text-primary font-bold text-base px-8 py-4 rounded-xl border border-white/40 shadow-lg transition-all duration-300"
+              >
+                <Download className="w-5 h-5" />
+                <span>Tải Bản Windows Trọn Gói Miễn Phí</span>
+              </button>
             </a>
           </div>
         </div>

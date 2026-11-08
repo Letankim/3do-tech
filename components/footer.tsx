@@ -106,9 +106,22 @@ export function Footer() {
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-3">
-                  <Phone className="h-5 w-5 text-primary flex-shrink-0" />
-                  <span className="text-muted-foreground">{t("footer.contact.phone")}</span>
+                <div className="flex items-start space-x-3">
+                  <Phone className="h-5 w-5 text-primary flex-shrink-0 mt-1" />
+                  <div className="text-muted-foreground space-y-1 text-sm">
+                    <div>
+                      <a href="tel:0774889191" className="hover:text-primary transition-colors inline-flex items-center gap-1.5">
+                        <strong className="text-foreground">0774.88.9191</strong>
+                        <span className="text-xs text-muted-foreground">(Mr. Cường - Kỹ thuật)</span>
+                      </a>
+                    </div>
+                    <div>
+                      <a href="tel:0865341745" className="hover:text-primary transition-colors inline-flex items-center gap-1.5">
+                        <strong className="text-foreground">0865.341.745</strong>
+                        <span className="text-xs text-muted-foreground">(Mr. Kim - Tư vấn)</span>
+                      </a>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="flex items-center space-x-3">
