@@ -84,6 +84,12 @@ export function Footer() {
                     {t("footer.services.networkSecurity")}
                   </Link>
                 </li>
+                <li>
+                  <Link href="/add-in-office" className="text-primary font-medium hover:underline inline-flex items-center gap-1.5 transition-colors">
+                    <span>Add-in Office (Word & Excel)</span>
+                    <span className="text-[10px] bg-red-500 text-white px-1.5 py-0.2 rounded-full uppercase">Mới</span>
+                  </Link>
+                </li>
               </ul>
             </div>
 

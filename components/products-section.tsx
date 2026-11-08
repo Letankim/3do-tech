@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Smartphone, Globe, Database, Shield, Cpu, Cloud } from "lucide-react"
+import { ArrowRight, Smartphone, Globe, Database, Shield, Cpu, Cloud, Download } from "lucide-react"
 import Link from "next/link"
 import { useLanguage } from "@/lib/i18n"
 
@@ -96,6 +96,33 @@ export function ProductsSection() {
           <p className="text-xl text-muted-foreground text-balance max-w-3xl mx-auto leading-relaxed">
             {t("products.description")}
           </p>
+        </div>
+
+        {/* Featured Add-in Office Banner */}
+        <div className="mb-14 p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-blue-600/10 via-primary/10 to-indigo-600/10 border border-primary/20 backdrop-blur-sm relative overflow-hidden">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-6 relative z-10">
+            <div className="space-y-3 text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-semibold">
+                <span>🔥 TIỆN ÍCH MỚI NHẤT</span>
+                <span>•</span>
+                <span>Phiên bản v2026.11.07.4</span>
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-bold text-foreground">
+                Bộ Add-in Chuẩn Hóa Thể Thức Văn Bản Word & Trang In Excel
+              </h3>
+              <p className="text-muted-foreground text-sm sm:text-base max-w-2xl leading-relaxed">
+                Tự động chuẩn hóa lề, font chữ, tiêu ngữ theo Nghị định 30/2020 & HD 05 VPTW (Khối Đảng, Chính quyền) và căn chỉnh trang in Excel A4 chỉ với 1 cú click. Tải miễn phí ngay!
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-3 shrink-0">
+              <Link href="/add-in-office">
+                <Button size="lg" className="gap-2 shadow-md">
+                  <Download className="w-4 h-4" />
+                  <span>Tải Add-in Ngay</span>
+                </Button>
+              </Link>
+            </div>
+          </div>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">

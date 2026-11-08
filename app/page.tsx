@@ -9,7 +9,6 @@ import { TestimonialsSection } from "@/components/testimonials-section";
 import { CTASection } from "@/components/cta-section";
 import { Footer } from "@/components/footer";
 import { ContactSection } from "@/components/contact-section";
-import { SalesChatbotPopup } from "../components/SalesChatbotPopup";
 
 export default function HomePage() {
   return (
@@ -25,7 +24,6 @@ export default function HomePage() {
       <CTASection />
       <ContactSection />
       <Footer />
-      <SalesChatbotPopup />
     </main>
   );
 }

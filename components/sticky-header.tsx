@@ -1,7 +1,8 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Phone, X } from "lucide-react"
+import { Phone, X, Download } from "lucide-react"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useEffect, useState, useRef } from "react"
 import { useLanguage } from "@/lib/i18n"
@@ -59,37 +60,47 @@ export function StickyHeader() {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8">
-            <a
-              href="#gioi-thieu"
+          <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8">
+            <Link
+              href="/#gioi-thieu"
               className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
             >
               {t("nav.about")}
-            </a>
-            <a
-              href="#dich-vu"
+            </Link>
+            <Link
+              href="/#dich-vu"
               className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
             >
               {t("nav.services")}
-            </a>
-            <a
-              href="#san-pham-thuc-te"
+            </Link>
+            <Link
+              href="/#san-pham-thuc-te"
               className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
             >
               {t("nav.projects")}
-            </a>
-            <a
-              href="#doi-tac"
+            </Link>
+            <Link
+              href="/#doi-tac"
               className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
             >
               {t("nav.products")}
-            </a>
-            <a
-              href="#lien-he"
+            </Link>
+            <Link
+              href="/add-in-office"
+              className="inline-flex items-center gap-1.5 px-3 py-1 text-sm font-semibold text-primary bg-primary/10 hover:bg-primary hover:text-primary-foreground rounded-full transition-all border border-primary/20 shadow-sm group"
+            >
+              <Download className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform" />
+              <span>{t("nav.addin")}</span>
+              <span className="bg-red-500 text-[10px] text-white px-1.5 py-0.2 rounded-full uppercase font-bold animate-pulse">
+                Hot
+              </span>
+            </Link>
+            <Link
+              href="/#lien-he"
               className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
             >
               {t("nav.contact")}
-            </a>
+            </Link>
           </nav>
 
           {/* Desktop CTA and Language Switcher */}
@@ -146,41 +157,54 @@ export function StickyHeader() {
           }`}
         >
           <div className="px-2 pt-2 pb-3 space-y-1">
-            <a
-              href="#gioi-thieu"
+            <Link
+              href="/#gioi-thieu"
               className="block px-3 py-2 text-base font-medium text-foreground/80 hover:text-primary hover:bg-muted/50 rounded-md transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {t("nav.about")}
-            </a>
-            <a
-              href="#san-pham"
+            </Link>
+            <Link
+              href="/#dich-vu"
               className="block px-3 py-2 text-base font-medium text-foreground/80 hover:text-primary hover:bg-muted/50 rounded-md transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {t("nav.services")}
-            </a>
-            <a
-              href="#san-pham-thuc-te"
+            </Link>
+            <Link
+              href="/#san-pham-thuc-te"
               className="block px-3 py-2 text-base font-medium text-foreground/80 hover:text-primary hover:bg-muted/50 rounded-md transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {t("nav.projects")}
-            </a>
-            <a
-              href="#doi-tac"
+            </Link>
+            <Link
+              href="/#doi-tac"
               className="block px-3 py-2 text-base font-medium text-foreground/80 hover:text-primary hover:bg-muted/50 rounded-md transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {t("nav.products")}
-            </a>
-            <a
-              href="#lien-he"
+            </Link>
+            <Link
+              href="/add-in-office"
+              className="flex items-center justify-between px-3 py-2 text-base font-medium text-primary bg-primary/10 rounded-md transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              <span className="flex items-center gap-2">
+                <Download className="w-4 h-4" />
+                {t("nav.addin")}
+              </span>
+              <span className="bg-red-500 text-[10px] text-white px-1.5 py-0.5 rounded-full uppercase font-bold">
+                Hot
+              </span>
+            </Link>
+            <Link
+              href="/#lien-he"
               className="block px-3 py-2 text-base font-medium text-foreground/80 hover:text-primary hover:bg-muted/50 rounded-md transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {t("nav.contact")}
-            </a>
+            </Link>
             <div className="px-3 py-2 space-y-2">
               <LanguageSwitcher />
               <Button size="sm" className="w-full font-medium">

@@ -1,0 +1,63 @@
+================================================================================
+       HƯỚNG DẪN ĐẨY BẢN BUILD LÊN HOST & DEPLOY DỰ ÁN 3DOTECH
+================================================================================
+
+Trong gói build này đã tích hợp đầy đủ:
+- Trang mới: /add-in-office (Tải và giới thiệu Bộ Add-in Word & Excel Chuẩn Hóa Thể Thức)
+- Thư mục tải về máy chủ trực tiếp: public/downloads/addin-office/
+  + Bo_Cai_Dat_AddIn_Windows.zip (201 KB)
+  + Bo_Cai_Dat_AddIn_Mac.zip (200 KB)
+  + ChuanHoa_VanBanDang.dotm (154 KB)
+  + ChuanHoa_Excel.xlam (46 KB)
+  + version.json (678 bytes)
+- Header, Footer, Products Banner đã liên kết trực tiếp vào trang mới.
+- Thư mục .next đã được build production tối ưu hoàn tất.
+
+--------------------------------------------------------------------------------
+CÁCH 1: DEPLOY TRÊN VPS / CLOUD SERVER (Ubuntu / Debian / CentOS / Windows Server)
+--------------------------------------------------------------------------------
+1. Upload file "3dotech-deploy.zip" lên thư mục web trên server.
+2. Giải nén trên server:
+   unzip 3dotech-deploy.zip
+3. Cài đặt các thư viện cần thiết (nếu chưa có node_modules):
+   npm install --production --legacy-peer-deps
+4. Chạy ứng dụng bằng PM2 (khuyên dùng để chạy nền vĩnh viễn):
+   npm install -g pm2
+   pm2 start npm --name "3dotech" -- start
+   pm2 save
+   pm2 startup
+
+(Ứng dụng sẽ chạy tại port 3000, cấu hình Nginx Reverse Proxy trỏ domain về http://localhost:3000).
+
+--------------------------------------------------------------------------------
+CÁCH 2: DEPLOY TRÊN CPANEL / DIRECTADMIN (Setup Node.js App)
+--------------------------------------------------------------------------------
+1. Vào cPanel > "Setup Node.js App" > Tạo ứng dụng mới:
+   - Node.js version: 18.x, 20.x hoặc 22.x
+   - Application mode: Production
+   - Application root: đường dẫn thư mục đã upload (ví dụ: /home/username/3dotech)
+   - Application startup file: node_modules/next/dist/bin/next (hoặc chạy qua script start)
+2. Upload và giải nén "3dotech-deploy.zip" vào thư mục Application root.
+3. Bấm "Run NPM Install".
+4. Bấm "Restart App" để hoàn tất.
+
+--------------------------------------------------------------------------------
+CÁCH 3: DEPLOY BẰNG DOCKER
+--------------------------------------------------------------------------------
+1. Build image:
+   docker build -t 3dotech .
+2. Chạy container:
+   docker run -d -p 3000:3000 --name 3dotech-app --restart always 3dotech
+
+--------------------------------------------------------------------------------
+KIỂM TRA CÁC ĐƯỜNG DẪN SAU KHI DEPLOY:
+--------------------------------------------------------------------------------
+- Trang chủ: https://domain-cua-ban.com/
+- Trang Add-in Office: https://domain-cua-ban.com/add-in-office
+- Link tải Windows: https://domain-cua-ban.com/downloads/addin-office/Bo_Cai_Dat_AddIn_Windows.zip
+- Link tải Mac: https://domain-cua-ban.com/downloads/addin-office/Bo_Cai_Dat_AddIn_Mac.zip
+- Link tải Word: https://domain-cua-ban.com/downloads/addin-office/ChuanHoa_VanBanDang.dotm
+- Link tải Excel: https://domain-cua-ban.com/downloads/addin-office/ChuanHoa_Excel.xlam
+- Link version JSON: https://domain-cua-ban.com/downloads/addin-office/version.json
+================================================================================
+

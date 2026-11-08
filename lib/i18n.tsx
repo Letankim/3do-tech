@@ -20,6 +20,7 @@ const translations = {
     "nav.services": "Dịch Vụ",
     "nav.products": "Đối tác",
     "nav.projects": "Dự Án",
+    "nav.addin": "Add-in Office",
     "nav.contact": "Liên Hệ",
 
     // Hero Section
@@ -338,6 +339,7 @@ const translations = {
     "nav.services": "Services",
     "nav.products": "Partners",
     "nav.projects": "Projects",
+    "nav.addin": "Office Add-in",
     "nav.contact": "Contact",
 
     // Hero Section
@@ -627,6 +629,7 @@ const translations = {
     "nav.services": "服务",
     "nav.products": "产品",
     "nav.projects": "项目",
+    "nav.addin": "Office 插件",
     "nav.contact": "联系我们",
 
     // Hero Section
@@ -917,6 +920,7 @@ const translations = {
     "nav.services": "サービス",
     "nav.products": "製品",
     "nav.projects": "プロジェクト",
+    "nav.addin": "Officeアドイン",
     "nav.contact": "お問い合わせ",
 
     // Hero Section
@@ -1207,6 +1211,7 @@ const translations = {
     "nav.services": "서비스",
     "nav.products": "제품",
     "nav.projects": "프로젝트",
+    "nav.addin": "Office 추가 기능",
     "nav.contact": "연락처",
 
     // Hero Section
