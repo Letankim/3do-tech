@@ -1,0 +1,26 @@
+{
+  "version": "v2026.11.09.1",
+  "published": "2026-11-09T16:28:22",
+  "files": {
+    "Bo_Cai_Dat_AddIn_Windows.zip": {
+      "size": 200868,
+      "sha256": "e66538a51eebb7e72350f9a7cd781738ee1c79769ab96d020374720cadc16377"
+    },
+    "Bo_Cai_Dat_AddIn_Mac.zip": {
+      "size": 201943,
+      "sha256": "b1fb820e6ad3f9c3079621535ba5e76046cce17710921325e315fc4d69bbc251"
+    },
+    "ChuanHoa_VanBanDang.dotm": {
+      "size": 153573,
+      "sha256": "e812c84ca0703e30e2d6b217be8442cc5a676d405fade7f6a7d8e168f09e4cf1"
+    },
+    "ChuanHoa_Excel.xlam": {
+      "size": 45341,
+      "sha256": "4f3f1215d2c94ef8e9d0208b941af8f83d08d8e56a033d54b00cf93ce12c7748"
+    },
+    "version.json": {
+      "size": 728,
+      "sha256": "885c6770513e8f2b4a27da97420a593dc65934d103e00bdaa1755034dbec4e5e"
+    }
+  }
+}
