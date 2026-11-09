@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { 
   Download, 
   FileText, 
@@ -35,8 +35,51 @@ import { Footer } from "@/components/footer";
 export default function AddInOfficePage() {
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
-  const releaseVersion = "v2026.11.07.4";
-  const releaseDate = "08/11/2026";
+  // Luon lay ban moi nhat tu GitHub Releases: phat hanh ban moi khong can sua trang nay.
+  const releaseRepo = "CuongBC195/add-in-office";
+  const latestDownload = (fileName: string) =>
+    `https://github.com/${releaseRepo}/releases/latest/download/${fileName}`;
+  const [release, setRelease] = useState<{
+    version: string;
+    date: string;
+    assets: Record<string, { size: number; sha256: string | null }>;
+  } | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`https://api.github.com/repos/${releaseRepo}/releases/latest`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (cancelled || !data?.tag_name) return;
+        const assets: Record<string, { size: number; sha256: string | null }> = {};
+        for (const a of data.assets ?? []) {
+          const digest: string | undefined = a.digest;
+          assets[a.name] = {
+            size: a.size,
+            sha256: digest?.startsWith("sha256:") ? digest.slice(7) : null,
+          };
+        }
+        setRelease({
+          version: data.tag_name,
+          date: new Date(data.published_at).toLocaleDateString("vi-VN", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          }),
+          assets,
+        });
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const fileSizeOf = (fileName: string) => {
+    const size = release?.assets[fileName]?.size;
+    return size ? `${Math.round(size / 1024)} KB` : null;
+  };
+  const sha256Of = (fileName: string) => release?.assets[fileName]?.sha256 ?? null;
 
   const downloadFiles = [
     {
@@ -45,9 +88,9 @@ export default function AddInOfficePage() {
       badge: "Khuyên Dùng",
       icon: Laptop,
       fileName: "Bo_Cai_Dat_AddIn_Windows.zip",
-      fileSize: "201 KB",
+      fileSize: fileSizeOf("Bo_Cai_Dat_AddIn_Windows.zip"),
       description: "Tích hợp cả Word & Excel. Tự động cài đặt 1-click qua file CaiDat_AddIn_Windows.bat trong 3 giây.",
-      localUrl: "/downloads/addin-office/Bo_Cai_Dat_AddIn_Windows.zip",
+      localUrl: latestDownload("Bo_Cai_Dat_AddIn_Windows.zip"),
       sha256: null,
       highlight: true
     },
@@ -57,9 +100,9 @@ export default function AddInOfficePage() {
       badge: "macOS",
       icon: Apple,
       fileName: "Bo_Cai_Dat_AddIn_Mac.zip",
-      fileSize: "200 KB",
+      fileSize: fileSizeOf("Bo_Cai_Dat_AddIn_Mac.zip"),
       description: "Dành riêng cho Microsoft Office trên macOS. Kèm script CaiDat_AddIn_Mac.sh cài đặt thuận tiện.",
-      localUrl: "/downloads/addin-office/Bo_Cai_Dat_AddIn_Mac.zip",
+      localUrl: latestDownload("Bo_Cai_Dat_AddIn_Mac.zip"),
       sha256: null,
       highlight: false
     },
@@ -69,10 +112,10 @@ export default function AddInOfficePage() {
       badge: "Word Only",
       icon: FileText,
       fileName: "ChuanHoa_VanBanDang.dotm",
-      fileSize: "154 KB",
+      fileSize: fileSizeOf("ChuanHoa_VanBanDang.dotm"),
       description: "Thêm tab THỂ THỨC VĂN BẢN vào Word: chuẩn hóa Nghị định 30/2020 & HD 05 VPTW, tạo văn bản mẫu, rà soát lỗi.",
-      localUrl: "/downloads/addin-office/ChuanHoa_VanBanDang.dotm",
-      sha256: "92828c21f94b491da069e35db63a9f566ef594edaeb8745b9a8bba3e3a1bdc10",
+      localUrl: latestDownload("ChuanHoa_VanBanDang.dotm"),
+      sha256: sha256Of("ChuanHoa_VanBanDang.dotm"),
       highlight: false
     },
     {
@@ -81,10 +124,10 @@ export default function AddInOfficePage() {
       badge: "Excel Only",
       icon: FileSpreadsheet,
       fileName: "ChuanHoa_Excel.xlam",
-      fileSize: "46 KB",
+      fileSize: fileSizeOf("ChuanHoa_Excel.xlam"),
       description: "Thêm công cụ Căn trang in A4: chống che ô mất chữ, lặp lại tiêu đề, gom chữ ký về chung trang, đánh số trang x/y.",
-      localUrl: "/downloads/addin-office/ChuanHoa_Excel.xlam",
-      sha256: "f385dfda17604f63707ce7cf920c03d7430c944edd39e59ea212fc753a2d421f",
+      localUrl: latestDownload("ChuanHoa_Excel.xlam"),
+      sha256: sha256Of("ChuanHoa_Excel.xlam"),
       highlight: false
     }
   ];
@@ -113,7 +156,9 @@ export default function AddInOfficePage() {
           {/* Version Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs sm:text-sm font-medium mb-8">
             <Sparkles className="w-4 h-4 text-primary" />
-            <span>Phiên bản {releaseVersion} • Phát hành {releaseDate}</span>
+            <span>
+              {release ? `Phiên bản ${release.version} • Phát hành ${release.date}` : "Phiên bản mới nhất"}
+            </span>
             <span className="bg-primary text-primary-foreground text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">
               Miễn phí 100%
             </span>
@@ -135,7 +180,7 @@ export default function AddInOfficePage() {
 
           {/* Action Buttons: Đã tinh chỉnh Hover thanh lịch, không bị xanh lá đột ngột */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
-            <a href="/downloads/addin-office/Bo_Cai_Dat_AddIn_Windows.zip" download>
+            <a href={latestDownload("Bo_Cai_Dat_AddIn_Windows.zip")}>
               <button
                 type="button"
                 className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground text-base sm:text-lg font-semibold px-8 py-4 sm:py-5 rounded-xl shadow-lg shadow-primary/25 hover:scale-105 transition-all duration-300 group w-full sm:w-auto relative overflow-hidden"
@@ -147,7 +192,7 @@ export default function AddInOfficePage() {
               </button>
             </a>
 
-            <a href="/downloads/addin-office/Bo_Cai_Dat_AddIn_Mac.zip" download>
+            <a href={latestDownload("Bo_Cai_Dat_AddIn_Mac.zip")}>
               <button
                 type="button"
                 className="inline-flex items-center justify-center gap-2 bg-background/80 hover:bg-primary/10 text-foreground border border-primary/30 hover:border-primary/60 text-base sm:text-lg font-semibold px-8 py-4 sm:py-5 rounded-xl shadow-xs transition-all duration-300 w-full sm:w-auto"
@@ -254,8 +299,12 @@ export default function AddInOfficePage() {
                         </h3>
                         <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1 font-mono">
                           <span>{item.fileName}</span>
-                          <span>•</span>
-                          <span className="text-primary font-semibold">{item.fileSize}</span>
+                          {item.fileSize && (
+                            <>
+                              <span>•</span>
+                              <span className="text-primary font-semibold">{item.fileSize}</span>
+                            </>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -288,7 +337,7 @@ export default function AddInOfficePage() {
                   </div>
 
                   <div className="pt-4 border-t border-border">
-                    <a href={item.localUrl} download className="block w-full">
+                    <a href={item.localUrl} className="block w-full">
                       <Button 
                         size="lg"
                         className="w-full gap-2 text-base font-semibold shadow-md group relative overflow-hidden" 

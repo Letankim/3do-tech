@@ -105,7 +105,7 @@ export function ProductsSection() {
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-semibold">
                 <span>🔥 TIỆN ÍCH MỚI NHẤT</span>
                 <span>•</span>
-                <span>Phiên bản v2026.11.07.4</span>
+                <span>Luôn cập nhật bản mới nhất</span>
               </div>
               <h3 className="text-2xl sm:text-3xl font-bold text-foreground">
                 Bộ Add-in Chuẩn Hóa Thể Thức Văn Bản Word & Trang In Excel
