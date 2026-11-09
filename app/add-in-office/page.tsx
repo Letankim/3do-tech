@@ -35,10 +35,10 @@ import { Footer } from "@/components/footer";
 export default function AddInOfficePage() {
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
-  // Luon lay ban moi nhat tu GitHub Releases: phat hanh ban moi khong can sua trang nay.
-  const releaseRepo = "CuongBC195/add-in-office";
-  const latestDownload = (fileName: string) =>
-    `https://github.com/${releaseRepo}/releases/latest/download/${fileName}`;
+  // File add-in luu ngay trong public/downloads/addin-office cua trang (khong phu thuoc GitHub khi tai).
+  // thong-tin.json (phien ban, ngay, dung luong, SHA-256) do tools/phat_hanh.py cua repo add-in ghi moi lan phat hanh.
+  const downloadBase = "/downloads/addin-office";
+  const latestDownload = (fileName: string) => `${downloadBase}/${fileName}`;
   const [release, setRelease] = useState<{
     version: string;
     date: string;
@@ -47,26 +47,18 @@ export default function AddInOfficePage() {
 
   useEffect(() => {
     let cancelled = false;
-    fetch(`https://api.github.com/repos/${releaseRepo}/releases/latest`)
+    fetch(`${downloadBase}/thong-tin.json`, { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => {
-        if (cancelled || !data?.tag_name) return;
-        const assets: Record<string, { size: number; sha256: string | null }> = {};
-        for (const a of data.assets ?? []) {
-          const digest: string | undefined = a.digest;
-          assets[a.name] = {
-            size: a.size,
-            sha256: digest?.startsWith("sha256:") ? digest.slice(7) : null,
-          };
-        }
+        if (cancelled || !data?.version) return;
+        const published = data.published ? new Date(data.published) : null;
         setRelease({
-          version: data.tag_name,
-          date: new Date(data.published_at).toLocaleDateString("vi-VN", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-          }),
-          assets,
+          version: data.version,
+          date:
+            published && !isNaN(published.getTime())
+              ? published.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" })
+              : "",
+          assets: data.files ?? {},
         });
       })
       .catch(() => {});
@@ -157,7 +149,7 @@ export default function AddInOfficePage() {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs sm:text-sm font-medium mb-8">
             <Sparkles className="w-4 h-4 text-primary" />
             <span>
-              {release ? `Phiên bản ${release.version} • Phát hành ${release.date}` : "Phiên bản mới nhất"}
+              {release ? `Phiên bản ${release.version}${release.date ? ` • Phát hành ${release.date}` : ""}` : "Phiên bản mới nhất"}
             </span>
             <span className="bg-primary text-primary-foreground text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">
               Miễn phí 100%
@@ -180,7 +172,7 @@ export default function AddInOfficePage() {
 
           {/* Action Buttons: Đã tinh chỉnh Hover thanh lịch, không bị xanh lá đột ngột */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
-            <a href={latestDownload("Bo_Cai_Dat_AddIn_Windows.zip")}>
+            <a href={latestDownload("Bo_Cai_Dat_AddIn_Windows.zip")} download>
               <button
                 type="button"
                 className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground text-base sm:text-lg font-semibold px-8 py-4 sm:py-5 rounded-xl shadow-lg shadow-primary/25 hover:scale-105 transition-all duration-300 group w-full sm:w-auto relative overflow-hidden"
@@ -192,7 +184,7 @@ export default function AddInOfficePage() {
               </button>
             </a>
 
-            <a href={latestDownload("Bo_Cai_Dat_AddIn_Mac.zip")}>
+            <a href={latestDownload("Bo_Cai_Dat_AddIn_Mac.zip")} download>
               <button
                 type="button"
                 className="inline-flex items-center justify-center gap-2 bg-background/80 hover:bg-primary/10 text-foreground border border-primary/30 hover:border-primary/60 text-base sm:text-lg font-semibold px-8 py-4 sm:py-5 rounded-xl shadow-xs transition-all duration-300 w-full sm:w-auto"
@@ -337,7 +329,7 @@ export default function AddInOfficePage() {
                   </div>
 
                   <div className="pt-4 border-t border-border">
-                    <a href={item.localUrl} className="block w-full">
+                    <a href={item.localUrl} download className="block w-full">
                       <Button 
                         size="lg"
                         className="w-full gap-2 text-base font-semibold shadow-md group relative overflow-hidden" 
