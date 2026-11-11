@@ -1,12 +1,12 @@
 {
-  "version": "2026.11.09.1",
+  "version": "2026.11.11.1",
   "notes": "Add-in chuẩn hóa thể thức văn bản cho Word và căn chỉnh trang in A4 cho Excel.",
   "notes_ascii": "Add-in chuan hoa the thuc van ban cho Word va can chinh trang in A4 cho Excel.",
-  "word_url": "https://github.com/CuongBC195/add-in-office/releases/download/v2026.11.09.1/ChuanHoa_VanBanDang.dotm",
-  "word_sha256": "e812c84ca0703e30e2d6b217be8442cc5a676d405fade7f6a7d8e168f09e4cf1",
-  "excel_url": "https://github.com/CuongBC195/add-in-office/releases/download/v2026.11.09.1/ChuanHoa_Excel.xlam",
-  "excel_sha256": "4f3f1215d2c94ef8e9d0208b941af8f83d08d8e56a033d54b00cf93ce12c7748",
-  "word_size": "153573",
-  "excel_size": "45341",
-  "published": "2026-11-09T16:28:22"
+  "word_url": "https://github.com/CuongBC195/add-in-office/releases/download/v2026.11.11.1/ChuanHoa_VanBanDang.dotm",
+  "word_sha256": "8e44af2e4f8669ce08341b590a89bae15c3cc0ce11879f57f4664f84c79e4b3c",
+  "excel_url": "https://github.com/CuongBC195/add-in-office/releases/download/v2026.11.11.1/ChuanHoa_Excel.xlam",
+  "excel_sha256": "5ca22be7abb89e15188e7efdad59000679ada259673ac3659efa722a1f0d09c6",
+  "word_size": "198102",
+  "excel_size": "45337",
+  "published": "2026-11-11T17:39:15"
 }
