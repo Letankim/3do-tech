@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { 
   Download, 
   FileText, 
@@ -32,8 +32,47 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { StickyHeader } from "@/components/sticky-header";
 import { Footer } from "@/components/footer";
 
+// He dieu hanh cua nguoi xem, chi biet duoc o trinh duyet.
+// null = chua nhan dang (luc render phia server va truoc khi hydrate xong).
+type ClientOS = "windows" | "mac" | "mobile" | "other";
+
+function detectClientOS(): ClientOS {
+  const nav = navigator as Navigator & {
+    userAgentData?: { platform?: string; mobile?: boolean };
+  };
+  const ua = nav.userAgent || "";
+  const hintPlatform = nav.userAgentData?.platform || "";
+
+  // Dien thoai / may tinh bang: khong cai duoc add-in Office.
+  if (nav.userAgentData?.mobile) return "mobile";
+  if (/Android|iOS/i.test(hintPlatform)) return "mobile";
+  if (/Android|iPhone|iPad|iPod|Mobile|Tablet|Silk|Kindle|webOS|BlackBerry|Opera Mini|IEMobile/i.test(ua)) {
+    return "mobile";
+  }
+
+  const platform = hintPlatform || nav.platform || "";
+  if (/Mac/i.test(platform) || /Macintosh|Mac OS X/i.test(ua)) {
+    // iPad doi moi bao la "Macintosh"; may Mac that khong co man hinh cam ung da diem.
+    return (nav.maxTouchPoints || 0) > 1 ? "mobile" : "mac";
+  }
+  if (/Win/i.test(platform) || /Windows/i.test(ua)) return "windows";
+  return "other";
+}
+
+// useLayoutEffect chay sau hydrate nhung truoc khi trinh duyet ve lai, nen khong nhay giao dien.
+const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
 export default function AddInOfficePage() {
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const [clientOS, setClientOS] = useState<ClientOS | null>(null);
+  const [guideTab, setGuideTab] = useState("windows");
+
+  useIsomorphicLayoutEffect(() => {
+    const os = detectClientOS();
+    setClientOS(os);
+    if (os === "mac") setGuideTab("macos");
+  }, []);
+  const isDesktopOS = clientOS === "windows" || clientOS === "mac";
 
   // File add-in luu ngay trong public/downloads/addin-office cua trang (khong phu thuoc GitHub khi tai).
   // thong-tin.json (phien ban, ngay, dung luong, SHA-256) do tools/phat_hanh.py cua repo add-in ghi moi lan phat hanh.
@@ -84,7 +123,7 @@ export default function AddInOfficePage() {
       description: "Tích hợp cả Word & Excel. Tự động cài đặt 1-click qua file CaiDat_AddIn_Windows.bat trong 3 giây.",
       localUrl: latestDownload("Bo_Cai_Dat_AddIn_Windows.zip"),
       sha256: null,
-      highlight: true
+      highlight: clientOS !== "mac"
     },
     {
       id: "mac-pack",
@@ -96,7 +135,7 @@ export default function AddInOfficePage() {
       description: "Dành riêng cho Microsoft Office trên macOS. Kèm script CaiDat_AddIn_Mac.sh cài đặt thuận tiện.",
       localUrl: latestDownload("Bo_Cai_Dat_AddIn_Mac.zip"),
       sha256: null,
-      highlight: false
+      highlight: clientOS === "mac"
     },
     {
       id: "word-addin",
@@ -123,6 +162,11 @@ export default function AddInOfficePage() {
       highlight: false
     }
   ];
+
+  // May Mac: dua bo cai macOS len dau trung tam tai ve.
+  if (clientOS === "mac") {
+    [downloadFiles[0], downloadFiles[1]] = [downloadFiles[1], downloadFiles[0]];
+  }
 
   const handleCopy = (text: string, key: string) => {
     navigator.clipboard.writeText(text);
@@ -170,39 +214,101 @@ export default function AddInOfficePage() {
             và căn chỉnh trang in Excel chuẩn A4 hoàn hảo chỉ với 1 cú click chuột.
           </p>
 
-          {/* Action Buttons: Đã tinh chỉnh Hover thanh lịch, không bị xanh lá đột ngột */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
-            <a href={latestDownload("Bo_Cai_Dat_AddIn_Windows.zip")} download>
-              <button
-                type="button"
-                className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground text-base sm:text-lg font-semibold px-8 py-4 sm:py-5 rounded-xl shadow-lg shadow-primary/25 hover:scale-105 transition-all duration-300 group w-full sm:w-auto relative overflow-hidden"
-              >
-                <Laptop className="h-5 w-5" />
-                <span>Tải Bản Windows (.zip)</span>
-                <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 ease-out" />
-              </button>
-            </a>
+          {/* Nut tai theo he dieu hanh: Mac -> ban macOS lam nut chinh, Windows -> ban Windows.
+              Dien thoai / khong nhan ra: hien du 2 nut kem loi nhac chi cai tren may tinh.
+              An (invisible, van giu cho) cho den khi nhan dang xong de khong nhay giao dien. */}
+          <div className={`mb-14 ${clientOS === null ? "invisible" : "animate-in fade-in-50 duration-300"}`}>
+            {isDesktopOS ? (
+              <div className="flex flex-col items-center gap-4">
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
+                  <a
+                    href={latestDownload(clientOS === "mac" ? "Bo_Cai_Dat_AddIn_Mac.zip" : "Bo_Cai_Dat_AddIn_Windows.zip")}
+                    download
+                    className="w-full sm:w-auto"
+                  >
+                    <button
+                      type="button"
+                      className="inline-flex items-center justify-center gap-3 bg-primary hover:bg-primary/90 text-primary-foreground text-lg sm:text-xl font-bold px-10 py-5 sm:py-6 rounded-2xl shadow-xl shadow-primary/30 ring-4 ring-primary/15 hover:scale-105 transition-all duration-300 group w-full sm:w-auto relative overflow-hidden"
+                    >
+                      {clientOS === "mac" ? <Apple className="h-6 w-6" /> : <Laptop className="h-6 w-6" />}
+                      <span className="flex flex-col items-start leading-tight text-left">
+                        <span>{clientOS === "mac" ? "Tải Bản Cho Máy Mac" : "Tải Bản Cho Windows"}</span>
+                        <span className="text-xs sm:text-sm font-medium opacity-85">
+                          Đúng với máy của bạn • {clientOS === "mac" ? "Bo_Cai_Dat_AddIn_Mac.zip" : "Bo_Cai_Dat_AddIn_Windows.zip"}
+                        </span>
+                      </span>
+                      <Download className="h-6 w-6 group-hover:translate-y-0.5 transition-transform" />
+                      <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 ease-out" />
+                    </button>
+                  </a>
 
-            <a href={latestDownload("Bo_Cai_Dat_AddIn_Mac.zip")} download>
-              <button
-                type="button"
-                className="inline-flex items-center justify-center gap-2 bg-background/80 hover:bg-primary/10 text-foreground border border-primary/30 hover:border-primary/60 text-base sm:text-lg font-semibold px-8 py-4 sm:py-5 rounded-xl shadow-xs transition-all duration-300 w-full sm:w-auto"
-              >
-                <Apple className="h-5 w-5 text-primary" />
-                <span>Tải Bản macOS (.zip)</span>
-              </button>
-            </a>
+                  <a href="#huong-dan" className="w-full sm:w-auto">
+                    <button
+                      type="button"
+                      className="inline-flex items-center justify-center gap-2 bg-muted/60 hover:bg-primary/10 text-muted-foreground hover:text-primary border border-border/80 hover:border-primary/40 text-base sm:text-lg font-medium px-7 py-4 sm:py-5 rounded-xl transition-all duration-300 w-full sm:w-auto"
+                    >
+                      <BookOpen className="h-5 w-5" />
+                      <span>Hướng Dẫn Cài Đặt</span>
+                    </button>
+                  </a>
+                </div>
 
-            <a href="#huong-dan">
-              <button
-                type="button"
-                className="inline-flex items-center justify-center gap-2 bg-muted/60 hover:bg-primary/10 text-muted-foreground hover:text-primary border border-border/80 hover:border-primary/40 text-base sm:text-lg font-medium px-7 py-4 sm:py-5 rounded-xl transition-all duration-300 w-full sm:w-auto"
-              >
-                <BookOpen className="h-5 w-5" />
-                <span>Hướng Dẫn Cài Đặt</span>
-              </button>
-            </a>
+                <p className="text-sm sm:text-base text-muted-foreground">
+                  {clientOS === "mac" ? "Bạn dùng máy Windows?" : "Bạn dùng máy Mac?"}{" "}
+                  <a
+                    href={latestDownload(clientOS === "mac" ? "Bo_Cai_Dat_AddIn_Windows.zip" : "Bo_Cai_Dat_AddIn_Mac.zip")}
+                    download
+                    className="font-semibold text-primary underline underline-offset-4 hover:text-primary/80"
+                  >
+                    {clientOS === "mac" ? "Tải bản Windows tại đây" : "Tải bản macOS tại đây"}
+                  </a>
+                </p>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center gap-5">
+                <div className="flex items-start gap-2 max-w-2xl px-4 py-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-left text-sm sm:text-base text-foreground">
+                  <Info className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                  <span>
+                    Add-in chỉ cài được trên <strong>máy tính Windows hoặc Mac</strong> có Microsoft Word/Excel.
+                    Nếu bạn đang xem bằng điện thoại hoặc máy tính bảng, hãy mở trang này trên máy tính để tải về và cài đặt.
+                  </span>
+                </div>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
+                  <a href={latestDownload("Bo_Cai_Dat_AddIn_Windows.zip")} download className="w-full sm:w-auto">
+                    <button
+                      type="button"
+                      className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground text-base sm:text-lg font-semibold px-8 py-4 sm:py-5 rounded-xl shadow-lg shadow-primary/25 hover:scale-105 transition-all duration-300 group w-full sm:w-auto relative overflow-hidden"
+                    >
+                      <Laptop className="h-5 w-5" />
+                      <span>Tải Bản Windows (.zip)</span>
+                      <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                      <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 ease-out" />
+                    </button>
+                  </a>
+
+                  <a href={latestDownload("Bo_Cai_Dat_AddIn_Mac.zip")} download className="w-full sm:w-auto">
+                    <button
+                      type="button"
+                      className="inline-flex items-center justify-center gap-2 bg-background/80 hover:bg-primary/10 text-foreground border border-primary/30 hover:border-primary/60 text-base sm:text-lg font-semibold px-8 py-4 sm:py-5 rounded-xl shadow-xs transition-all duration-300 w-full sm:w-auto"
+                    >
+                      <Apple className="h-5 w-5 text-primary" />
+                      <span>Tải Bản macOS (.zip)</span>
+                    </button>
+                  </a>
+
+                  <a href="#huong-dan" className="w-full sm:w-auto">
+                    <button
+                      type="button"
+                      className="inline-flex items-center justify-center gap-2 bg-muted/60 hover:bg-primary/10 text-muted-foreground hover:text-primary border border-border/80 hover:border-primary/40 text-base sm:text-lg font-medium px-7 py-4 sm:py-5 rounded-xl transition-all duration-300 w-full sm:w-auto"
+                    >
+                      <BookOpen className="h-5 w-5" />
+                      <span>Hướng Dẫn Cài Đặt</span>
+                    </button>
+                  </a>
+                </div>
+
+              </div>
+            )}
           </div>
 
           {/* 4 Feature Highlights */}
@@ -276,7 +382,7 @@ export default function AddInOfficePage() {
                 >
                   {item.highlight && (
                     <div className="absolute top-4 right-4 bg-primary text-primary-foreground text-[11px] font-bold px-3 py-1 rounded-full shadow-xs uppercase">
-                      Bản Phổ Biến Nhất
+                      {isDesktopOS ? "Phù Hợp Máy Bạn" : "Bản Phổ Biến Nhất"}
                     </div>
                   )}
 
@@ -524,7 +630,7 @@ export default function AddInOfficePage() {
             </p>
           </div>
 
-          <Tabs defaultValue="windows" className="w-full">
+          <Tabs value={guideTab} onValueChange={setGuideTab} className="w-full">
             <div className="flex justify-center mb-10">
               <TabsList className="grid grid-cols-3 w-full max-w-lg h-12 p-1 bg-muted rounded-xl">
                 <TabsTrigger value="windows" className="gap-2 text-sm font-semibold rounded-lg">
