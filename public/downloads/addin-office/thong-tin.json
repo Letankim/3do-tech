@@ -1,6 +1,6 @@
 {
   "version": "v2026.11.11.1",
-  "published": "2026-11-11T17:39:15",
+  "published": "2026-11-11T17:41:38",
   "files": {
     "Bo_Cai_Dat_AddIn_Windows.zip": {
       "size": 245164,
@@ -20,7 +20,7 @@
     },
     "version.json": {
       "size": 728,
-      "sha256": "7b6dbcd050b17797858dadee83f81992999a0ba3ad4d7720e9d6901c14f4c689"
+      "sha256": "244d70ba55e66ec858e7e2bdbe77f307eec14dfa093aaf35057ff07162fd6f85"
     }
   }
 }
