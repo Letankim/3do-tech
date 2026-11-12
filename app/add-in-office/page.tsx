@@ -59,18 +59,24 @@ function detectClientOS(): ClientOS {
   return "other";
 }
 
+function WindowsLogo({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
+      <path d="M3 5.1 10.4 4v7.2H3zM11.4 3.9 21 2.5v8.7h-9.6zM3 12.2h7.4v7.2L3 18.3zM11.4 12.2H21v8.7l-9.6-1.4z" />
+    </svg>
+  );
+}
+
 // useLayoutEffect chay sau hydrate nhung truoc khi trinh duyet ve lai, nen khong nhay giao dien.
 const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export default function AddInOfficePage() {
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
   const [clientOS, setClientOS] = useState<ClientOS | null>(null);
-  const [guideTab, setGuideTab] = useState("windows");
 
   useIsomorphicLayoutEffect(() => {
     const os = detectClientOS();
     setClientOS(os);
-    if (os === "mac") setGuideTab("macos");
   }, []);
   const isDesktopOS = clientOS === "windows" || clientOS === "mac";
 
@@ -112,61 +118,99 @@ export default function AddInOfficePage() {
   };
   const sha256Of = (fileName: string) => release?.assets[fileName]?.sha256 ?? null;
 
-  const downloadFiles = [
+  const winPack = {
+    title: "Bộ Cài Đặt Trọn Gói Windows",
+    fileName: "Bo_Cai_Dat_AddIn_Windows.zip",
+    description: "Gồm cả Word & Excel. Giải nén rồi nhấp đúp CaiDat_AddIn_Windows.bat là xong.",
+    guide: "#huong-dan-windows",
+    primary: clientOS !== "mac",
+  };
+  const macPack = {
+    title: "Bộ Cài Đặt Trọn Gói macOS",
+    fileName: "Bo_Cai_Dat_AddIn_Mac.zip",
+    description: "Dành cho Microsoft Office trên máy Mac. Kèm script CaiDat_AddIn_Mac.sh cài đặt tự động.",
+    guide: "#huong-dan-mac",
+    primary: clientOS === "mac",
+  };
+  const winGroup = { id: "windows", title: "Windows", subtitle: "Windows 10 / 11", icon: WindowsLogo, files: [winPack] };
+  const macGroup = { id: "mac", title: "macOS", subtitle: "Máy Mac (Intel & Apple)", icon: Apple, files: [macPack] };
+  const downloadGroups = [
+    ...(clientOS === "mac" ? [macGroup, winGroup] : [winGroup, macGroup]),
     {
-      id: "win-pack",
-      title: "Bộ Cài Đặt Trọn Gói Windows",
-      badge: "Khuyên Dùng",
-      icon: Laptop,
-      fileName: "Bo_Cai_Dat_AddIn_Windows.zip",
-      fileSize: fileSizeOf("Bo_Cai_Dat_AddIn_Windows.zip"),
-      description: "Tích hợp cả Word & Excel. Tự động cài đặt 1-click qua file CaiDat_AddIn_Windows.bat trong 3 giây.",
-      localUrl: latestDownload("Bo_Cai_Dat_AddIn_Windows.zip"),
-      sha256: null,
-      highlight: clientOS !== "mac"
+      id: "files",
+      title: "Tệp riêng lẻ",
+      subtitle: "Cho người tự cài thủ công",
+      icon: Layers,
+      files: [
+        {
+          title: "Add-in Word (ChuanHoa_VanBanDang)",
+          fileName: "ChuanHoa_VanBanDang.dotm",
+          description: "Tab THỂ THỨC VĂN BẢN trong Word: chuẩn hóa theo NĐ 30/2020 & HD 05 VPTW, tạo văn bản mẫu, rà soát lỗi.",
+          guide: null,
+          primary: false,
+        },
+        {
+          title: "Add-in Excel (ChuanHoa_Excel)",
+          fileName: "ChuanHoa_Excel.xlam",
+          description: "Căn trang in A4: chống che ô mất chữ, lặp lại tiêu đề, gom chữ ký về chung trang, đánh số trang x/y.",
+          guide: null,
+          primary: false,
+        },
+      ],
     },
-    {
-      id: "mac-pack",
-      title: "Bộ Cài Đặt Trọn Gói macOS",
-      badge: "macOS",
-      icon: Apple,
-      fileName: "Bo_Cai_Dat_AddIn_Mac.zip",
-      fileSize: fileSizeOf("Bo_Cai_Dat_AddIn_Mac.zip"),
-      description: "Dành riêng cho Microsoft Office trên macOS. Kèm script CaiDat_AddIn_Mac.sh cài đặt thuận tiện.",
-      localUrl: latestDownload("Bo_Cai_Dat_AddIn_Mac.zip"),
-      sha256: null,
-      highlight: clientOS === "mac"
-    },
-    {
-      id: "word-addin",
-      title: "Add-in Word (ChuanHoa_VanBanDang)",
-      badge: "Word Only",
-      icon: FileText,
-      fileName: "ChuanHoa_VanBanDang.dotm",
-      fileSize: fileSizeOf("ChuanHoa_VanBanDang.dotm"),
-      description: "Thêm tab THỂ THỨC VĂN BẢN vào Word: chuẩn hóa Nghị định 30/2020 & HD 05 VPTW, tạo văn bản mẫu, rà soát lỗi.",
-      localUrl: latestDownload("ChuanHoa_VanBanDang.dotm"),
-      sha256: sha256Of("ChuanHoa_VanBanDang.dotm"),
-      highlight: false
-    },
-    {
-      id: "excel-addin",
-      title: "Add-in Excel (ChuanHoa_Excel)",
-      badge: "Excel Only",
-      icon: FileSpreadsheet,
-      fileName: "ChuanHoa_Excel.xlam",
-      fileSize: fileSizeOf("ChuanHoa_Excel.xlam"),
-      description: "Thêm công cụ Căn trang in A4: chống che ô mất chữ, lặp lại tiêu đề, gom chữ ký về chung trang, đánh số trang x/y.",
-      localUrl: latestDownload("ChuanHoa_Excel.xlam"),
-      sha256: sha256Of("ChuanHoa_Excel.xlam"),
-      highlight: false
-    }
   ];
 
-  // May Mac: dua bo cai macOS len dau trung tam tai ve.
-  if (clientOS === "mac") {
-    [downloadFiles[0], downloadFiles[1]] = [downloadFiles[1], downloadFiles[0]];
-  }
+  const codeCls = "px-1.5 py-0.5 rounded bg-muted font-mono text-xs text-foreground";
+  const winGuide = {
+    id: "windows",
+    title: "Windows",
+    icon: WindowsLogo,
+    steps: [
+      { title: "Tải & giải nén", body: <>Tải <code className={codeCls}>Bo_Cai_Dat_AddIn_Windows.zip</code>, chuột phải vào file chọn <strong>Extract All… (Giải nén tất cả)</strong>.</> },
+      { title: "Đóng Word & Excel", body: <>Lưu tài liệu đang mở và thoát hẳn Word, Excel.</> },
+      {
+        title: "Chạy tệp cài đặt",
+        body: (
+          <>
+            Nhấp đúp <code className={codeCls}>CaiDat_AddIn_Windows.bat</code> trong thư mục vừa giải nén.
+            <span className="block mt-2 p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-xs text-amber-700 dark:text-amber-400">
+              Nếu hiện khung xanh SmartScreen: bấm <em>More info (Thông tin khác)</em> → <em>Run anyway (Vẫn chạy)</em>.
+            </span>
+          </>
+        ),
+      },
+      { title: "Hoàn tất", body: <>Mở Word thấy tab <strong>THỂ THỨC VĂN BẢN</strong>, Excel có <strong>Căn trang in A4</strong>. Dùng ngay, không cần kích hoạt.</> },
+    ],
+  };
+  const macGuide = {
+    id: "mac",
+    title: "macOS",
+    icon: Apple,
+    steps: [
+      { title: "Tải & giải nén", body: <>Tải <code className={codeCls}>Bo_Cai_Dat_AddIn_Mac.zip</code> và nhấp đúp để giải nén trong Finder.</> },
+      {
+        title: "Chạy script cài đặt",
+        body: (
+          <>
+            Mở <strong>Terminal</strong>, kéo thả file <code className={codeCls}>CaiDat_AddIn_Mac.sh</code> vào cửa sổ rồi nhấn <strong>Enter</strong>.
+            <span className="block mt-2 p-2.5 rounded-lg bg-muted font-mono text-xs text-foreground/80">bash CaiDat_AddIn_Mac.sh</span>
+          </>
+        ),
+      },
+      { title: "Cho phép macro", body: <>Mở Word / Excel → Preferences → Security → cho phép macro chạy khi được hỏi.</> },
+    ],
+  };
+  const updateGuide = {
+    id: "update",
+    title: "Cập nhật bản mới",
+    icon: RefreshCw,
+    steps: [
+      { title: "Bấm [Cập nhật]", body: <>Trên thanh Ribbon của Word hoặc Excel, bấm nút <strong>[Cập nhật]</strong>. Không cần tải lại bộ cài.</> },
+      { title: "Đồng ý cập nhật", body: <>Nếu có bản mới, add-in hiện danh sách thay đổi. Chọn <strong>Yes (Có)</strong>.</> },
+      { title: "Mở lại Word/Excel", body: <>Đóng hết Word/Excel để bản mới tự nạp. Thiết lập đơn vị cũ được giữ nguyên.</> },
+    ],
+  };
+  const guideColumns = [...(clientOS === "mac" ? [macGuide, winGuide] : [winGuide, macGuide]), updateGuide];
 
   const handleCopy = (text: string, key: string) => {
     navigator.clipboard.writeText(text);
@@ -356,108 +400,125 @@ export default function AddInOfficePage() {
         </div>
       </section>
 
-      {/* Download Hub Section (100% Tải Nội Bộ, Không Link GitHub) */}
-      <section id="tai-ve" className="py-20 lg:py-24 bg-muted/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+      {/* Khu tai ve: chia theo he dieu hanh, moi dong la mot tep (phien ban, dung luong, ngay, SHA-256). */}
+      <section id="tai-ve" className="py-20 lg:py-24 bg-muted/30 scroll-mt-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-balance mb-6">
-              Trung Tâm <span className="text-primary">Tải Về Nội Bộ</span>
+              Tải <span className="text-primary">Về</span>
             </h2>
             <p className="text-xl text-muted-foreground text-balance max-w-3xl mx-auto leading-relaxed">
-              Tải trực tiếp tốc độ cao từ máy chủ 3DO TECH. Toàn bộ file đã được kiểm định an toàn và sẵn sàng sử dụng.
+              Tải trực tiếp từ máy chủ 3DO TECH. Chọn đúng hệ điều hành của máy tính bạn đang dùng.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {downloadFiles.map((item) => {
-              const IconComponent = item.icon;
-              return (
-                <Card 
-                  key={item.id}
-                  className={`group relative p-7 flex flex-col justify-between overflow-hidden transition-all duration-500 hover:shadow-xl ${
-                    item.highlight 
-                      ? "border-primary/50 ring-1 ring-primary/30 bg-card" 
-                      : "border-border hover:border-primary/30 bg-card"
-                  }`}
-                >
-                  {item.highlight && (
-                    <div className="absolute top-4 right-4 bg-primary text-primary-foreground text-[11px] font-bold px-3 py-1 rounded-full shadow-xs uppercase">
-                      {isDesktopOS ? "Phù Hợp Máy Bạn" : "Bản Phổ Biến Nhất"}
+          <div className="space-y-8">
+            {downloadGroups.map((group) => (
+              <div
+                key={group.id}
+                className={`rounded-2xl border bg-card shadow-xs overflow-hidden ${
+                  group.id === clientOS ? "border-primary/50 ring-1 ring-primary/25" : ""
+                }`}
+              >
+                <div className="flex flex-col md:flex-row">
+                  {/* Cot bieu tuong he dieu hanh */}
+                  <div className="flex md:flex-col items-center md:justify-start gap-3 md:gap-2 px-6 py-5 md:py-8 md:w-44 shrink-0 border-b md:border-b-0 md:border-r bg-muted/30 md:text-center">
+                    <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                      <group.icon className="w-7 h-7 md:w-9 md:h-9" />
                     </div>
-                  )}
-
-                  <div>
-                    <div className="flex items-center mb-5">
-                      <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mr-4 text-primary shrink-0">
-                        <IconComponent className="h-7 w-7" />
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
-                          {item.title}
-                        </h3>
-                        <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1 font-mono">
-                          <span>{item.fileName}</span>
-                          {item.fileSize && (
-                            <>
-                              <span>•</span>
-                              <span className="text-primary font-semibold">{item.fileSize}</span>
-                            </>
-                          )}
-                        </div>
-                      </div>
+                    <div>
+                      <p className="font-bold text-foreground">{group.title}</p>
+                      <p className="text-xs text-muted-foreground">{group.subtitle}</p>
+                      {group.id === clientOS && (
+                        <span className="inline-block mt-1.5 text-[11px] font-bold uppercase bg-primary text-primary-foreground px-2.5 py-0.5 rounded-full">
+                          Máy của bạn
+                        </span>
+                      )}
                     </div>
-
-                    <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-6">
-                      {item.description}
-                    </p>
-
-                    {item.sha256 && (
-                      <div className="mb-6 p-3 rounded-lg bg-muted/60 border border-border text-xs flex items-center justify-between gap-2 font-mono">
-                        <div className="truncate">
-                          <span className="text-muted-foreground font-sans mr-1">SHA-256:</span>
-                          <span className="text-foreground/90">{item.sha256}</span>
-                        </div>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-7 w-7 shrink-0 text-muted-foreground hover:text-foreground"
-                          onClick={() => handleCopy(item.sha256!, item.id)}
-                          title="Sao chép SHA-256"
-                        >
-                          {copiedKey === item.id ? (
-                            <Check className="h-4 w-4 text-emerald-500" />
-                          ) : (
-                            <Copy className="h-4 w-4" />
-                          )}
-                        </Button>
-                      </div>
-                    )}
                   </div>
 
-                  <div className="pt-4 border-t border-border">
-                    <a href={item.localUrl} download className="block w-full">
-                      <Button 
-                        size="lg"
-                        className="w-full gap-2 text-base font-semibold shadow-md group relative overflow-hidden" 
-                        variant={item.highlight ? "default" : "outline"}
-                      >
-                        <Download className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
-                        <span>Tải Về Trực Tiếp</span>
-                        <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 ease-out" />
-                      </Button>
-                    </a>
+                  {/* Cac dong tep */}
+                  <div className="flex-1 divide-y">
+                    {group.files.map((file) => {
+                      const sha = sha256Of(file.fileName);
+                      return (
+                        <div key={file.fileName} className="px-5 sm:px-7 py-5">
+                          <div className="grid grid-cols-3 md:grid-cols-[minmax(0,2.2fr)_1fr_0.8fr_1fr_auto] gap-x-4 gap-y-3 items-center">
+                            <div className="col-span-3 md:col-span-1 min-w-0">
+                              <p className="font-semibold text-primary text-base">{file.title}</p>
+                              <p className="text-xs text-muted-foreground font-mono truncate">{file.fileName}</p>
+                            </div>
+                            <div>
+                              <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Phiên bản</p>
+                              <p className="text-sm font-medium tabular-nums">{release?.version ?? "—"}</p>
+                            </div>
+                            <div>
+                              <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Dung lượng</p>
+                              <p className="text-sm font-medium tabular-nums">{fileSizeOf(file.fileName) ?? "—"}</p>
+                            </div>
+                            <div>
+                              <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Ngày</p>
+                              <p className="text-sm font-medium tabular-nums">{release?.date || "—"}</p>
+                            </div>
+                            <a href={latestDownload(file.fileName)} download className="col-span-3 md:col-span-1">
+                              <Button
+                                size="lg"
+                                variant={file.primary ? "default" : "outline"}
+                                className="w-full md:w-40 gap-2 font-semibold"
+                              >
+                                <Download className="w-4 h-4" />
+                                <span>Tải về</span>
+                              </Button>
+                            </a>
+                          </div>
+
+                          <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{file.description}</p>
+
+                          <div className="mt-3 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-5 text-xs">
+                            {sha && (
+                              <div className="flex items-center gap-1.5 min-w-0 font-mono">
+                                <span className="font-sans text-muted-foreground shrink-0">SHA-256:</span>
+                                <span className="truncate text-foreground/80">{sha}</span>
+                                <button
+                                  type="button"
+                                  onClick={() => handleCopy(sha, file.fileName)}
+                                  title="Sao chép SHA-256"
+                                  className="shrink-0 p-1 rounded text-muted-foreground hover:text-foreground hover:bg-muted"
+                                >
+                                  {copiedKey === file.fileName ? (
+                                    <Check className="h-3.5 w-3.5 text-emerald-500" />
+                                  ) : (
+                                    <Copy className="h-3.5 w-3.5" />
+                                  )}
+                                </button>
+                              </div>
+                            )}
+                            {file.guide && (
+                              <a
+                                href={file.guide}
+                                className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-medium hover:underline shrink-0"
+                              >
+                                <BookOpen className="h-3.5 w-3.5" />
+                                Hướng dẫn cài đặt
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
-                </Card>
-              );
-            })}
+                </div>
+              </div>
+            ))}
           </div>
 
           <div className="mt-10 text-center text-sm text-muted-foreground flex items-center justify-center gap-2">
-            <Info className="w-4 h-4 text-primary" />
+            <Info className="w-4 h-4 text-primary shrink-0" />
             <span>Phát hành bởi <strong>VPĐU xã Thạnh Phú</strong> • Tương thích Office 2016, 2019, 2021, 2024 & Microsoft 365.</span>
           </div>
         </div>
       </section>
+
 
       {/* Feature Details Section */}
       <section id="tinh-nang" className="py-20 lg:py-24">
@@ -618,166 +679,63 @@ export default function AddInOfficePage() {
         </div>
       </section>
 
-      {/* Step by Step Installation Guide */}
+      {/* Huong dan cai dat: cac cot dat canh nhau, cot cua he dieu hanh dang dung dung dau */}
       <section id="huong-dan" className="py-20 lg:py-24 bg-muted/30">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-balance mb-6">
-              Hướng Dẫn <span className="text-primary">Cài Đặt Đơn Giản</span>
+              Hướng Dẫn <span className="text-primary">Cài Đặt</span>
             </h2>
             <p className="text-xl text-muted-foreground text-balance max-w-3xl mx-auto leading-relaxed">
-              Chỉ cần thực hiện 1 lần duy nhất, bộ công cụ sẽ tích hợp vĩnh viễn vào thanh công cụ của Word & Excel.
+              Chỉ cần làm 1 lần, bộ công cụ sẽ nằm sẵn trên thanh công cụ của Word &amp; Excel.
             </p>
           </div>
 
-          <Tabs value={guideTab} onValueChange={setGuideTab} className="w-full">
-            <div className="flex justify-center mb-10">
-              <TabsList className="grid grid-cols-3 w-full max-w-lg h-12 p-1 bg-muted rounded-xl">
-                <TabsTrigger value="windows" className="gap-2 text-sm font-semibold rounded-lg">
-                  <Laptop className="w-4 h-4" />
-                  <span>Windows</span>
-                </TabsTrigger>
-                <TabsTrigger value="macos" className="gap-2 text-sm font-semibold rounded-lg">
-                  <Apple className="w-4 h-4" />
-                  <span>macOS</span>
-                </TabsTrigger>
-                <TabsTrigger value="update" className="gap-2 text-sm font-semibold rounded-lg">
-                  <RefreshCw className="w-4 h-4" />
-                  <span>Cập Nhật Mới</span>
-                </TabsTrigger>
-              </TabsList>
+          <div className="rounded-2xl border bg-card shadow-xs overflow-hidden">
+            <div className="px-6 py-4 border-b bg-muted/40">
+              <h3 className="font-semibold text-lg">Thông Tin Cài Đặt</h3>
             </div>
-
-            {/* Windows Installation */}
-            <TabsContent value="windows" className="space-y-4 animate-in fade-in-50 duration-300">
-              <div className="space-y-4">
-                <div className="flex gap-4 p-6 rounded-xl bg-card border shadow-xs">
-                  <div className="flex items-center justify-center w-9 h-9 rounded-full bg-primary text-primary-foreground font-bold shrink-0">
-                    1
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-base sm:text-lg mb-1">Tải & Giải Nén Tệp Cài Đặt</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      Tải file <code className="px-1.5 py-0.5 rounded bg-muted font-mono text-xs">Bo_Cai_Dat_AddIn_Windows.zip</code> về máy. 
-                      Nhấp chuột phải vào file chọn <strong>Extract All... (Giải nén tất cả)</strong>.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4 p-6 rounded-xl bg-card border shadow-xs">
-                  <div className="flex items-center justify-center w-9 h-9 rounded-full bg-primary text-primary-foreground font-bold shrink-0">
-                    2
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-base sm:text-lg mb-1">Đóng Toàn Bộ Word & Excel</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      Lưu lại tài liệu đang mở và thoát hẳn các cửa sổ Microsoft Word, Microsoft Excel đang chạy trên máy tính.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4 p-6 rounded-xl bg-card border shadow-xs">
-                  <div className="flex items-center justify-center w-9 h-9 rounded-full bg-primary text-primary-foreground font-bold shrink-0">
-                    3
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-base sm:text-lg mb-1">Chạy Tệp Cài Đặt Tự Động</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed mb-3">
-                      Mở thư mục vừa giải nén, nhấp đúp vào tệp <code className="px-1.5 py-0.5 rounded bg-primary/10 font-mono text-xs font-bold text-primary">CaiDat_AddIn_Windows.bat</code>.
-                    </p>
-                    <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 text-xs text-amber-700 dark:text-amber-400">
-                      <strong>Lưu ý:</strong> Nếu Windows SmartScreen hiện thông báo bảo vệ màu xanh, bạn bấm <em>&quot;More info&quot; (Thông tin khác)</em> rồi chọn <em>&quot;Run anyway&quot; (Vẫn chạy)</em>.
+            <div className="grid lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x">
+              {guideColumns.map((col) => (
+                <div
+                  key={col.id}
+                  id={`huong-dan-${col.id}`}
+                  className={`p-6 sm:p-7 scroll-mt-24 ${col.id === clientOS ? "bg-primary/[0.04]" : ""}`}
+                >
+                  <div className="flex flex-col items-center text-center mb-6">
+                    <div className="w-16 h-16 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-3">
+                      <col.icon className="w-9 h-9" />
                     </div>
+                    <h4 className="font-bold text-lg">{col.title}</h4>
+                    {col.id === clientOS && (
+                      <span className="mt-2 text-[11px] font-bold uppercase bg-primary text-primary-foreground px-2.5 py-0.5 rounded-full">
+                        Máy của bạn
+                      </span>
+                    )}
                   </div>
+                  <ol className="space-y-4">
+                    {col.steps.map((step, i) => (
+                      <li key={i} className="flex gap-3">
+                        <span
+                          className={`flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold shrink-0 ${
+                            i === col.steps.length - 1 && col.id !== "update"
+                              ? "bg-emerald-500 text-white"
+                              : "bg-primary text-primary-foreground"
+                          }`}
+                        >
+                          {i + 1}
+                        </span>
+                        <div className="text-sm text-muted-foreground leading-relaxed pt-0.5">
+                          <p className="font-semibold text-foreground mb-0.5">{step.title}</p>
+                          {step.body}
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
                 </div>
-
-                <div className="flex gap-4 p-6 rounded-xl bg-card border shadow-xs">
-                  <div className="flex items-center justify-center w-9 h-9 rounded-full bg-emerald-500 text-white font-bold shrink-0">
-                    4
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-base sm:text-lg mb-1">Hoàn Tất & Khởi Động Sử Dụng</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      Màn hình báo cài đặt thành công! Mở Word sẽ thấy tab <strong>THỂ THỨC VĂN BẢN</strong> và mở Excel sẽ có công cụ <strong>Căn trang in A4</strong>. Sử dụng ngay không cần kích hoạt.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </TabsContent>
-
-            {/* macOS Installation */}
-            <TabsContent value="macos" className="space-y-4 animate-in fade-in-50 duration-300">
-              <div className="space-y-4">
-                <div className="flex gap-4 p-6 rounded-xl bg-card border shadow-xs">
-                  <div className="flex items-center justify-center w-9 h-9 rounded-full bg-primary text-primary-foreground font-bold shrink-0">
-                    1
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-base sm:text-lg mb-1">Tải & Giải Nén Bản Cho Mac</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      Tải <code className="px-1.5 py-0.5 rounded bg-muted font-mono text-xs">Bo_Cai_Dat_AddIn_Mac.zip</code> và giải nén trong Finder.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4 p-6 rounded-xl bg-card border shadow-xs">
-                  <div className="flex items-center justify-center w-9 h-9 rounded-full bg-primary text-primary-foreground font-bold shrink-0">
-                    2
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-base sm:text-lg mb-1">Chạy Script Cài Đặt Terminal</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed mb-3">
-                      Mở ứng dụng <strong>Terminal</strong>, kéo thả file <code className="px-1.5 py-0.5 rounded bg-muted font-mono text-xs">CaiDat_AddIn_Mac.sh</code> vào cửa sổ Terminal và nhấn <strong>Enter</strong>.
-                    </p>
-                    <div className="p-3 rounded-lg bg-muted font-mono text-xs text-foreground/80">
-                      bash CaiDat_AddIn_Mac.sh
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex gap-4 p-6 rounded-xl bg-card border shadow-xs">
-                  <div className="flex items-center justify-center w-9 h-9 rounded-full bg-emerald-500 text-white font-bold shrink-0">
-                    3
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-base sm:text-lg mb-1">Cấp Quyền Cho Macro Trong Word/Excel</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      Mở Word / Excel &gt; Preferences &gt; Security &gt; chọn cho phép Macro hoạt động khi được yêu cầu.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </TabsContent>
-
-            {/* Update Guide */}
-            <TabsContent value="update" className="space-y-4 animate-in fade-in-50 duration-300">
-              <div className="p-8 rounded-xl bg-card border shadow-xs space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                    <RefreshCw className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-xl font-bold">Cập Nhật Phiên Bản Mới Trực Tiếp Trên Ribbon</h3>
-                </div>
-                <p className="text-muted-foreground leading-relaxed">
-                  Bạn không cần phải tải lại hoặc chạy lại bộ cài mỗi khi có phiên bản mới. Add-in đã tích hợp sẵn tính năng tự kiểm tra phiên bản:
-                </p>
-                <ul className="space-y-3 text-muted-foreground">
-                  <li className="flex items-start gap-2.5">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" />
-                    <span>Trên thanh Ribbon của Word hoặc Excel, bấm vào nút <strong>[Cập nhật]</strong>.</span>
-                  </li>
-                  <li className="flex items-start gap-2.5">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" />
-                    <span>Nếu có bản cập nhật mới, hệ thống hiển thị thông báo thay đổi. Bạn chọn <strong>Yes (Có)</strong>.</span>
-                  </li>
-                  <li className="flex items-start gap-2.5">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" />
-                    <span>Đóng toàn bộ cửa sổ Word/Excel để phiên bản mới tự động nạp. Toàn bộ thiết lập đơn vị trước đó được giữ nguyên!</span>
-                  </li>
-                </ul>
-              </div>
-            </TabsContent>
-          </Tabs>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
