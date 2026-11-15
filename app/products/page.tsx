@@ -1,11 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { ArrowLeft } from "lucide-react"
-import Link from "next/link"
+import { StickyHeader } from "@/components/sticky-header"
+import { Footer } from "@/components/footer"
+import { Reveal } from "@/components/reveal"
 
 export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState("all")
@@ -81,98 +79,78 @@ export default function ProductsPage() {
     selectedCategory === "all" ? allProducts : allProducts.filter((product) => product.category === selectedCategory)
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Link href="/">
-                <Button variant="ghost" size="sm">
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  Quay lại
-                </Button>
-              </Link>
-              <div className="text-2xl font-bold text-primary">3DO TECH</div>
-            </div>
-            <nav className="hidden md:flex items-center space-x-6">
-              <Link href="/#gioi-thieu" className="text-muted-foreground hover:text-primary transition-colors">
-                Giới thiệu
-              </Link>
-              <Link href="/#doi-tac" className="text-muted-foreground hover:text-primary transition-colors">
-                Đối tác
-              </Link>
-              <Link href="/#lien-he" className="text-muted-foreground hover:text-primary transition-colors">
-                Liên hệ
-              </Link>
-            </nav>
+    <div className="min-h-screen bg-paper">
+      <StickyHeader />
+
+      <section className="bg-ink text-ink-text">
+        <div className="wrap pb-12 pt-28 sm:pt-32 lg:pt-40">
+          <Reveal>
+            <p className="tag text-ink-muted">
+              <span className="text-brand">[ Sản phẩm ]</span> {allProducts.length} / Catalog
+            </p>
+            <h1 className="mega mt-8 text-[clamp(3rem,9vw,8rem)]">
+              Tất cả <span className="text-brand">Sản phẩm</span>
+            </h1>
+            <p className="mt-8 max-w-2xl text-lg leading-relaxed text-ink-text/75">
+              Khám phá danh mục đầy đủ các sản phẩm và dịch vụ công nghệ mà chúng tôi đã phát triển
+            </p>
+          </Reveal>
+          <div className="-mx-5 mt-12 flex gap-2 overflow-x-auto border-t border-ink-line px-5 pb-1 pt-8 sm:mx-0 sm:flex-wrap sm:px-0" role="group" aria-label="Lọc theo nhóm">
+            {categories.map((category) => {
+              const on = selectedCategory === category.id
+              return (
+                <button
+                  key={category.id}
+                  type="button"
+                  onClick={() => setSelectedCategory(category.id)}
+                  aria-pressed={on}
+                  className={`tag shrink-0 border px-3 py-2 transition-colors ${on ? "border-brand bg-brand text-ink" : "border-ink-line text-ink-text/75 hover:border-ink-text hover:text-ink-text"}`}
+                >
+                  {category.name}
+                </button>
+              )
+            })}
           </div>
         </div>
-      </header>
+      </section>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 py-12">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-balance mb-6">
-            Tất cả <span className="text-primary">Sản phẩm</span>
-          </h1>
-          <p className="text-xl text-muted-foreground text-balance max-w-3xl mx-auto leading-relaxed">
-            Khám phá danh mục đầy đủ các sản phẩm và dịch vụ công nghệ mà chúng tôi đã phát triển
-          </p>
-        </div>
-
-        {/* Filter Categories */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {categories.map((category) => (
-            <Button
-              key={category.id}
-              variant={selectedCategory === category.id ? "default" : "outline"}
-              onClick={() => setSelectedCategory(category.id)}
-              className="rounded-full"
-            >
-              {category.name}
-            </Button>
-          ))}
-        </div>
-
-        {/* Products Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProducts.map((product, index) => (
-            <Card key={product.id} className="group overflow-hidden hover:shadow-xl transition-all duration-500">
-              <div className="relative overflow-hidden">
-                <img
-                  src={product.image || "/placeholder.svg"}
-                  alt={product.title}
-                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute top-4 right-4">
-                  <Badge variant={product.status === "Hoàn thành" ? "default" : "secondary"}>{product.status}</Badge>
-                </div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-3">{product.title}</h3>
-                <p className="text-muted-foreground mb-4 leading-relaxed">{product.description}</p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {product.technologies.map((tech, techIndex) => (
-                    <span key={techIndex} className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">
-                      {tech}
+      <main className="sec !pt-12">
+        <div className="wrap">
+          <div className="grid border-l border-t border-line md:grid-cols-2 lg:grid-cols-3">
+            {filteredProducts.map((product) => {
+              const done = product.status === "Hoàn thành"
+              return (
+                <Reveal key={product.id} as="article" className="group border-b border-r border-line bg-paper-3 p-5">
+                  <div className="aspect-[16/10] overflow-hidden bg-paper-2">
+                    <img
+                      src={product.image || "/placeholder.svg"}
+                      alt={product.title}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                    />
+                  </div>
+                  <div className="mt-5 flex items-center justify-between">
+                    <span className="tag text-muted-foreground">#{String(product.id).padStart(2, "0")}</span>
+                    <span className={`tag inline-flex items-center gap-2 ${done ? "text-ok" : "text-brand-deep"}`}>
+                      <span className="h-1.5 w-1.5 bg-current" aria-hidden />
+                      {product.status}
                     </span>
-                  ))}
-                </div>
-                <Button variant="ghost" className="group-hover:text-primary transition-colors p-0">
-                  Chi tiết dự án
-                </Button>
-              </div>
-            </Card>
-          ))}
-        </div>
-
-        {filteredProducts.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground text-lg">Không tìm thấy sản phẩm nào trong danh mục này.</p>
+                  </div>
+                  <h3 className="mt-3 text-2xl font-bold tracking-[-0.02em]">{product.title}</h3>
+                  <p className="mt-2 leading-relaxed text-muted-foreground">{product.description}</p>
+                  <p className="tag mt-5 border-t border-line pt-4 text-foreground/70">{product.technologies.join("  /  ")}</p>
+                </Reveal>
+              )
+            })}
           </div>
-        )}
+
+          {filteredProducts.length === 0 && (
+            <p className="py-16 text-center text-lg text-muted-foreground">Không tìm thấy sản phẩm nào trong danh mục này.</p>
+          )}
+        </div>
       </main>
+
+      <Footer />
     </div>
   )
 }

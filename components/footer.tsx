@@ -1,193 +1,102 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Separator } from "@/components/ui/separator"
-import { MapPin, Phone, Mail, Clock, Facebook, Twitter, Linkedin, Instagram, Youtube, ArrowRight } from "lucide-react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { useLanguage } from "@/lib/i18n"
 import { LanguageSwitcher } from "./language-switcher"
 
 export function Footer() {
   const { t } = useLanguage()
-  const router = useRouter()
+  const services = [
+    "footer.services.websiteDevelopment",
+    "footer.services.mobileApps",
+    "footer.services.systemIntegration",
+    "footer.services.aiSolutions",
+    "footer.services.cloudServices",
+    "footer.services.networkSecurity",
+  ] as const
 
   return (
-    <footer className="bg-background border-t">
-      {/* Main footer content */}
-      <div className="py-16">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-            {/* Company info */}
-            <div className="lg:col-span-1">
-              <div className="flex items-center space-x-2 mb-6">
-                <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">
-                    <img
-                      onClick={() => {
-                        router.push("/")
-                      }}
-                      src="/android-chrome-192x192.png"
-                      alt="Logo footer"
-                      className="w-[60px] h-[60px] object-contain"
-                    />
-                  </span>
-                </div>
-                <span className="text-2xl font-bold">{t("footer.company.name")}</span>
-              </div>
-
-              <p className="text-muted-foreground mb-6 leading-relaxed">{t("footer.company.description")}</p>
-
-              {/* Social links */}
-              <div className="flex space-x-4">
-                <Button variant="outline" size="icon" className="hover:bg-primary hover:text-white bg-transparent"   onClick={() => router.push("https://www.facebook.com/profile.php?id=61581499790956")} >
-                  <Facebook className="h-4 w-4" />
-                </Button>
-                <Button variant="outline" size="icon" className="hover:bg-primary hover:text-white bg-transparent"     onClick={() => router.push("https://www.youtube.com/@3DO-Corp")} >
-                  <Youtube className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-
-            {/* Services */}
-            <div>
-              <h4 className="text-lg font-semibold mb-6">{t("footer.services.title")}</h4>
-              <ul className="space-y-4">
-                <li>
-                  <Link href="#dich-vu" className="text-muted-foreground hover:text-primary transition-colors">
-                    {t("footer.services.websiteDevelopment")}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#dich-vu" className="text-muted-foreground hover:text-primary transition-colors">
-                    {t("footer.services.mobileApps")}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#dich-vu" className="text-muted-foreground hover:text-primary transition-colors">
-                    {t("footer.services.systemIntegration")}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#dich-vu" className="text-muted-foreground hover:text-primary transition-colors">
-                    {t("footer.services.aiSolutions")}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#dich-vu" className="text-muted-foreground hover:text-primary transition-colors">
-                    {t("footer.services.cloudServices")}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#dich-vu" className="text-muted-foreground hover:text-primary transition-colors">
-                    {t("footer.services.networkSecurity")}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/add-in-office" className="text-primary font-medium hover:underline inline-flex items-center gap-1.5 transition-colors">
-                    <span>Add-in Office (Word & Excel)</span>
-                    <span className="text-[10px] bg-red-500 text-white px-1.5 py-0.2 rounded-full uppercase">Mới</span>
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Contact info */}
-            <div>
-              <h4 className="text-lg font-semibold mb-6">{t("footer.contact.title")}</h4>
-              <div className="space-y-4">
-                <div className="flex items-start space-x-3">
-                  <MapPin className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                  <div className="text-muted-foreground">
-                    <div>{t("footer.contact.address.line1")}</div>
-                    <div>{t("footer.contact.address.line2")}</div>
-                    <div>{t("footer.contact.address.line3")}</div>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-3">
-                  <Phone className="h-5 w-5 text-primary flex-shrink-0 mt-1" />
-                  <div className="text-muted-foreground space-y-1 text-sm">
-                    <div>
-                      <a href="tel:0774889191" className="hover:text-primary transition-colors inline-flex items-center gap-1.5">
-                        <strong className="text-foreground">0774.88.9191</strong>
-                        <span className="text-xs text-muted-foreground">(Mr. Cường - Kỹ thuật)</span>
-                      </a>
-                    </div>
-                    <div>
-                      <a href="tel:0865341745" className="hover:text-primary transition-colors inline-flex items-center gap-1.5">
-                        <strong className="text-foreground">0865.341.745</strong>
-                        <span className="text-xs text-muted-foreground">(Mr. Kim - Tư vấn)</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center space-x-3">
-                  <Mail className="h-5 w-5 text-primary flex-shrink-0" />
-                  <span className="text-muted-foreground">{t("footer.contact.email")}</span>
-                </div>
-
-                <div className="flex items-start space-x-3">
-                  <Clock className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                  <div className="text-muted-foreground">
-                    <div>{t("footer.contact.hours.mondayToFriday")}</div>
-                    <div>{t("footer.contact.hours.saturday")}</div>
-                    <div>{t("footer.contact.hours.sunday")}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+    <footer className="relative overflow-hidden bg-ink text-ink-text">
+      <div className="ruler text-ink-text" aria-hidden />
+      <div className="wrap grid gap-12 pb-12 pt-16 md:grid-cols-2 lg:grid-cols-12">
+        <div className="lg:col-span-5">
+          <p className="max-w-sm text-[15px] leading-relaxed text-ink-muted">{t("footer.company.description")}</p>
+          <div className="mt-8 flex gap-6 text-sm">
+            <a href="https://www.facebook.com/profile.php?id=61581499790956" target="_blank" rel="noopener noreferrer" className="link-u">
+              Facebook ↗
+            </a>
+            <a href="https://www.youtube.com/@3DO-Corp" target="_blank" rel="noopener noreferrer" className="link-u">
+              YouTube ↗
+            </a>
           </div>
+        </div>
+
+        <div className="lg:col-span-3">
+          <h4 className="tag text-ink-muted">{t("footer.services.title")}</h4>
+          <ul className="mt-5 space-y-2.5 text-[15px]">
+            {services.map((k) => (
+              <li key={k}>
+                <Link href="/#dich-vu" className="link-u text-ink-text/85 hover:text-ink-text">
+                  {t(k)}
+                </Link>
+              </li>
+            ))}
+            <li>
+              <Link href="/add-in-office" className="inline-flex items-center gap-2 font-semibold text-brand">
+                Add-in Office (Word &amp; Excel)
+                <span className="tag border border-brand px-1.5 py-px text-[10px]">Mới</span>
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div className="lg:col-span-4">
+          <h4 className="tag text-ink-muted">{t("footer.contact.title")}</h4>
+          <address className="mt-5 space-y-4 text-[15px] not-italic text-ink-text/85">
+            <p>
+              {t("footer.contact.address.line1")}, {t("footer.contact.address.line2")}
+              <br />
+              {t("footer.contact.address.line3")}
+            </p>
+            <p className="space-y-1">
+              <a href="tel:0774889191" className="flex items-baseline justify-between gap-4 border-b border-ink-line pb-1 hover:text-ink-text">
+                <span className="font-mono">0774.88.9191</span>
+                <span className="text-sm text-ink-muted">Mr. Cường · Kỹ thuật</span>
+              </a>
+              <a href="tel:0865341745" className="flex items-baseline justify-between gap-4 border-b border-ink-line pb-1 hover:text-ink-text">
+                <span className="font-mono">0865.341.745</span>
+                <span className="text-sm text-ink-muted">Mr. Kim · Tư vấn</span>
+              </a>
+            </p>
+            <a href={`mailto:${t("footer.contact.email")}`} className="link-u block font-mono">
+              {t("footer.contact.email")}
+            </a>
+            <p className="text-sm text-ink-muted">
+              {t("footer.contact.hours.mondayToFriday")}
+              <br />
+              {t("footer.contact.hours.saturday")} · {t("footer.contact.hours.sunday")}
+            </p>
+          </address>
         </div>
       </div>
 
-      <Separator />
-
-      {/* Bottom footer */}
-      <div className="py-8">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-start items-start md:justify-between md:align-center space-y-4 md:space-y-0">
-            
-            {/* Bên trái: bản quyền */}
-            <div className="text-muted-foreground text-sm">
-              {t("footer.bottom.copyright")}
-            </div>
-
-            {/* Bên phải: links + language + contact */}
-            <div className="flex flex-col md:flex-row md:items-center md:space-x-6 space-y-2 md:space-y-0 text-sm">
-              {/* Links */}
-              <div className="flex flex-col sm:flex-row sm:space-x-6 sm:space-y-0 space-y-2 md:space-y-0">
-                <Link
-                  href="#"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  {t("footer.bottom.privacyPolicy")}
-                </Link>
-                <Link
-                  href="#"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  {t("footer.bottom.termsOfUse")}
-                </Link>
-                <Link
-                  href="#"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  {t("footer.bottom.cookiePolicy")}
-                </Link>
-              </div>
-
-              {/* Ngôn ngữ + Contact */}
-              <div className="flex items-center space-x-4">
-                <LanguageSwitcher />
-              </div>
-            </div>
-          </div>
+      <div className="wrap" aria-hidden>
+        <div className="select-none whitespace-nowrap text-[clamp(4rem,17.5vw,15.5rem)] font-extrabold leading-[0.8] tracking-[-0.06em] text-ink-text/[0.07]">
+          3DO.TECH
         </div>
       </div>
 
+      <div className="border-t border-ink-line">
+        <div className="wrap flex flex-col gap-4 py-6 text-sm text-ink-muted md:flex-row md:items-center md:justify-between">
+          <p>{t("footer.bottom.copyright")}</p>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+            <Link href="#" className="hover:text-ink-text">{t("footer.bottom.privacyPolicy")}</Link>
+            <Link href="#" className="hover:text-ink-text">{t("footer.bottom.termsOfUse")}</Link>
+            <Link href="#" className="hover:text-ink-text">{t("footer.bottom.cookiePolicy")}</Link>
+            <LanguageSwitcher />
+          </div>
+        </div>
+      </div>
     </footer>
   )
 }

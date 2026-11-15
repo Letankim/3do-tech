@@ -1,11 +1,10 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { ArrowRight, Smartphone, Globe, Database, Shield, Cpu, Cloud, Download } from "lucide-react"
-import Link from "next/link"
+import { useState } from "react"
+import { ArrowRight, Smartphone, Globe, Database, Shield, Cpu, Cloud } from "lucide-react"
 import { useLanguage } from "@/lib/i18n"
+import { Reveal } from "@/components/reveal"
+import { SectionHead } from "@/components/section-head"
 
 interface Product {
   icon: React.ComponentType<{ className?: string }>
@@ -16,26 +15,8 @@ interface Product {
 }
 
 export function ProductsSection() {
-  const [isVisible, setIsVisible] = useState(false)
-  const sectionRef = useRef<HTMLElement>(null)
   const { t } = useLanguage()
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.1 },
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
+  const [active, setActive] = useState(0)
 
   const products: Product[] = [
     {
@@ -82,110 +63,75 @@ export function ProductsSection() {
     },
   ]
 
+  const cur = products[active]
+
+  const Detail = ({ p, idx }: { p: Product; idx: number }) => (
+    <div>
+      <div className="marks relative aspect-[4/3] overflow-hidden bg-ink text-brand">
+        <img key={p.image} src={p.image} alt="" className="fade h-full w-full object-cover" />
+        <span className="tag absolute left-3 top-3 bg-ink px-2 py-1 text-ink-text">
+          FIG. {String(idx + 1).padStart(2, "0")}
+        </span>
+      </div>
+      <p className="mt-6 text-lg leading-relaxed">{p.description}</p>
+      <ul className="mt-5 flex flex-wrap gap-2">
+        {p.features.map((f) => (
+          <li key={f} className="tag border border-line px-2.5 py-1.5 text-foreground">
+            {f}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+
   return (
-    <section ref={sectionRef} id="dich-vu" className="py-24 bg-muted/30">
-      <div className="max-w-7xl mx-auto px-6">
-        <div
-          className={`text-center mb-16 transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-balance mb-6">
-            {t("products.title")} <span className="text-primary">{t("products.subtitle")}</span>
-          </h2>
-          <p className="text-xl text-muted-foreground text-balance max-w-3xl mx-auto leading-relaxed">
-            {t("products.description")}
-          </p>
+    <section id="dich-vu" className="sec border-t border-line bg-paper-2">
+      <div className="wrap">
+        <SectionHead index="02" label={t("nav.services")} note={`${products.length} ${t("products.subtitle")}`} />
+        <div className="mt-12 grid gap-6 lg:grid-cols-12">
+          <Reveal className="lg:col-span-7">
+            <h2 className="title">
+              {t("products.title")} <span className="text-brand-deep">{t("products.subtitle")}</span>
+            </h2>
+          </Reveal>
+          <Reveal delay={80} className="lg:col-span-5 lg:pt-3">
+            <p className="text-lg leading-relaxed text-muted-foreground">{t("products.description")}</p>
+          </Reveal>
         </div>
 
-        {/* Featured Add-in Office Banner */}
-        <div className="mb-14 p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-blue-600/10 via-primary/10 to-indigo-600/10 border border-primary/20 backdrop-blur-sm relative overflow-hidden">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-6 relative z-10">
-            <div className="space-y-3 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-semibold">
-                <span>🔥 TIỆN ÍCH MỚI NHẤT</span>
-                <span>•</span>
-                <span>Luôn cập nhật bản mới nhất</span>
-              </div>
-              <h3 className="text-2xl sm:text-3xl font-bold text-foreground">
-                Bộ Add-in Chuẩn Hóa Thể Thức Văn Bản Word & Trang In Excel
-              </h3>
-              <p className="text-muted-foreground text-sm sm:text-base max-w-2xl leading-relaxed">
-                Tự động chuẩn hóa lề, font chữ, tiêu ngữ theo Nghị định 30/2020 & HD 05 VPTW (Khối Đảng, Chính quyền) và căn chỉnh trang in Excel A4 chỉ với 1 cú click. Tải miễn phí ngay!
-              </p>
-            </div>
-            <div className="flex flex-wrap items-center gap-3 shrink-0">
-              <Link href="/add-in-office">
-                <Button size="lg" className="gap-2 shadow-md">
-                  <Download className="w-4 h-4" />
-                  <span>Tải Add-in Ngay</span>
-                </Button>
-              </Link>
+        <div className="mt-14 grid gap-10 lg:grid-cols-12 lg:gap-12">
+          <ol className="border-t lg:col-span-6" style={{ borderTopColor: "var(--line-strong)" }}>
+            {products.map((p, i) => {
+              const on = i === active
+              return (
+                <li key={i} className="border-b border-line">
+                  <button
+                    type="button"
+                    onClick={() => setActive(i)}
+                    onMouseEnter={() => setActive(i)}
+                    aria-expanded={on}
+                    className={`group flex w-full items-center gap-5 px-1 py-5 text-left transition-colors sm:py-6 ${on ? "text-foreground" : "text-foreground/55 hover:text-foreground"}`}
+                  >
+                    <span className={`tag w-8 shrink-0 ${on ? "text-brand-deep" : ""}`}>{String(i + 1).padStart(2, "0")}</span>
+                    <span className="flex-1 text-[clamp(1.4rem,2.6vw,2.1rem)] font-bold leading-tight tracking-[-0.03em]">{p.title}</span>
+                    <p.icon className={`h-5 w-5 shrink-0 transition-colors ${on ? "text-brand-deep" : "opacity-40"}`} />
+                    <ArrowRight className={`h-5 w-5 shrink-0 transition-transform ${on ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0"}`} aria-hidden />
+                  </button>
+                  {on && (
+                    <div className="pb-8 lg:hidden">
+                      <Detail p={p} idx={i} />
+                    </div>
+                  )}
+                </li>
+              )
+            })}
+          </ol>
+
+          <div className="hidden lg:col-span-6 lg:block">
+            <div className="sticky top-24">
+              <Detail p={cur} idx={active} />
             </div>
           </div>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {products.map((product, index) => (
-            <Card
-              key={index}
-              className={`group overflow-hidden hover:shadow-xl transition-all duration-500 p-0 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-              }`}
-              style={{ transitionDelay: `${index * 150}ms` }}
-            >
-              <div className="relative overflow-hidden">
-                <img
-                  src={product.image || "/placeholder.svg"}
-                  alt={product.title}
-                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </div>
-              <div className="p-6">
-                <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mr-4">
-                    <product.icon className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-semibold">{product.title}</h3>
-                </div>
-                <p className="text-muted-foreground mb-4 leading-relaxed">{product.description}</p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {Array.isArray(product.features) ? (
-                    product.features.map((feature, featureIndex) => (
-                      <span key={featureIndex} className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">
-                        {feature}
-                      </span>
-                    ))
-                  ) : (
-                    <span className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">
-                      No features available
-                    </span>
-                  )}
-                </div>
-                <Button 
-                  variant="ghost" 
-                  className="relative overflow-hidden group p-0 transition-colors hover:bg-primary/10"
-                >
-                  <span>{t("products.learnMore")}</span>
-                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-
-                  {/* Hiệu ứng sáng chạy ngang */}
-                  <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent transform -skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 ease-out"></span>
-                </Button>
-
-              </div>
-            </Card>
-          ))}
-        </div>
-
-        <div className="text-center">
-          <Link href="/projects">
-            <Button size="lg" className="text-lg px-8 py-6">
-              {t("products.viewAll")}
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </Link>
         </div>
       </div>
     </section>

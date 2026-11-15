@@ -1,77 +1,49 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import { Card } from "@/components/ui/card"
-import { Target, Eye, Lightbulb } from "lucide-react"
 import { useLanguage } from "@/lib/i18n"
+import { Reveal } from "@/components/reveal"
+import { SectionHead } from "@/components/section-head"
 
 export function CompanyIntro() {
-  const [isVisible, setIsVisible] = useState(false)
-  const sectionRef = useRef<HTMLElement>(null)
   const { t } = useLanguage()
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.1 },
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
+  const items = [
+    { k: "M", title: t("company.mission.title"), text: t("company.mission.description") },
+    { k: "V", title: t("company.vision.title"), text: t("company.vision.description") },
+    { k: "C", title: t("company.coreValues.title"), text: t("company.coreValues.description") },
+  ]
 
   return (
-    <section ref={sectionRef} id="gioi-thieu" className="py-24 bg-muted/30">
-      <div className="px-2 max-w-7xl mx-auto md:px-6">
-        <div
-          className={`text-center mb-16 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-balance mb-6">
-            {t("company.intro.title")} <span className="text-primary">{t("company.intro.subtitle")}</span>
-          </h2>
-          <p className="text-xl text-muted-foreground text-balance max-w-4xl mx-auto leading-relaxed">
-            {t("company.intro.description")}
-          </p>
+    <section id="gioi-thieu" className="sec bg-paper">
+      <div className="wrap">
+        <SectionHead index="01" label={t("nav.about")} note="3DO.TECH / VN" />
+
+        <div className="mt-12 grid gap-10 lg:grid-cols-12 lg:gap-8">
+          <Reveal className="lg:col-span-5">
+            <h2 className="title whitespace-nowrap">
+              {t("company.intro.title")}
+              <br />
+              <span className="text-brand-deep">{t("company.intro.subtitle")}</span>
+            </h2>
+          </Reveal>
+          <Reveal delay={80} className="lg:col-span-7">
+            <p className="text-[clamp(1.35rem,2.5vw,2.1rem)] font-medium leading-[1.35] tracking-[-0.02em]">
+              {t("company.intro.description")}
+            </p>
+          </Reveal>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {[
-            {
-              icon: Target,
-              title: t("company.mission.title"),
-              description: t("company.mission.description"),
-              delay: "delay-200",
-            },
-            {
-              icon: Eye,
-              title: t("company.vision.title"),
-              description: t("company.vision.description"),
-              delay: "delay-400",
-            },
-            {
-              icon: Lightbulb,
-              title: t("company.coreValues.title"),
-              description: t("company.coreValues.description"),
-              delay: "delay-600",
-            },
-          ].map((item, index) => (
-            <Card
-              key={index}
-              className={`p-8 text-center hover:shadow-lg transition-all duration-500 ${isVisible ? `opacity-100 translate-y-0 ${item.delay}` : "opacity-0 translate-y-10"}`}
-            >
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <item.icon className="h-8 w-8 text-primary" />
+        <div className="mt-16 grid border-l border-t border-line md:grid-cols-3">
+          {items.map((it, i) => (
+            <Reveal key={it.k} delay={i * 90} className="group relative border-b border-r border-line bg-paper-3 p-7 sm:p-9">
+              <div className="flex items-start justify-between">
+                <span className="tag text-muted-foreground">0{i + 1}</span>
+                <span className="font-mono text-5xl font-semibold leading-none text-line transition-colors group-hover:text-brand" aria-hidden>
+                  {it.k}
+                </span>
               </div>
-              <h3 className="text-2xl font-semibold mb-4">{item.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{item.description}</p>
-            </Card>
+              <h3 className="mt-10 text-2xl font-bold tracking-tight">{it.title}</h3>
+              <p className="mt-3 leading-relaxed text-muted-foreground">{it.text}</p>
+            </Reveal>
           ))}
         </div>
       </div>

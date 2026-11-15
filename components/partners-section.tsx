@@ -1,103 +1,57 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import useEmblaCarousel from "embla-carousel-react"
-import AutoPlay from "embla-carousel-autoplay"
 import { useLanguage } from "@/lib/i18n"
+import { Reveal } from "@/components/reveal"
+import { SectionHead } from "@/components/section-head"
+
+const partners = [
+  { name: "Dotesco", logo: "/dotesco.png" },
+  { name: "FPT Telecom", logo: "/fpttelecom.png" },
+  { name: "HMS", logo: "/hms.png" },
+  { name: "3DO Court", logo: "/meta-logo-abstract.png" },
+  { name: "LAC.ID.VN", logo: "/lac.jpg" },
+  { name: "Letankim.ID.VN", logo: "/letankim.jpg" },
+]
 
 export function PartnersSection() {
-  const [isVisible, setIsVisible] = useState(false)
-  const sectionRef = useRef<HTMLElement>(null)
   const { t } = useLanguage()
 
-  const [emblaRef] = useEmblaCarousel(
-    {
-      loop: true,
-      align: "start",
-      slidesToScroll: 1,
-      containScroll: "trimSnaps",
-    },
-    [AutoPlay({ delay: 3000, stopOnInteraction: false })],
-  )
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.1 },
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
-
-  const partners = [
-    { name: "Dotesco", logo: "/dotesco.png" },
-    { name: "FPT Telecom", logo: "/fpttelecom.png" },
-    { name: "HMS", logo: "/hms.png" },
-    { name: "3DO Court", logo: "/meta-logo-abstract.png" },
-    { name: "LAC.ID.VN", logo: "/lac.jpg" },
-    { name: "Letankim.ID.VN", logo: "/letankim.jpg" },
-    { name: "Dotesco", logo: "/dotesco.png" },
-    { name: "FPT Telecom", logo: "/fpttelecom.png" },
-    { name: "HMS", logo: "/hms.png" },
-    { name: "3DO Court", logo: "/meta-logo-abstract.png" },
-    { name: "LAC.ID.VN", logo: "/lac.jpg" },
-    { name: "Letankim.ID.VN", logo: "/letankim.jpg" },
-  ]
-
   return (
-    <section ref={sectionRef} id="doi-tac" className="py-24 bg-background">
-      <div className="max-w-7xl mx-auto px-6">
-        <div
-          className={`text-center mb-16 transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-balance mb-6">
-            {t("partners.title")} <span className="text-primary">{t("partners.subtitle")}</span>
-          </h2>
-          <p className="text-xl text-muted-foreground text-balance max-w-3xl mx-auto leading-relaxed">
-            {t("partners.description")}
-          </p>
-        </div>
+    <section id="doi-tac" className="sec bg-paper">
+      <div className="wrap">
+        <SectionHead index="04" label={t("nav.products")} />
+        <div className="mt-12 grid gap-10 lg:grid-cols-12">
+          <Reveal className="lg:col-span-4">
+            <h2 className="title">
+              {t("partners.title")}
+              <span className="text-brand-deep">{t("partners.subtitle")}</span>
+            </h2>
+            <p className="mt-6 text-lg leading-relaxed text-muted-foreground">{t("partners.description")}</p>
+            <p className="mt-8 border-t border-line pt-5 text-muted-foreground">
+              {t("partners.additional")}
+              <strong className="font-mono text-foreground">{t("partners.additionalHighlight")}</strong>
+              {t("partners.additionalmore")}
+            </p>
+          </Reveal>
 
-        <div
-          className={`transition-all duration-1000 delay-300 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
-        >
-          <div className="embla overflow-hidden" ref={emblaRef}>
-            <div className="embla__container flex">
-              {partners.map((partner, index) => (
-                <div
-                  key={index}
-                  className="embla__slide flex-[0_0_auto] min-w-0 pl-4 md:pl-8"
-                  style={{ flex: "0 0 200px" }}
-                >
-                  <div className="flex items-center justify-center h-24 bg-card rounded-lg border hover:shadow-md transition-shadow duration-300 p-6">
-                    <img
-                      src={partner.logo || "/placeholder.svg"}
-                      alt={`${partner.name} logo`}
-                      className="max-h-12 max-w-full object-contain opacity-60 hover:opacity-100 transition-opacity duration-300 grayscale hover:grayscale-0"
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="text-center mt-12">
-          <p className="text-muted-foreground">
-            {t("partners.additional")} <span className="font-semibold text-primary">{t("partners.additionalHighlight")}</span>{t("partners.additionalmore")}
-          </p>
+          <ul className="grid grid-cols-2 border-l border-t border-line sm:grid-cols-3 lg:col-span-8">
+            {partners.map((p, i) => (
+              <Reveal
+                as="li"
+                key={p.name}
+                delay={i * 60}
+                className="group relative flex aspect-[4/3] flex-col items-center justify-center border-b border-r border-line bg-paper-3 p-6"
+              >
+                <img
+                  src={p.logo}
+                  alt={`Logo ${p.name}`}
+                  className="max-h-14 max-w-[70%] object-contain opacity-70 grayscale transition duration-300 group-hover:opacity-100 group-hover:grayscale-0"
+                />
+                <span className="tag absolute bottom-3 left-3 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100">{p.name}</span>
+                <span className="tag absolute right-3 top-3 text-muted-foreground/60">{String(i + 1).padStart(2, "0")}</span>
+              </Reveal>
+            ))}
+          </ul>
         </div>
       </div>
     </section>

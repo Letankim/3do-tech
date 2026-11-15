@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { Card } from "@/components/ui/card"
+import { Reveal } from "@/components/reveal"
 import { useLanguage } from "@/lib/i18n"
 
 interface CounterProps {
@@ -47,7 +47,7 @@ function Counter({ end, duration = 2000, suffix = "" }: CounterProps) {
   }, [end, duration, isVisible])
 
   return (
-    <span ref={counterRef} className="animate-count-up">
+    <span ref={counterRef} className="tabular-nums">
       {count}
       {suffix}
     </span>
@@ -55,83 +55,42 @@ function Counter({ end, duration = 2000, suffix = "" }: CounterProps) {
 }
 
 export function AchievementsSection() {
-  const [isVisible, setIsVisible] = useState(false)
-  const sectionRef = useRef<HTMLElement>(null)
   const { t } = useLanguage()
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.1 },
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
-
   const achievements = [
-    {
-      number: 2,
-      suffix: "+",
-      label: t("achievements.experience"),
-      description: t("achievements.experienceDescription"),
-    },
-    {
-      number: 20,
-      suffix: "+",
-      label: t("achievements.projects"),
-      description: t("achievements.projectsDescription"),
-    },
-    {
-      number: 5,
-      suffix: "+",
-      label: t("achievements.clients"),
-      description: t("achievements.clientsDescription"),
-    },
-    {
-      number: 30,
-      suffix: "+",
-      label: t("achievements.team"),
-      description: t("achievements.teamDescription"),
-    },
+    { number: 2, suffix: "+", label: t("achievements.experience"), description: t("achievements.experienceDescription") },
+    { number: 20, suffix: "+", label: t("achievements.projects"), description: t("achievements.projectsDescription") },
+    { number: 5, suffix: "+", label: t("achievements.clients"), description: t("achievements.clientsDescription") },
+    { number: 30, suffix: "+", label: t("achievements.team"), description: t("achievements.teamDescription") },
   ]
 
   return (
-    <section ref={sectionRef} className="py-24 bg-primary/5">
-      <div className="max-w-7xl mx-auto px-2 md:px-6">
-        <div
-          className={`text-center mb-16 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-balance mb-6">
-            {t("achievements.title")} <span className="text-primary">{t("achievements.subtitle")}</span>
-          </h2>
-          <p className="text-xl text-muted-foreground text-balance max-w-3xl mx-auto leading-relaxed">
-            {t("achievements.description")}
-          </p>
+    <section className="bg-ink text-ink-text" aria-label={`${t("achievements.title")}${t("achievements.subtitle")}`}>
+      <div className="wrap">
+        <div className="tag flex items-center gap-4 pb-4 text-ink-muted">
+          <span>
+            {t("achievements.title")}
+            {t("achievements.subtitle")}
+          </span>
+          <span className="h-px flex-1 bg-ink-line" aria-hidden />
         </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-8">
-          {achievements.map((achievement, index) => (
-            <Card
-              key={index}
-              className={`p-4 md:p-8 text-center hover:shadow-lg transition-all duration-500 ${isVisible ? `opacity-100 translate-y-0` : "opacity-0 translate-y-10"}`}
-              style={{ transitionDelay: `${index * 200}ms` }}
+      </div>
+      <div className="border-y border-ink-line">
+        <dl className="wrap grid grid-cols-2 lg:grid-cols-4">
+          {achievements.map((a, i) => (
+            <Reveal
+              key={i}
+              delay={i * 70}
+              className={`py-8 sm:py-10 ${i % 2 === 0 ? "pr-5" : "border-l border-ink-line pl-5"} ${i < 2 ? "border-b border-ink-line lg:border-b-0" : ""} lg:px-8 lg:first:pl-0 ${i > 0 ? "lg:border-l lg:border-ink-line" : ""}`}
             >
-              <div className="text-4xl md:text-5xl font-bold text-primary mb-2">
-                <Counter end={achievement.number} suffix={achievement.suffix} />
-              </div>
-              <h3 className="text-lg font-semibold mb-2">{achievement.label}</h3>
-              <p className="text-sm text-muted-foreground">{achievement.description}</p>
-            </Card>
+              <dd className="text-[clamp(3rem,6vw,5rem)] font-extrabold leading-none tracking-[-0.05em]">
+                <Counter end={a.number} suffix={a.suffix} />
+              </dd>
+              <dt className="mt-4 font-semibold">{a.label}</dt>
+              <p className="tag mt-1.5 text-ink-muted">{a.description}</p>
+            </Reveal>
           ))}
-        </div>
+        </dl>
       </div>
     </section>
   )

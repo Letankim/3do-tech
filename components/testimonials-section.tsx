@@ -1,11 +1,10 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { Card } from "@/components/ui/card"
+import { Reveal } from "@/components/reveal"
+import { SectionHead } from "@/components/section-head"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import useEmblaCarousel from "embla-carousel-react"
-import AutoPlay from "embla-carousel-autoplay"
-import { Star, Quote, StarHalf } from "lucide-react"
+import { Star, StarHalf, ArrowLeft, ArrowRight } from "lucide-react"
 import { useLanguage } from "@/lib/i18n"
 
 interface Testimonial {
@@ -26,13 +25,13 @@ function RatingStars({ rating }: { rating: number | string }) {
   return (
     <div className="flex items-center">
       {[...Array(fullStars)].map((_, i) => (
-        <Star key={`full-${i}`} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+        <Star key={`full-${i}`} className="h-4 w-4 fill-brand text-brand" />
       ))}
       {hasHalf && (
-        <StarHalf key="half" className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+        <StarHalf key="half" className="h-4 w-4 fill-brand text-brand" />
       )}
       {[...Array(emptyStars)].map((_, i) => (
-        <Star key={`empty-${i}`} className="h-5 w-5 text-gray-300" />
+        <Star key={`empty-${i}`} className="h-4 w-4 text-line" />
       ))}
     </div>
   )
@@ -45,14 +44,14 @@ export function TestimonialsSection() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]); 
   const [averageRating, setAverageRating] = useState(0);
 
-  const [emblaRef] = useEmblaCarousel(
-    {
-      loop: true,
-      align: "start",
-      slidesToScroll: 1,
-    },
-    [AutoPlay({ delay: 5000, stopOnInteraction: false })],
-  )
+  const [cur, setCur] = useState(0)
+  const [paused, setPaused] = useState(false)
+
+  useEffect(() => {
+    if (paused || testimonials.length < 2) return
+    const id = setInterval(() => setCur((c) => (c + 1) % testimonials.length), 7000)
+    return () => clearInterval(id)
+  }, [paused, testimonials.length])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -60,11 +59,6 @@ export function TestimonialsSection() {
         if (entry.isIntersecting) {
           setIsVisible(true);
           try {
-            const response = await fetch("/api/feedback");
-            if(!response.ok) {
-              throw new Error("Fail to get feedback");
-            }
-
             const data  = [
   {
     name: "Nguyễn Văn Hùng",
@@ -143,110 +137,91 @@ export function TestimonialsSection() {
     return () => observer.disconnect()
   }, [])
 
+  const x = testimonials[cur]
+  const go = (d: number) => setCur((c) => (c + d + testimonials.length) % testimonials.length)
+  const stats = [
+    { v: t("testimonials.trustIndicators.values.customerSatisfaction"), l: t("testimonials.trustIndicators.customerSatisfaction") },
+    { v: t("testimonials.trustIndicators.values.support"), l: t("testimonials.trustIndicators.support") },
+    { v: t("testimonials.trustIndicators.values.onTimeDelivery"), l: t("testimonials.trustIndicators.onTimeDelivery") },
+    { v: `${averageRating}★`, l: t("testimonials.trustIndicators.averageRating") },
+  ]
+
   return (
-    <section ref={sectionRef} className="py-24 bg-background">
-      <div className="px-2 max-w-7xl mx-auto md:px-6">
-        <div
-          className={`text-center mb-16 transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-balance mb-6">
-            {t("testimonials.title")} <span className="text-primary">{t("testimonials.titleHighlight")}</span>
+    <section ref={sectionRef} className="sec border-t border-line bg-paper-2">
+      <div className="wrap">
+        <SectionHead index="05" label={t("testimonials.subtitle")} note={testimonials.length ? `${String(cur + 1).padStart(2, "0")} / ${String(testimonials.length).padStart(2, "0")}` : undefined} />
+
+        <Reveal className="mt-12 max-w-3xl">
+          <h2 className="title">
+            {t("testimonials.title")} <span className="text-brand-deep">{t("testimonials.titleHighlight")}</span>
           </h2>
-          <p className="text-xl text-muted-foreground text-balance max-w-3xl mx-auto leading-relaxed">
-            {t("testimonials.description")}
-          </p>
-        </div>
+          <p className="mt-6 text-lg leading-relaxed text-muted-foreground">{t("testimonials.description")}</p>
+        </Reveal>
 
-        <div
-          className={`transition-all duration-1000 delay-300 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
-        >
-          <div className="embla overflow-hidden" ref={emblaRef}>
-            <div className="embla__container flex">
-              {testimonials.map((testimonial, index) => (
-                <div
-                  key={index}
-                  className="embla__slide flex-[0_0_auto] min-w-0 pl-4 md:pl-6"
-                  style={{ flex: "0 0 90%" }}
-                >
-                  <Card className="p-4 md:p-6 h-full bg-card/50 backdrop-blur-sm border-primary/10 hover:shadow-lg transition-all duration-300">
-                    <div className="flex items-start justify-between mb-6">
-                      <Quote className="h-8 w-8 text-primary/30" />
-                      <div className="flex items-center space-x-1">
-                        <RatingStars rating={testimonial.rating} />
-                      </div>
+        {x && (
+          <div className="mt-14 grid gap-10 lg:grid-cols-12" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+            <figure className="lg:col-span-8" aria-live="polite">
+              <span className="block font-mono text-7xl leading-none text-brand" aria-hidden>“</span>
+              <blockquote key={cur} className="fade mt-2 text-[clamp(1.4rem,2.6vw,2.2rem)] font-medium leading-[1.35] tracking-[-0.02em]">
+                {x.content}
+              </blockquote>
+              <figcaption className="mt-8 flex flex-wrap items-center justify-between gap-6 border-t border-line pt-6">
+                <div className="flex items-center gap-4">
+                  <Avatar className="h-12 w-12 rounded-none">
+                    <AvatarImage src={x.avatar || "/placeholder.svg"} alt="" className="object-cover" />
+                    <AvatarFallback className="rounded-none bg-ink font-semibold text-ink-text">
+                      {x.name.split(" ").map((n) => n[0]).join("").slice(-2)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <div className="font-bold">{x.name}</div>
+                    <div className="tag mt-0.5 text-muted-foreground">
+                      {x.position} · {x.company}
                     </div>
-
-                    <blockquote className="text-lg leading-relaxed mb-8 text-foreground/90">
-                      "{testimonial.content}"
-                    </blockquote>
-
-                    <div className="flex items-center space-x-4">
-                      <Avatar className="h-12 w-12">
-                        <AvatarImage src={testimonial.avatar || "/placeholder.svg"} alt={testimonial.name} />
-                        <AvatarFallback className="bg-primary/10 text-primary font-semibold">
-                          {testimonial.name
-                            .split(" ")
-                            .map((n) => n[0])
-                            .join("")}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <div className="font-semibold text-foreground">{testimonial.name}</div>
-                        <div className="text-sm text-muted-foreground">
-                          {testimonial.position} tại {testimonial.company}
-                        </div>
-                      </div>
-                    </div>
-                  </Card>
+                  </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
+                <div className="flex items-center gap-4">
+                  <RatingStars rating={x.rating} />
+                  <div className="flex">
+                    <button type="button" onClick={() => go(-1)} aria-label="Đánh giá trước" className="grid h-11 w-11 place-items-center border border-line transition-colors hover:bg-ink hover:text-ink-text">
+                      <ArrowLeft className="h-4 w-4" />
+                    </button>
+                    <button type="button" onClick={() => go(1)} aria-label="Đánh giá tiếp theo" className="-ml-px grid h-11 w-11 place-items-center border border-line transition-colors hover:bg-ink hover:text-ink-text">
+                      <ArrowRight className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+              </figcaption>
+            </figure>
 
-        <div className="mt-16 text-center">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-primary mb-2">
-                {t("testimonials.trustIndicators.values.customerSatisfaction")}
-              </div>
-              <div className="text-sm text-muted-foreground">
-                {t("testimonials.trustIndicators.customerSatisfaction")}
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-primary mb-2">
-                {t("testimonials.trustIndicators.values.support")}
-              </div>
-              <div className="text-sm text-muted-foreground">
-                {t("testimonials.trustIndicators.support")}
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-primary mb-2">
-                {t("testimonials.trustIndicators.values.onTimeDelivery")}
-              </div>
-              <div className="text-sm text-muted-foreground">
-                {t("testimonials.trustIndicators.onTimeDelivery")}
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="flex justify-center items-center gap-1 text-3xl font-bold text-primary mb-2">
-                 <span>{averageRating}</span>
-                 <Star className="w-6 h-6"/>
-              </div>
-              <div className="text-sm text-muted-foreground">
-                {t("testimonials.trustIndicators.averageRating")}
-              </div>
-            </div>
+            <ul className="border-t border-line lg:col-span-4" aria-label="Danh sách khách hàng">
+              {testimonials.map((p, i) => (
+                <li key={i}>
+                  <button
+                    type="button"
+                    onClick={() => setCur(i)}
+                    aria-current={i === cur ? "true" : undefined}
+                    className={`flex w-full items-center gap-3 border-b border-line px-1 py-3.5 text-left transition-colors ${i === cur ? "text-foreground" : "text-foreground/50 hover:text-foreground"}`}
+                  >
+                    <span className={`h-1.5 w-1.5 shrink-0 ${i === cur ? "bg-brand" : "bg-line"}`} aria-hidden />
+                    <span className="flex-1 truncate font-semibold">{p.name}</span>
+                    <span className="tag truncate">{p.company}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
+        )}
+
+        <dl className="mt-16 grid grid-cols-2 border-l border-t border-line md:grid-cols-4">
+          {stats.map((st, i) => (
+            <div key={i} className="border-b border-r border-line bg-paper-3 p-6">
+              <dd className="text-4xl font-extrabold tracking-[-0.04em]">{st.v}</dd>
+              <dt className="tag mt-2 text-muted-foreground">{st.l}</dt>
+            </div>
+          ))}
+        </dl>
       </div>
     </section>
   )
 }
-

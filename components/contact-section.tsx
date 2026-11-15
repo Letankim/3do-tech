@@ -1,16 +1,12 @@
 "use client"
 
 import type React from "react"
-import { useEffect, useRef, useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
+import { useState } from "react"
+import { Reveal } from "@/components/reveal"
+import { SectionHead } from "@/components/section-head"
 import { useToast } from "@/hooks/use-toast"
-import { Phone, Mail, MapPin, Github, Facebook, Send, CheckCircle, Clock, Youtube } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import { useLanguage } from "@/lib/i18n"
-import { useRouter } from "next/navigation"
 
 interface ContactFormData {
   name: string
@@ -20,7 +16,6 @@ interface ContactFormData {
 }
 
 export function ContactSection({ lang = "vi" }: { lang?: string }) {
-  const [isVisible, setIsVisible] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState<ContactFormData>({
     name: "",
@@ -28,28 +23,8 @@ export function ContactSection({ lang = "vi" }: { lang?: string }) {
     subject: "",
     message: "",
   })
-  const sectionRef = useRef<HTMLElement>(null)
   const { toast } = useToast()
   const { t } = useLanguage()
-  const router = useRouter();
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-          observer.disconnect() 
-        }
-      },
-      { threshold: 0.1 },
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -93,207 +68,93 @@ export function ContactSection({ lang = "vi" }: { lang?: string }) {
 }
 
 
+  const field =
+    "peer w-full border-0 border-b border-[color:var(--input)] bg-transparent px-0 pb-3 pt-7 text-lg outline-none transition-colors placeholder:text-transparent focus:border-ink focus:ring-0"
+  const label =
+    "tag pointer-events-none absolute left-0 top-1 text-muted-foreground transition-colors peer-focus:text-brand-deep"
+
   return (
-    <section
-      id="lien-he"
-      ref={sectionRef}
-      className={`py-10 bg-gradient-to-br from-primary/5 to-accent/5 overflow-x-hidden transition-all duration-700 ease-in-out ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 sm:translate-y-0"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-0 sm:px-6">
-        <div
-          className={`transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
-        >
-          {/* Header */}
-          <div className="text-center mb-16 px-4 sm:px-0">
-            <h2 className="text-4xl md:text-5xl font-bold text-balance mb-6">
-              {t("contact.header.title")} <span className="text-primary">{t("contact.header.titleHighlight")}</span>
-            </h2>
-            <p className="text-xl text-muted-foreground text-balance max-w-3xl mx-auto leading-relaxed">
-              {t("contact.header.description")}
-            </p>
-          </div>
+    <section id="lien-he" className="sec bg-paper">
+      <div className="wrap">
+        <SectionHead index="06" label={t("nav.contact")} note="24H" />
 
-          <div className="grid lg:grid-cols-2 gap-6 sm:gap-12">
-            {/* Contact Info */}
-            <div
-              className={`transition-all duration-1000 delay-200 ${
-                isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10 sm:-translate-x-0"
-              }`}
-            >
-              <Card className="p-6 sm:p-8 h-full bg-gradient-to-br from-primary to-primary/80 text-white relative overflow-hidden mx-4 sm:mx-0">
-                <div className="absolute inset-0 opacity-10">
-                  <div className="absolute inset-0 bg-[url('/tech-circuit-pattern.jpg')] bg-repeat opacity-20"></div>
+        <Reveal className="mt-12 max-w-4xl">
+          <h2 className="title">
+            {t("contact.header.title")} <span className="text-brand-deep">{t("contact.header.titleHighlight")}</span>
+          </h2>
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">{t("contact.header.description")}</p>
+        </Reveal>
+
+        <div className="mt-14 grid gap-12 lg:grid-cols-12">
+          <Reveal className="lg:col-span-5">
+            <h3 className="tag text-muted-foreground">{t("contact.info.title")}</h3>
+            <dl className="mt-5 border-t border-line">
+              <div className="border-b border-line py-5">
+                <dt className="tag text-muted-foreground">{t("contact.info.email")}</dt>
+                <dd className="mt-1.5">
+                  <a href={`mailto:${t("contact.info.emailValue")}`} className="link-u text-xl font-semibold">{t("contact.info.emailValue")}</a>
+                </dd>
+              </div>
+              <div className="border-b border-line py-5">
+                <dt className="tag text-muted-foreground">{t("contact.info.phone")}</dt>
+                <dd className="mt-1.5 space-y-2">
+                  <a href="tel:0774889191" className="flex flex-wrap items-baseline justify-between gap-x-4">
+                    <span className="link-u font-mono text-xl font-semibold">0774.88.9191</span>
+                    <span className="text-sm text-muted-foreground">Mr. Cường · Kỹ thuật Add-in</span>
+                  </a>
+                  <a href="tel:0865341745" className="flex flex-wrap items-baseline justify-between gap-x-4">
+                    <span className="link-u font-mono text-xl font-semibold">0865.341.745</span>
+                    <span className="text-sm text-muted-foreground">Mr. Kim · Tư vấn giải pháp</span>
+                  </a>
+                </dd>
+              </div>
+              <div className="border-b border-line py-5">
+                <dt className="tag text-muted-foreground">{t("contact.info.address")}</dt>
+                <dd className="mt-1.5 text-xl font-semibold">{t("contact.info.addressValue")}</dd>
+              </div>
+              <div className="py-5">
+                <dt className="tag text-muted-foreground">{t("contact.info.followMe")}</dt>
+                <dd className="mt-2 flex gap-6 font-semibold">
+                  <a href="https://www.youtube.com/@3DO-Corp" target="_blank" rel="noopener noreferrer" className="link-u">YouTube ↗</a>
+                  <a href="https://www.facebook.com/profile.php?id=61581499790956" target="_blank" rel="noopener noreferrer" className="link-u">Facebook ↗</a>
+                </dd>
+              </div>
+            </dl>
+          </Reveal>
+
+          <Reveal delay={90} className="lg:col-span-7">
+            <form onSubmit={handleSubmit} className="marks bg-paper-3 p-6 text-foreground/40 sm:p-10">
+              <div className="flex items-center justify-between text-foreground">
+                <h3 className="text-2xl font-bold tracking-tight">{t("contact.form.title")}</h3>
+                <span className="tag text-muted-foreground">FORM / 01</span>
+              </div>
+              <div className="mt-6 grid gap-x-8 text-foreground md:grid-cols-2">
+                <div className="relative mt-4">
+                  <input id="name" name="name" type="text" placeholder={t("contact.form.namePlaceholder")} value={formData.name} onChange={handleInputChange} required className={field} />
+                  <label htmlFor="name" className={label}>{t("contact.form.nameLabel")}</label>
                 </div>
-
-                <div className="relative z-10">
-                  <h3 className="text-2xl font-bold mb-4">{t("contact.info.title")}</h3>
-
-                  <div className="space-y-6 mb-8">
-                    <div className="flex items-center space-x-4">
-                      <div className="bg-white/20 p-3 rounded-lg">
-                        <Mail className="h-6 w-6" />
-                      </div>
-                      <div>
-                        <p className="font-semibold">{t("contact.info.email")}</p>
-                        <p className="text-white/90">{t("contact.info.emailValue")}</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-start space-x-4">
-                      <div className="bg-white/20 p-3 rounded-lg mt-0.5">
-                        <Phone className="h-6 w-6" />
-                      </div>
-                      <div className="space-y-1">
-                        <p className="font-semibold">{t("contact.info.phone")}</p>
-                        <div>
-                          <a href="tel:0774889191" className="text-white hover:underline font-bold text-base block">
-                            0774.88.9191 <span className="font-normal text-xs text-white/80">(Mr. Cường - Kỹ thuật Add-in)</span>
-                          </a>
-                        </div>
-                        <div>
-                          <a href="tel:0865341745" className="text-white hover:underline font-bold text-base block">
-                            0865.341.745 <span className="font-normal text-xs text-white/80">(Mr. Kim - Tư vấn Giải pháp)</span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center space-x-4">
-                      <div className="bg-white/20 p-3 rounded-lg">
-                        <MapPin className="h-6 w-6" />
-                      </div>
-                      <div>
-                        <p className="font-semibold">{t("contact.info.address")}</p>
-                        <p className="text-white/90">{t("contact.info.addressValue")}</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mb-8">
-                    <h4 className="text-lg font-semibold mb-4">{t("contact.info.followMe")}</h4>
-                    <div className="flex space-x-4">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="border-white/30 text-white hover:bg-white/10 bg-transparent"
-                         onClick={() => router.push("https://www.youtube.com/@3DO-Corp")}
-                      >
-                        <Youtube className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="border-white/30 text-white hover:bg-white/10 bg-transparent"
-                        onClick={() => router.push("https://www.facebook.com/profile.php?id=61581499790956")}
-                      >
-                        <Facebook className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
+                <div className="relative mt-4">
+                  <input id="email" name="email" type="email" placeholder={t("contact.form.emailPlaceholder")} value={formData.email} onChange={handleInputChange} required className={field} />
+                  <label htmlFor="email" className={label}>{t("contact.form.emailLabel")}</label>
                 </div>
-              </Card>
-            </div>
-
-            {/* Contact Form */}
-            <div
-              className={`transition-all duration-1000 delay-400 ${
-                isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10 sm:translate-x-0"
-              }`}
-            >
-              <Card className="p-6 sm:p-8 h-full mx-4 sm:mx-0">
-                <h3 className="text-2xl font-bold mb-4">{t("contact.form.title")}</h3>
-
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="name">{t("contact.form.nameLabel")}</Label>
-                      <Input
-                        id="name"
-                        name="name"
-                        type="text"
-                        placeholder={t("contact.form.namePlaceholder")}
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        required
-                        className="bg-background"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="email">{t("contact.form.emailLabel")}</Label>
-                      <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        placeholder={t("contact.form.emailPlaceholder")}
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required
-                        className="bg-background"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="subject">{t("contact.form.subjectLabel")}</Label>
-                    <Input
-                      id="subject"
-                      name="subject"
-                      type="text"
-                      placeholder={t("contact.form.subjectPlaceholder")}
-                      value={formData.subject}
-                      onChange={handleInputChange}
-                      required
-                      className="bg-background"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="message">{t("contact.form.messageLabel")}</Label>
-                    <Textarea
-                      id="message"
-                      name="message"
-                      placeholder={t("contact.form.messagePlaceholder")}
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      required
-                      rows={6}
-                      className="bg-background resize-none"
-                    />
-                  </div>
-
-                 <Button
-  type="submit"
-  size="lg"
-  disabled={isSubmitting}
-  className="w-full bg-primary hover:bg-primary/90 text-white font-semibold relative overflow-hidden group"
->
-  {isSubmitting ? (
-    <>
-      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-      {t("contact.form.submitting")}
-    </>
-  ) : (
-    <>
-      <Send className="mr-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-      {t("contact.form.submitButton")}
-    </>
-  )}
-
-  <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-500 ease-out"></span>
-</Button>
-
-
-                  <p className="text-sm text-muted-foreground text-center">
-                    {t("contact.form.consent")}
-                  </p>
-                </form>
-              </Card>
-            </div>
-          </div>
+              </div>
+              <div className="relative mt-4 text-foreground">
+                <input id="subject" name="subject" type="text" placeholder={t("contact.form.subjectPlaceholder")} value={formData.subject} onChange={handleInputChange} required className={field} />
+                <label htmlFor="subject" className={label}>{t("contact.form.subjectLabel")}</label>
+              </div>
+              <div className="relative mt-4 text-foreground">
+                <textarea id="message" name="message" rows={4} placeholder={t("contact.form.messagePlaceholder")} value={formData.message} onChange={handleInputChange} required className={`${field} resize-none`} />
+                <label htmlFor="message" className={label}>{t("contact.form.messageLabel")}</label>
+              </div>
+              <div className="mt-10 flex flex-col gap-5 text-foreground sm:flex-row sm:items-center sm:justify-between">
+                <p className="max-w-xs text-xs leading-relaxed text-muted-foreground">{t("contact.form.consent")}</p>
+                <button type="submit" disabled={isSubmitting} className="btn btn-ink disabled:opacity-60">
+                  {isSubmitting ? t("contact.form.submitting") : t("contact.form.submitButton")}
+                  <ArrowRight className="h-4 w-4" aria-hidden />
+                </button>
+              </div>
+            </form>
+          </Reveal>
         </div>
       </div>
     </section>

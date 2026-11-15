@@ -1,89 +1,80 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap");
 
 @custom-variant dark (&:is(.dark *));
 
+/* =====================================================================
+   3DO TECH — "Ban ve ky thuat"
+   Muc den + giay nga + cam tin hieu. Chu Be Vietnam Pro, nhan JetBrains Mono.
+   ===================================================================== */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.6 0.15 250);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.95 0.02 250);
-  --secondary-foreground: oklch(0.145 0 0);
-  /* Updated muted to very light blue-gray */
-  --muted: oklch(0.97 0.01 250);
-  --muted-foreground: oklch(0.556 0 0);
-  /* Added green accent color for success/action buttons */
-  --accent: oklch(0.65 0.15 145);
-  --accent-foreground: oklch(1 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.6 0.15 250);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.6 0.15 250);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.96 0 0);
-  --sidebar-accent-foreground: oklch(0.145 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.6 0.15 250);
-}
+  --paper: #f2f0eb;
+  --paper-2: #e9e6df;
+  --paper-3: #fbfaf7;
+  --ink: #0d0f12;
+  --ink-2: #15181d;
+  --ink-3: #1d2128;
+  --ink-text: #f2f0eb;
+  --ink-muted: #9aa0a8;
+  --ink-line: rgb(255 255 255 / 0.12);
+  --line: rgb(13 15 18 / 0.14);
+  --line-strong: rgb(13 15 18 / 0.9);
+  --brand: #ff5a1f;
+  --brand-deep: #c2410c;
+  --ok: #1f9d55;
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  /* Updated dark mode primary to lighter blue */
-  --primary: oklch(0.7 0.15 250);
-  --primary-foreground: oklch(0.145 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  /* Updated dark mode accent to green */
-  --accent: oklch(0.7 0.15 145);
-  --accent-foreground: oklch(0.145 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.439 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.7 0.15 250);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
+  /* Ten bien cua shadcn/ui (components/ui dung cac bien nay) */
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper-3);
+  --card-foreground: var(--ink);
+  --popover: var(--paper-3);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: var(--paper-2);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper-2);
+  --muted-foreground: #5b6068;
+  --accent: var(--paper-2);
+  --accent-foreground: var(--ink);
+  --destructive: #d92d20;
+  --destructive-foreground: #ffffff;
+  --border: var(--line);
+  --input: rgb(13 15 18 / 0.22);
+  --ring: var(--brand);
+  --radius: 0.125rem;
+  --chart-1: var(--brand);
+  --chart-2: var(--ink);
+  --chart-3: #5b6068;
+  --chart-4: #c2410c;
+  --chart-5: #9aa0a8;
+  --sidebar: var(--paper);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--ink);
+  --sidebar-primary-foreground: var(--paper);
+  --sidebar-accent: var(--paper-2);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--line);
+  --sidebar-ring: var(--brand);
 }
 
 @theme inline {
-  /* Updated font to Be Vietnam Pro */
-  --font-sans: "Be Vietnam Pro", sans-serif;
-  --font-mono: "Roboto Mono", monospace;
+  --font-sans: var(--font-be-vietnam), "Be Vietnam Pro", system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), "JetBrains Mono", ui-monospace, monospace;
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-paper-3: var(--paper-3);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-ink-text: var(--ink-text);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-line: var(--ink-line);
+  --color-line: var(--line);
+  --color-brand: var(--brand);
+  --color-brand-deep: var(--brand-deep);
+  --color-ok: var(--ok);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -108,10 +99,10 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-sm: 1px;
+  --radius-md: 2px;
+  --radius-lg: 3px;
+  --radius-xl: 4px;
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -123,77 +114,118 @@
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-
+  * { @apply border-border outline-ring/50; }
+  html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
   body {
     @apply bg-background text-foreground font-sans;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
+  h1, h2, h3 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+  ::selection { background: var(--brand); color: var(--ink); }
+  :focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 }
 
-/* Added custom animations for scroll effects */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
+@layer components {
+  .wrap { width: 100%; max-width: 80rem; margin-inline: auto; padding-inline: 1.25rem; }
+  @media (min-width: 640px) { .wrap { padding-inline: 2rem; } }
+  @media (min-width: 1280px) { .wrap { padding-inline: 2.5rem; } }
+
+  .sec { padding-block: clamp(4.5rem, 9vw, 8rem); }
+
+  /* Nhan mono: [01] GIOI THIEU */
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+  .mega { font-weight: 800; letter-spacing: -0.045em; line-height: 0.98; }
+  .title { font-weight: 700; letter-spacing: -0.035em; line-height: 1.02; font-size: clamp(2.25rem, 5vw, 4.25rem); }
 
-@keyframes countUp {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
-}
-
-.animate-count-up {
-  animation: countUp 0.8s ease-out forwards;
-}
-
-/* Added floating contact widget styles */
-.floating-contact {
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0px);
+  /* Dau goc kieu ban ve o 4 goc khung */
+  .marks { position: relative; }
+  .marks::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    pointer-events: none;
+    --c: currentColor;
+    --s: 10px;
+    background:
+      linear-gradient(var(--c), var(--c)) top left / var(--s) 1px,
+      linear-gradient(var(--c), var(--c)) top left / 1px var(--s),
+      linear-gradient(var(--c), var(--c)) top right / var(--s) 1px,
+      linear-gradient(var(--c), var(--c)) top right / 1px var(--s),
+      linear-gradient(var(--c), var(--c)) bottom left / var(--s) 1px,
+      linear-gradient(var(--c), var(--c)) bottom left / 1px var(--s),
+      linear-gradient(var(--c), var(--c)) bottom right / var(--s) 1px,
+      linear-gradient(var(--c), var(--c)) bottom right / 1px var(--s);
+    background-repeat: no-repeat;
   }
 
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.contact-tooltip {
-  animation: slideIn 0.3s ease-out;
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(10px);
+  /* Thuoc do: vach nho moi 8px, vach lon moi 80px */
+  .ruler {
+    height: 14px;
+    background-image:
+      repeating-linear-gradient(to right, currentColor 0 1px, transparent 1px 80px),
+      repeating-linear-gradient(to right, currentColor 0 1px, transparent 1px 8px);
+    background-size: 100% 14px, 100% 6px;
+    background-repeat: no-repeat;
+    background-position: left bottom, left bottom;
+    opacity: 0.35;
   }
 
-  to {
-    opacity: 1;
-    transform: translateX(0);
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
+    height: 3.25rem; padding-inline: 1.5rem;
+    font-weight: 600; font-size: 0.95rem;
+    border-radius: 2px;
+    transition: background-color .18s, color .18s, border-color .18s, transform .18s;
+    white-space: nowrap;
   }
+  .btn:active { transform: translateY(1px); }
+  .btn-brand { background: var(--brand); color: var(--ink); }
+  .btn-brand:hover { background: #ff7440; }
+  .btn-ink { background: var(--ink); color: var(--paper); }
+  .btn-ink:hover { background: var(--ink-3); }
+  .btn-ghost-dark { border: 1px solid var(--ink-line); color: var(--ink-text); }
+  .btn-ghost-dark:hover { border-color: var(--ink-text); }
+  .btn-ghost { border: 1px solid var(--line-strong); color: var(--ink); }
+  .btn-ghost:hover { background: var(--ink); color: var(--paper); }
+
+  .link-u { background: linear-gradient(currentColor, currentColor) left bottom / 0 1px no-repeat; transition: background-size .25s; }
+  .link-u:hover { background-size: 100% 1px; }
 }
+
+/* Hieu ung hien dan: chi an khi co JS (html.js), khong JS van doc duoc day du */
+.js .reveal { opacity: 0; transform: translateY(18px); }
+.reveal { transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0ms); }
+.js .reveal.in { opacity: 1; transform: none; }
+
+/* Bang chu chay */
+@keyframes marquee { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+.marquee-track { animation: marquee 38s linear infinite; }
+
+/* Ve net trang A4 o hero trang add-in */
+@keyframes draw { to { stroke-dashoffset: 0 } }
+@keyframes fadein { from { opacity: 0 } to { opacity: 1 } }
+.draw { stroke-dasharray: 1500; stroke-dashoffset: 1500; animation: draw 1.6s cubic-bezier(.6,.1,.2,1) forwards; animation-delay: var(--d, 0ms); }
+.fade { opacity: 0; animation: fadein .6s ease forwards; animation-delay: var(--d, 0ms); }
+
+@keyframes blink { 50% { opacity: .25 } }
+.blink { animation: blink 1.6s steps(2) infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js .reveal { opacity: 1; transform: none; }
+  .marquee-track, .blink { animation: none; }
+  .draw { animation: none; stroke-dashoffset: 0; }
+  .fade { animation: none; opacity: 1; }
+}
+
+/* Lop cu con dung o widget lien he */
+.contact-tooltip { animation: fadein .25s ease-out; }

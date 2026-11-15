@@ -1,9 +1,8 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { ArrowRight } from "lucide-react"
-import { useEffect, useState } from "react"
+import { ArrowUpRight } from "lucide-react"
+import { Reveal } from "@/components/reveal"
+import { SectionHead } from "@/components/section-head"
 import Link from "next/link"
 import { useLanguage } from "@/lib/i18n"
 
@@ -65,103 +64,61 @@ const products = [
 ];
 
 
+// Bo cuc 12 cot: hang 1 rong-hep, hang 2 hep-rong, hang 3 chia doi
+const SPANS = ["lg:col-span-7", "lg:col-span-5", "lg:col-span-5", "lg:col-span-7", "lg:col-span-6", "lg:col-span-6"]
+
 export function RealProjectsSection() {
-  const [isVisible, setIsVisible] = useState(false)
   const { t } = useLanguage()
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => entry.isIntersecting && setIsVisible(true),
-      { threshold: 0.1 },
-    )
-
-    const section = document.getElementById("san-pham-thuc-te")
-    if (section) observer.observe(section)
-
-    return () => observer.disconnect()
-  }, [])
-
   return (
-    <section id="san-pham-thuc-te" className="py-16 sm:py-20 lg:py-16 bg-muted/30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Tiêu đề */}
-        <div
-          className={`text-center mb-12 sm:mb-16 transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
-        >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-balance mb-4 sm:mb-6">
-            {t("realProjects.title")} <span className="text-primary">{t("realProjects.titleHighlight")}</span>
-          </h2>
-          <p className="text-lg sm:text-xl text-muted-foreground text-balance max-w-3xl mx-auto leading-relaxed">
-            {t("realProjects.description")}
-          </p>
-        </div>
+    <section id="san-pham-thuc-te" className="sec bg-ink text-ink-text">
+      <div className="wrap">
+        <SectionHead dark index="03" label={t("nav.projects")} note={`${products.length} / ${t("realProjects.subtitle")}`} />
 
-        {/* Grid sản phẩm/dự án */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-12">
-          {products.map((product, index) => (
-            <div
-              key={product.id}
-              className={`group bg-background rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-              }`}
-              style={{ transitionDelay: `${index * 100}ms` }}
-            >
-              <div className="relative overflow-hidden">
-                <img
-                  src={product.image || "/placeholder.svg"}
-                  alt={t(product.titleKey)}
-                  className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute top-4 left-4">
-                  <Badge variant="secondary" className="bg-background/90 text-foreground">
-                    {product.category}
-                  </Badge>
-                </div>
-                <div className="absolute top-4 right-4">
-                  <Badge
-                    variant={t(product.status) === "Hoàn thành" ? "default" : "outline"}
-                    className={t(product.status) === "Hoàn thành" ? "bg-green-500 text-white" : "bg-yellow-500 text-white"}
-                  >
-                    {t(product.status)}
-                  </Badge>
-                </div>
-              </div>
-
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-3 text-balance group-hover:text-primary transition-colors">
-                  {t(product.titleKey)}
-                </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed mb-4 line-clamp-3">
-                  {t(product.descriptionKey)}
-                </p>
-
-                {/* Features */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {product.features.map((feature) => (
-                    <Badge key={feature} variant="outline" className="text-xs">
-                      {feature}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Nút xem tất cả */}
-        <div className="text-center">
-          <Link href="/projects">
-            <Button
-              size="lg"
-              variant="outline"
-              className="text-base px-8 py-6 bg-primary text-white hover:bg-white hover:text-primary hover:border-primary transition-colors"
-            >
+        <div className="mt-12 flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
+          <Reveal>
+            <h2 className="title">
+              {t("realProjects.title")} <span className="text-brand">{t("realProjects.titleHighlight")}</span>
+            </h2>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-muted">{t("realProjects.description")}</p>
+          </Reveal>
+          <Reveal delay={80}>
+            <Link href="/projects" className="btn btn-ghost-dark">
               {t("realProjects.button.viewAll")}
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </Link>
+              <ArrowUpRight className="h-4 w-4" aria-hidden />
+            </Link>
+          </Reveal>
+        </div>
+
+        <div className="mt-14 grid gap-x-6 gap-y-14 md:grid-cols-2 lg:grid-cols-12">
+          {products.map((p, i) => {
+            const done = t(p.status) === t("realProjects.sucesss")
+            return (
+              <Reveal key={p.id} delay={(i % 2) * 90} className={`group ${SPANS[i]}`}>
+                <div className="marks relative aspect-[16/10] overflow-hidden bg-ink-3 text-ink-muted">
+                  <img
+                    src={p.image || "/placeholder.svg"}
+                    alt={t(p.titleKey)}
+                    loading="lazy"
+                    className="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                  />
+                  <span className="tag absolute left-3 top-3 bg-ink/85 px-2 py-1 text-ink-text">
+                    P.{String(p.id).padStart(2, "0")}
+                  </span>
+                </div>
+                <div className="mt-5 flex items-center justify-between gap-4">
+                  <span className="tag text-ink-muted">{p.category}</span>
+                  <span className={`tag inline-flex items-center gap-2 ${done ? "text-ok" : "text-brand"}`}>
+                    <span className="h-1.5 w-1.5 bg-current" aria-hidden />
+                    {t(p.status)}
+                  </span>
+                </div>
+                <h3 className="mt-3 text-2xl font-bold leading-tight tracking-[-0.02em]">{t(p.titleKey)}</h3>
+                <p className="mt-2 line-clamp-2 leading-relaxed text-ink-muted">{t(p.descriptionKey)}</p>
+                <p className="tag mt-4 text-ink-text/80">{p.features.join("  /  ")}</p>
+              </Reveal>
+            )
+          })}
         </div>
       </div>
     </section>
