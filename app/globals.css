@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap");
 
 @custom-variant dark (&:is(.dark *));
 
@@ -89,8 +88,8 @@
 
 @theme inline {
   /* Updated font to Be Vietnam Pro */
-  --font-sans: "Be Vietnam Pro", sans-serif;
-  --font-mono: "Be Vietnam Pro", sans-serif;
+  --font-sans: var(--font-be-vietnam), "Be Vietnam Pro", system-ui, sans-serif;
+  --font-mono: var(--font-be-vietnam), "Be Vietnam Pro", system-ui, sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

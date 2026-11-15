@@ -576,7 +576,7 @@ function A4Diagram() {
     <g className="fade" style={{ ["--d" as string]: `${d}ms` }}>
       <polyline points={pts} fill="none" stroke="var(--primary)" strokeWidth="0.8" />
       <circle cx={pts.split(" ")[0].split(",")[0]} cy={pts.split(" ")[0].split(",")[1]} r="2" fill="var(--primary)" />
-      <text x={lx} y={ly} fill="var(--primary)" fontSize="11.5" fontFamily="'Be Vietnam Pro', sans-serif" fontWeight="600">{text}</text>
+      <text x={lx} y={ly} fill="var(--primary)" fontSize="11.5" fontFamily="var(--font-be-vietnam), sans-serif" fontWeight="600">{text}</text>
     </g>
   );
   const dim = (x1: number, y1: number, x2: number, y2: number, label: string, lx: number, ly: number, d: number) => (
@@ -593,7 +593,7 @@ function A4Diagram() {
           <line x1={x2} y1={y2 - 3} x2={x2} y2={y2 + 3} />
         </>
       )}
-      <text x={lx} y={ly} stroke="none" fill="var(--foreground)" fontSize="10.5" fontFamily="'Be Vietnam Pro', sans-serif">{label}</text>
+      <text x={lx} y={ly} stroke="none" fill="var(--foreground)" fontSize="10.5" fontFamily="var(--font-be-vietnam), sans-serif">{label}</text>
     </g>
   );
 
@@ -641,7 +641,7 @@ function A4Diagram() {
         {callout(`${L + 88},${T + 41} ${L + 100},${T + 54} ${X + W + 14},${T + 54}`, X + W + 18, T + 57, "SỐ, KÝ HIỆU", 2000)}
         {callout(`${R - 4},${y - 120} ${X + W + 14},${y - 120}`, X + W + 18, y - 117, "TIMES NEW ROMAN", 2050)}
         {callout(`${R - 34},${B - 29} ${X + W + 14},${B - 29}`, X + W + 18, B - 26, "CHỮ KÝ", 2100)}
-        <text x={X} y={Y + H + 26} fill="var(--muted-foreground)" fontSize="10" fontFamily="'Be Vietnam Pro', sans-serif" className="fade" style={{ ["--d" as string]: "600ms" }}>
+        <text x={X} y={Y + H + 26} fill="var(--muted-foreground)" fontSize="10" fontFamily="var(--font-be-vietnam), sans-serif" className="fade" style={{ ["--d" as string]: "600ms" }}>
           A4 · 210 × 297 MM
         </text>
       </svg>

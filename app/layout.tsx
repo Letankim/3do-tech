@@ -1,11 +1,20 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
+import { Be_Vietnam_Pro } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import { FloatingContactWidget } from "@/components/floating-contact-widget"
 import "./globals.css"
 import { LanguageProvider } from "@/lib/i18n"
 import { Toaster } from "@/components/ui/toaster"
+
+// Tu dong goi font vao web (khong phu thuoc may nguoi xem co cai font hay khong)
+const beVietnam = Be_Vietnam_Pro({
+  subsets: ["latin", "vietnamese"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-be-vietnam",
+  display: "swap",
+})
 
 export const metadata: Metadata = {
   title: "3DO TECH - Công nghệ chuyển đổi số",
@@ -38,7 +47,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="vi">
+    <html lang="vi" className={beVietnam.variable}>
       <body className="font-sans antialiased">
         <a
           href="#noi-dung"
