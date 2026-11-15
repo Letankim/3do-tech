@@ -1,6 +1,6 @@
 "use client"
 
-import { ArrowRight, Phone, Mail, MessageCircle } from "lucide-react"
+import { ArrowRight, Phone, Mail, MessageCircle, Shield, Clock, Users, BadgeCheck } from "lucide-react"
 import { useLanguage } from "@/lib/i18n"
 import { Reveal } from "@/components/reveal"
 
@@ -8,44 +8,68 @@ export function CTASection() {
   const { t } = useLanguage()
 
   const trust = [
-    { k: "dataSecurity" },
-    { k: "quickResponse" },
-    { k: "support" },
-    { k: "warranty" },
+    { icon: Shield, k: "dataSecurity" },
+    { icon: Clock, k: "quickResponse" },
+    { icon: Users, k: "support" },
+    { icon: BadgeCheck, k: "warranty" },
   ] as const
 
   return (
-    <section className="section-y border-t border-border">
+    <section className="section-y">
       <div className="container-x">
-        <Reveal className="grid gap-10 lg:grid-cols-12">
-          <div className="lg:col-span-8">
-            <p className="eyebrow">{t("cta.badge")}</p>
-            <h2 className="display mt-5 !text-[clamp(2.1rem,4.8vw,3.5rem)]">
-              {t("cta.title")} <span className="text-primary">{t("cta.titleHighlight")}</span>
+        <Reveal className="relative overflow-hidden rounded-3xl bg-primary px-6 py-14 text-primary-foreground sm:px-12 sm:py-16 lg:px-16">
+          <div className="grid-paper pointer-events-none absolute inset-0 opacity-20 [filter:invert(1)]" aria-hidden />
+          <div className="relative max-w-3xl">
+            <span className="inline-flex rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider">
+              {t("cta.badge")}
+            </span>
+            <h2 className="display mt-5 !text-[clamp(2rem,4.4vw,3.25rem)]">
+              {t("cta.title")} <span className="text-white/70">{t("cta.titleHighlight")}</span>
             </h2>
-            <p className="lead mt-6 max-w-xl">{t("cta.description")}</p>
-            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
-              <a href="#lien-he" className="inline-flex h-12 items-center gap-2 rounded bg-ink px-6 text-[15px] font-semibold text-ink-foreground transition-opacity hover:opacity-90">
+            <p className="mt-5 max-w-2xl text-lg leading-relaxed text-white/80">{t("cta.description")}</p>
+
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <a
+                href="#lien-he"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-white px-6 font-semibold text-primary transition-opacity hover:opacity-90"
+              >
                 {t("cta.buttons.startProject")}
                 <ArrowRight className="h-4 w-4" aria-hidden />
               </a>
-              <a href="https://zalo.me/0865341745" target="_blank" rel="noopener noreferrer" className="text-[15px] font-semibold underline decoration-border decoration-2 underline-offset-[6px] hover:decoration-primary">
+              <a
+                href="https://zalo.me/0865341745"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-12 items-center justify-center rounded-xl border border-white/35 px-6 font-semibold transition-colors hover:bg-white/10"
+              >
                 {t("cta.buttons.freeConsultation")}
               </a>
             </div>
-            <div className="mt-8 flex flex-wrap gap-x-7 gap-y-2 text-sm text-muted-foreground">
-              <a href="tel:0865341745" className="inline-flex items-center gap-2 hover:text-foreground"><Phone className="h-4 w-4" aria-hidden /> {t("cta.contact.phone")}</a>
-              <a href="mailto:3do.service@gmail.com" className="inline-flex items-center gap-2 hover:text-foreground"><Mail className="h-4 w-4" aria-hidden /> {t("cta.contact.email")}</a>
-              <a href="https://zalo.me/0865341745" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 hover:text-foreground"><MessageCircle className="h-4 w-4" aria-hidden /> {t("cta.contact.chat")}</a>
+
+            <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3 text-sm text-white/80">
+              <a href="tel:0865341745" className="inline-flex items-center gap-2 hover:text-white">
+                <Phone className="h-4 w-4" aria-hidden /> {t("cta.contact.phone")}
+              </a>
+              <a href="mailto:3do.service@gmail.com" className="inline-flex items-center gap-2 hover:text-white">
+                <Mail className="h-4 w-4" aria-hidden /> {t("cta.contact.email")}
+              </a>
+              <a href="https://zalo.me/0865341745" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 hover:text-white">
+                <MessageCircle className="h-4 w-4" aria-hidden /> {t("cta.contact.chat")}
+              </a>
             </div>
           </div>
         </Reveal>
 
-        <ul className="mt-16 grid gap-x-10 gap-y-8 border-t border-foreground pt-8 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {trust.map((x) => (
-            <li key={x.k}>
-              <div className="font-serif text-lg font-semibold">{t(`cta.trustElements.${x.k}.title`)}</div>
-              <div className="mt-2 text-sm leading-relaxed text-muted-foreground">{t(`cta.trustElements.${x.k}.description`)}</div>
+            <li key={x.k} className="flex gap-4">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-accent text-primary">
+                <x.icon className="h-5 w-5" aria-hidden />
+              </span>
+              <div>
+                <div className="font-semibold">{t(`cta.trustElements.${x.k}.title`)}</div>
+                <div className="mt-0.5 text-sm leading-relaxed text-muted-foreground">{t(`cta.trustElements.${x.k}.description`)}</div>
+              </div>
             </li>
           ))}
         </ul>

@@ -82,7 +82,8 @@ export default function ProductsPage() {
       <StickyHeader />
 
       <section className="relative overflow-hidden pt-28 sm:pt-32">
-                <div className="container-x relative pb-10">
+        <div className="grid-paper pointer-events-none absolute inset-0" aria-hidden />
+        <div className="container-x relative pb-10">
           <span className="eyebrow">Sản phẩm</span>
           <h1 className="display mt-4 max-w-3xl !text-[clamp(2rem,4.6vw,3.25rem)]">
             Tất cả <span className="text-primary">sản phẩm</span>
@@ -116,7 +117,7 @@ export default function ProductsPage() {
             {filteredProducts.map((product) => {
               const done = product.status === "Hoàn thành"
               return (
-                <article key={product.id} className="group flex flex-col overflow-hidden rounded-md border border-border bg-card transition-colors hover:border-primary/40">
+                <article key={product.id} className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-colors hover:border-primary/40">
                   <div className="aspect-[16/10] overflow-hidden bg-muted">
                     <img
                       src={product.image || "/placeholder.svg"}

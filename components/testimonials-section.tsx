@@ -150,9 +150,9 @@ export function TestimonialsSection() {
   ]
 
   return (
-    <section ref={sectionRef} className="section-y border-t border-border">
+    <section ref={sectionRef} className="section-y">
       <div className="container-x">
-        <Reveal className="max-w-2xl">
+        <Reveal className="mx-auto max-w-2xl text-center">
           <h2 className="h2">
             {t("testimonials.title")} <span className="text-primary">{t("testimonials.titleHighlight")}</span>
           </h2>
@@ -163,9 +163,9 @@ export function TestimonialsSection() {
           <div className="flex">
             {testimonials.map((x, index) => (
               <div key={index} className="min-w-0 pl-4 sm:pl-5" style={{ flex: "0 0 min(92%, 26rem)" }}>
-                <figure className="flex h-full flex-col rounded border border-border bg-card p-6">
+                <figure className="surface flex h-full flex-col p-6">
                   <RatingStars rating={x.rating} />
-                  <blockquote className="mt-4 flex-1 font-serif text-[17px] leading-relaxed">{x.content}</blockquote>
+                  <blockquote className="mt-4 flex-1 text-[15px] leading-relaxed">{x.content}</blockquote>
                   <figcaption className="mt-6 flex items-center gap-3 border-t border-border pt-5">
                     <Avatar className="h-10 w-10">
                       <AvatarImage src={x.avatar || "/placeholder.svg"} alt="" />
@@ -186,15 +186,15 @@ export function TestimonialsSection() {
           </div>
         </div>
 
-        <dl className="mt-14 grid grid-cols-2 gap-6 border-t border-foreground pt-8 md:grid-cols-4">
+        <dl className="mx-auto mt-14 grid max-w-4xl grid-cols-2 gap-6 text-center md:grid-cols-4">
           {stats.map((st, i) => (
             <div key={i}>
-              <dd className="font-serif text-4xl font-semibold tracking-tight">{st.v}</dd>
+              <dd className="text-3xl font-extrabold tracking-tight text-primary">{st.v}</dd>
               <dt className="mt-1 text-sm text-muted-foreground">{st.l}</dt>
             </div>
           ))}
           <div>
-            <dd className="flex items-center justify-center gap-1 font-serif text-4xl font-semibold tracking-tight">
+            <dd className="flex items-center justify-center gap-1 text-3xl font-extrabold tracking-tight text-primary">
               {averageRating}
               <Star className="h-6 w-6 fill-amber-400 text-amber-400" aria-hidden />
             </dd>

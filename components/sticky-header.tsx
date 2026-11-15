@@ -59,7 +59,7 @@ export function StickyHeader() {
           <Link
             href="/add-in-office"
             aria-current={onAddin ? "page" : undefined}
-            className={`ml-1 inline-flex items-center gap-1.5 rounded border px-3 py-1.5 text-sm font-semibold transition-colors ${
+            className={`ml-1 inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm font-semibold transition-colors ${
               onAddin
                 ? "border-primary bg-primary text-primary-foreground"
                 : "border-primary/25 bg-accent text-primary hover:border-primary hover:bg-primary hover:text-primary-foreground"

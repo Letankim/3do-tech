@@ -34,10 +34,10 @@ export function PartnersSection() {
   ]
 
   return (
-    <section id="doi-tac" className="section-y border-t border-border">
+    <section id="doi-tac" className="section-y">
       <div className="container-x">
-        <Reveal className="max-w-2xl">
-          <span className="eyebrow"><b>04</b>{t("nav.products")}</span>
+        <Reveal className="mx-auto max-w-2xl text-center">
+          <span className="eyebrow">{t("nav.products")}</span>
           <h2 className="h2 mt-4">
             {t("partners.title")} <span className="text-primary">{t("partners.subtitle")}</span>
           </h2>
@@ -48,7 +48,7 @@ export function PartnersSection() {
           <div className="flex">
             {partners.map((partner, index) => (
               <div key={index} className="min-w-0 pl-4" style={{ flex: "0 0 190px" }}>
-                <div className="grid h-24 place-items-center rounded border border-border bg-card p-5">
+                <div className="surface grid h-24 place-items-center p-5">
                   <img
                     src={partner.logo || "/placeholder.svg"}
                     alt={`${partner.name} logo`}
@@ -60,7 +60,7 @@ export function PartnersSection() {
           </div>
         </div>
 
-        <p className="mt-10 text-muted-foreground">
+        <p className="mt-10 text-center text-muted-foreground">
           {t("partners.additional")} <span className="font-semibold text-primary">{t("partners.additionalHighlight")}</span>
           {t("partners.additionalmore")}
         </p>

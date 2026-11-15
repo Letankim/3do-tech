@@ -42,7 +42,8 @@ export default function ProjectsPage() {
       <StickyHeader />
 
       <section className="relative overflow-hidden pt-28 sm:pt-32">
-                <div className="container-x relative pb-10">
+        <div className="grid-paper pointer-events-none absolute inset-0" aria-hidden />
+        <div className="container-x relative pb-10">
           <span className="eyebrow">{t("nav.projects")}</span>
           <h1 className="display mt-4 max-w-3xl !text-[clamp(2rem,4.6vw,3.25rem)]">
             {t("projects.title")} <span className="text-primary">{t("projects.titleHighlight")}</span>
@@ -57,7 +58,7 @@ export default function ProjectsPage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 aria-label={t("projects.searchPlaceholder")}
-                className="h-12 rounded-md bg-card pl-11 text-base"
+                className="h-12 rounded-xl bg-card pl-11 text-base"
               />
             </div>
           </div>
@@ -96,7 +97,7 @@ export default function ProjectsPage() {
             {filteredProjects.map((project) => {
               const done = project.status === "Hoàn thành"
               return (
-                <article key={project.id} className="group flex flex-col overflow-hidden rounded-md border border-border bg-card transition-colors hover:border-primary/40">
+                <article key={project.id} className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-colors hover:border-primary/40">
                   <div className="relative aspect-[16/10] overflow-hidden bg-muted">
                     <img
                       src={project.image || "/placeholder.svg"}

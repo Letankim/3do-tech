@@ -241,9 +241,9 @@ export default function AddInOfficePage() {
   const primaryFile = clientOS === "mac" ? "Bo_Cai_Dat_AddIn_Mac.zip" : "Bo_Cai_Dat_AddIn_Windows.zip";
   const otherFile = clientOS === "mac" ? "Bo_Cai_Dat_AddIn_Windows.zip" : "Bo_Cai_Dat_AddIn_Mac.zip";
   const btnPrimary =
-    "inline-flex min-h-14 items-center justify-center gap-3 rounded-md bg-primary px-6 py-2.5 whitespace-nowrap text-base font-semibold text-primary-foreground shadow-sm transition-opacity hover:opacity-90";
+    "inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-primary px-6 py-2.5 whitespace-nowrap text-base font-semibold text-primary-foreground shadow-sm transition-opacity hover:opacity-90";
   const btnGhost =
-    "inline-flex min-h-14 items-center justify-center gap-2 rounded-md border border-border bg-card px-6 py-2.5 whitespace-nowrap text-base font-semibold transition-colors hover:border-primary/50";
+    "inline-flex min-h-14 items-center justify-center gap-2 rounded-xl border border-border bg-card px-6 py-2.5 whitespace-nowrap text-base font-semibold transition-colors hover:border-primary/50";
 
   return (
     <main className="min-h-screen bg-background">
@@ -251,17 +251,20 @@ export default function AddInOfficePage() {
 
       {/* ===== Hero ===== */}
       <section className="relative overflow-hidden pt-28 sm:pt-32 lg:pt-36">
-                <div className="container-x relative grid items-center gap-12 pb-16 lg:grid-cols-[1.1fr_1fr] lg:gap-14 lg:pb-24">
+        <div className="grid-paper pointer-events-none absolute inset-0" aria-hidden />
+        <div className="container-x relative grid items-center gap-12 pb-16 lg:grid-cols-[1.1fr_1fr] lg:gap-14 lg:pb-24">
           <div>
-            <p className="eyebrow">
-              <span className="font-semibold text-success">Miễn phí 100%</span>
-              <span className="mx-2" aria-hidden>·</span>
+            <div className="inline-flex flex-wrap items-center gap-x-3 gap-y-1 rounded-full border border-border bg-card px-3.5 py-1.5 text-sm text-muted-foreground">
+              <span className="inline-flex items-center gap-1.5 font-semibold text-success">
+                <span className="h-1.5 w-1.5 rounded-full bg-current" aria-hidden /> Miễn phí 100%
+              </span>
+              <span aria-hidden>·</span>
               <span className="tabular-nums">
                 {release ? `Phiên bản ${release.version}${release.date ? `, ${release.date}` : ""}` : "Phiên bản mới nhất"}
               </span>
-            </p>
+            </div>
 
-            <h1 className="display mt-5">
+            <h1 className="display mt-6">
               Chuẩn hóa thể thức văn bản Word <span className="text-primary">và trang in Excel</span>
             </h1>
             <p className="lead mt-6 max-w-xl">
@@ -295,7 +298,7 @@ export default function AddInOfficePage() {
                 </>
               ) : (
                 <div className="space-y-4">
-                  <div className="flex max-w-xl items-start gap-2.5 rounded-md border border-signal/30 bg-signal/10 px-4 py-3 text-sm">
+                  <div className="flex max-w-xl items-start gap-2.5 rounded-xl border border-signal/30 bg-signal/10 px-4 py-3 text-sm">
                     <Info className="mt-0.5 h-4 w-4 shrink-0 text-signal" aria-hidden />
                     <span>
                       Add-in chỉ cài được trên <strong>máy tính Windows hoặc Mac</strong> có Microsoft Word/Excel. Đang xem trên điện thoại hoặc máy tính bảng thì hãy mở trang này trên máy tính để tải về.
@@ -322,9 +325,10 @@ export default function AddInOfficePage() {
 
           {/* Minh hoa thanh Ribbon cua add-in */}
           <div className="hidden lg:block" aria-hidden>
-            <div className="overflow-hidden rounded border border-foreground/80 bg-card">
-              <div className="flex items-center border-b border-border bg-muted/60 px-4 py-2.5">
-                <span className="text-xs text-muted-foreground">Cong_van_mau.docx — Word</span>
+            <div className="surface overflow-hidden shadow-[0_30px_60px_-40px_color-mix(in_oklab,var(--primary)_55%,transparent)]">
+              <div className="flex items-center gap-1.5 border-b border-border bg-muted/60 px-4 py-2.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-border" /><span className="h-2.5 w-2.5 rounded-full bg-border" /><span className="h-2.5 w-2.5 rounded-full bg-border" />
+                <span className="ml-3 text-xs text-muted-foreground">Cong_van_mau.docx - Word</span>
               </div>
               <div className="flex gap-5 border-b border-border px-4 pt-2.5 text-[13px] text-muted-foreground">
                 <span className="pb-2">Home</span><span className="pb-2">Insert</span>
@@ -358,7 +362,7 @@ export default function AddInOfficePage() {
       <section id="tai-ve" className="section-y scroll-mt-16 border-y border-border bg-card">
         <div className="container-x">
           <Reveal className="max-w-2xl">
-            <span className="eyebrow"><b>01</b>Tải về</span>
+            <span className="eyebrow">Tải về</span>
             <h2 className="h2 mt-4">Chọn đúng bộ cho máy của bạn</h2>
             <p className="lead mt-4">Tải trực tiếp từ máy chủ 3DO TECH, kèm phiên bản, dung lượng và mã SHA-256 từng tệp.</p>
           </Reveal>
@@ -367,16 +371,18 @@ export default function AddInOfficePage() {
             {downloadGroups.map((group) => (
               <Reveal
                 key={group.id}
-                className={`overflow-hidden rounded-md border bg-background ${group.id === clientOS ? "border-primary/60 ring-1 ring-primary/20" : "border-border"}`}
+                className={`overflow-hidden rounded-2xl border bg-background ${group.id === clientOS ? "border-primary/60 ring-1 ring-primary/20" : "border-border"}`}
               >
                 <div className="flex flex-col md:flex-row">
                   <div className="flex items-center gap-4 border-b border-border bg-muted/50 px-6 py-5 md:w-52 md:shrink-0 md:flex-col md:items-start md:justify-start md:gap-3 md:border-b-0 md:border-r md:py-7">
-                    <group.icon className="h-7 w-7 text-primary" />
+                    <span className="grid h-12 w-12 place-items-center rounded-xl bg-accent text-primary">
+                      <group.icon className="h-6 w-6" />
+                    </span>
                     <div>
                       <p className="font-bold">{group.title}</p>
                       <p className="text-xs text-muted-foreground">{group.subtitle}</p>
                       {group.id === clientOS && (
-                        <span className="mt-2 inline-block rounded bg-primary px-2 py-0.5 text-[11px] font-bold uppercase text-primary-foreground">Máy của bạn</span>
+                        <span className="mt-2 inline-block rounded-full bg-primary px-2.5 py-0.5 text-[11px] font-bold uppercase text-primary-foreground">Máy của bạn</span>
                       )}
                     </div>
                   </div>
@@ -457,13 +463,13 @@ export default function AddInOfficePage() {
       <section id="tinh-nang" className="section-y scroll-mt-16">
         <div className="container-x">
           <Reveal className="max-w-2xl">
-            <span className="eyebrow"><b>02</b>Tính năng</span>
+            <span className="eyebrow">Tính năng</span>
             <h2 className="h2 mt-4">Hai bộ công cụ cho văn bản và bảng tính</h2>
             <p className="lead mt-4">Làm đúng quy chuẩn ngay từ đầu, bớt thời gian căn chỉnh thủ công trước khi trình ký.</p>
           </Reveal>
 
           <Tabs defaultValue="word" className="mt-10 w-full">
-            <TabsList className="h-11 w-full max-w-xs rounded bg-muted p-1">
+            <TabsList className="h-12 w-full max-w-sm rounded-xl bg-muted p-1">
               <TabsTrigger value="word" className="gap-2 rounded-lg text-sm font-semibold">
                 <FileText className="h-4 w-4 text-primary" aria-hidden /> Word
               </TabsTrigger>
@@ -477,17 +483,17 @@ export default function AddInOfficePage() {
               { v: "excel", items: excelFeatures },
             ].map((tab) => (
               <TabsContent key={tab.v} value={tab.v} className="mt-8">
-                <ol className="grid gap-x-12 border-t border-foreground md:grid-cols-2">
-                  {tab.items.map((f, i) => (
-                    <li key={f.title} className="flex gap-5 border-b border-border py-6">
-                      <span className="font-serif text-lg tabular-nums text-muted-foreground">{String(i + 1).padStart(2, "0")}</span>
-                      <div>
-                        <h3 className="font-serif text-xl font-semibold leading-snug">{f.title}</h3>
-                        <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{f.text}</p>
-                      </div>
-                    </li>
+                <div className="grid gap-px overflow-hidden rounded-2xl border border-border bg-border md:grid-cols-2 lg:grid-cols-3">
+                  {tab.items.map((f) => (
+                    <div key={f.title} className="bg-card p-6 sm:p-7">
+                      <span className="grid h-11 w-11 place-items-center rounded-xl bg-accent text-primary">
+                        <f.icon className="h-5 w-5" aria-hidden />
+                      </span>
+                      <h3 className="mt-5 text-lg font-semibold leading-snug">{f.title}</h3>
+                      <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{f.text}</p>
+                    </div>
                   ))}
-                </ol>
+                </div>
               </TabsContent>
             ))}
           </Tabs>
@@ -498,7 +504,7 @@ export default function AddInOfficePage() {
       <section id="huong-dan" className="section-y scroll-mt-16 border-y border-border bg-card">
         <div className="container-x">
           <Reveal className="max-w-2xl">
-            <span className="eyebrow"><b>03</b>Hướng dẫn</span>
+            <span className="eyebrow">Hướng dẫn</span>
             <h2 className="h2 mt-4">Cài một lần, dùng ngay trên Word và Excel</h2>
             <p className="lead mt-4">Làm theo các bước của đúng hệ điều hành. Cột của máy bạn được đặt lên đầu.</p>
           </Reveal>
@@ -507,13 +513,15 @@ export default function AddInOfficePage() {
             {guideColumns.map((col) => (
               <Reveal
                 key={col.id}
-                className={`scroll-mt-24 rounded-md border p-6 sm:p-7 ${col.id === clientOS ? "border-primary/60 bg-accent/40" : "border-border bg-background"}`}
+                className={`scroll-mt-24 rounded-2xl border p-6 sm:p-7 ${col.id === clientOS ? "border-primary/60 bg-accent/40" : "border-border bg-background"}`}
               >
                 <div id={`huong-dan-${col.id}`} className="flex items-center gap-3 scroll-mt-24">
-                  <col.icon className="h-6 w-6 text-primary" />
+                  <span className="grid h-11 w-11 place-items-center rounded-xl bg-accent text-primary">
+                    <col.icon className="h-6 w-6" />
+                  </span>
                   <h3 className="text-lg font-bold">{col.title}</h3>
                   {col.id === clientOS && (
-                    <span className="ml-auto rounded bg-primary px-2 py-0.5 text-[11px] font-bold uppercase text-primary-foreground">Máy của bạn</span>
+                    <span className="ml-auto rounded-full bg-primary px-2.5 py-0.5 text-[11px] font-bold uppercase text-primary-foreground">Máy của bạn</span>
                   )}
                 </div>
                 <ol className="mt-6 space-y-5">
@@ -543,19 +551,19 @@ export default function AddInOfficePage() {
       <section className="section-y">
         <div className="container-x grid gap-10 lg:grid-cols-[0.8fr_1.4fr] lg:gap-16">
           <Reveal>
-            <span className="eyebrow"><b>04</b>Hỏi đáp</span>
+            <span className="eyebrow">Hỏi đáp</span>
             <h2 className="h2 mt-4">Câu hỏi thường gặp</h2>
             <p className="lead mt-4">Giải đáp nhanh các thắc mắc khi cài đặt và sử dụng.</p>
             <a
               href="tel:0774889191"
-              className="mt-6 inline-flex h-11 items-center gap-2 rounded bg-ink px-5 text-sm font-semibold text-ink-foreground transition-opacity hover:opacity-90"
+              className="mt-6 inline-flex h-11 items-center gap-2 rounded-xl bg-ink px-5 text-sm font-semibold text-ink-foreground transition-opacity hover:opacity-90"
             >
               <Phone className="h-4 w-4" aria-hidden /> Gọi hỗ trợ 0774.88.9191
             </a>
           </Reveal>
 
           <Reveal delay={80}>
-            <Accordion type="single" collapsible defaultValue="faq-0" className="rounded-md border border-border bg-card px-6">
+            <Accordion type="single" collapsible defaultValue="faq-0" className="rounded-2xl border border-border bg-card px-6">
               {faqs.map((f, i) => (
                 <AccordionItem key={i} value={`faq-${i}`} className="border-border">
                   <AccordionTrigger className="py-5 text-left text-base font-semibold hover:no-underline">{f.q}</AccordionTrigger>

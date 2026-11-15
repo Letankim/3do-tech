@@ -65,16 +65,23 @@ export function AchievementsSection() {
   ]
 
   return (
-    <section className="border-t border-border bg-muted/60">
+    <section className="section-y bg-ink text-ink-foreground">
       <div className="container-x">
-        <dl className="grid grid-cols-2 lg:grid-cols-4">
+        <Reveal className="max-w-2xl">
+          <h2 className="h2">
+            {t("achievements.title")} <span className="text-signal">{t("achievements.subtitle")}</span>
+          </h2>
+          <p className="mt-4 text-lg leading-relaxed text-ink-foreground/70">{t("achievements.description")}</p>
+        </Reveal>
+
+        <dl className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 lg:grid-cols-4">
           {achievements.map((a, i) => (
-            <Reveal key={i} delay={i * 60} className="border-border px-1 py-10 odd:border-r lg:border-r lg:px-8 lg:first:pl-0 lg:last:border-r-0 [&:nth-child(-n+2)]:border-b lg:[&:nth-child(-n+2)]:border-b-0">
-              <dd className="font-serif text-5xl font-semibold tracking-tight sm:text-6xl">
+            <Reveal key={i} delay={i * 70} className="bg-ink p-6 sm:p-8">
+              <dd className="text-4xl font-extrabold tracking-tight sm:text-5xl">
                 <Counter end={a.number} suffix={a.suffix} />
               </dd>
-              <dt className="mt-3 text-sm font-semibold">{a.label}</dt>
-              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{a.description}</p>
+              <dt className="mt-3 font-semibold">{a.label}</dt>
+              <p className="mt-1 text-sm leading-relaxed text-ink-foreground/60">{a.description}</p>
             </Reveal>
           ))}
         </dl>
