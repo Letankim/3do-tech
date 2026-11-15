@@ -1,130 +1,219 @@
 "use client"
 
+import { Button } from "@/components/ui/button"
+import { Phone, X, Download } from "lucide-react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { useEffect, useState } from "react"
-import { Download, Menu, X, Phone } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { useEffect, useState, useRef } from "react"
 import { useLanguage } from "@/lib/i18n"
 import { LanguageSwitcher } from "./language-switcher"
 
-const NAV = [
-  { href: "/#gioi-thieu", key: "nav.about" },
-  { href: "/#dich-vu", key: "nav.services" },
-  { href: "/#san-pham-thuc-te", key: "nav.projects" },
-  { href: "/#doi-tac", key: "nav.products" },
-  { href: "/#lien-he", key: "nav.contact" },
-] as const
-
 export function StickyHeader() {
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
+  const [lastScrollY, setLastScrollY] = useState(0)
+  const router = useRouter()
   const { t } = useLanguage()
-  const pathname = usePathname()
-  const [scrolled, setScrolled] = useState(false)
-  const [open, setOpen] = useState(false)
+  const headerRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8)
-    onScroll()
-    window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
-  }, [])
+    setTimeout(() => setIsVisible(true), 100)
 
-  useEffect(() => setOpen(false), [pathname])
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      setIsScrolled(currentScrollY > 100)
 
-  const onAddin = pathname?.startsWith("/add-in-office")
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+
+        setIsVisible(false)
+      } else if (currentScrollY < lastScrollY) {
+        setIsVisible(true)
+      }
+
+      setLastScrollY(currentScrollY)
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [lastScrollY])
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[background,border-color,box-shadow] duration-200 ${
-        scrolled || open ? "border-b border-border bg-background/90 backdrop-blur-xl" : "border-b border-transparent bg-transparent"
-      }`}
+      ref={headerRef}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
+        isScrolled ? "bg-background/95 backdrop-blur-md border-b border-border shadow-sm" : "bg-transparent"
+      } ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full"}`}
     >
-      <div className="container-x flex h-16 items-center justify-between gap-6">
-        <Link href="/" className="flex items-center gap-2.5" aria-label="3DO TECH - trang chủ">
-          <img src="/android-chrome-192x192.png" alt="" width={36} height={36} className="h-9 w-9 rounded-lg" />
-          <span className="text-[17px] font-extrabold tracking-tight">
-            3DO<span className="text-primary"> TECH</span>
-          </span>
-        </Link>
+      <div className="max-w-7xl mx-auto px-0 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 lg:h-20">
+          {/* Logo with padding */}
+          <div className="text-xl lg:text-2xl font-bold text-primary px-3 sm:px-4">
+            <img
+              onClick={() => {
+                router.push("/")
+              }}
+              className="w-[50px] h-[50px] object-cover object-center"
+              src="/android-chrome-192x192.png"
+              alt="Logo"
+            />
+          </div>
 
-        <nav className="hidden items-center gap-1 lg:flex" aria-label="Điều hướng chính">
-          {NAV.map((n) => (
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8">
             <Link
-              key={n.key}
-              href={n.href}
-              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              href="/#gioi-thieu"
+              className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
             >
-              {t(n.key)}
+              {t("nav.about")}
             </Link>
-          ))}
-          <Link
-            href="/add-in-office"
-            aria-current={onAddin ? "page" : undefined}
-            className={`ml-1 inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm font-semibold transition-colors ${
-              onAddin
-                ? "border-primary bg-primary text-primary-foreground"
-                : "border-primary/25 bg-accent text-primary hover:border-primary hover:bg-primary hover:text-primary-foreground"
-            }`}
-          >
-            <Download className="h-3.5 w-3.5" aria-hidden />
-            {t("nav.addin")}
-          </Link>
-        </nav>
-
-        <div className="hidden items-center gap-3 lg:flex">
-          <LanguageSwitcher />
-          <a
-            href="https://zalo.me/0865341745"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex h-9 items-center gap-2 rounded-lg bg-ink px-4 text-sm font-semibold text-ink-foreground transition-opacity hover:opacity-90"
-          >
-            {t("nav.contact")}
-            <Phone className="h-3.5 w-3.5" aria-hidden />
-          </a>
-        </div>
-
-        <button
-          type="button"
-          className="-mr-2 rounded-md p-2 text-foreground lg:hidden"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-label={open ? "Đóng menu" : "Mở menu"}
-        >
-          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
-      </div>
-
-      {open && (
-        <div className="border-t border-border bg-background lg:hidden">
-          <div className="container-x flex flex-col gap-1 py-4">
-            {NAV.map((n) => (
-              <Link key={n.key} href={n.href} className="rounded-lg px-3 py-3 text-base font-medium hover:bg-muted">
-                {t(n.key)}
-              </Link>
-            ))}
+            <Link
+              href="/#dich-vu"
+              className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
+            >
+              {t("nav.services")}
+            </Link>
+            <Link
+              href="/#san-pham-thuc-te"
+              className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
+            >
+              {t("nav.projects")}
+            </Link>
+            <Link
+              href="/#doi-tac"
+              className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
+            >
+              {t("nav.products")}
+            </Link>
             <Link
               href="/add-in-office"
-              className="mt-1 flex items-center justify-between rounded-lg bg-accent px-3 py-3 text-base font-semibold text-primary"
+              className="inline-flex items-center gap-1.5 px-3 py-1 text-sm font-semibold text-primary bg-primary/10 hover:bg-primary hover:text-primary-foreground rounded-full transition-all border border-primary/20 shadow-sm group"
             >
-              <span className="flex items-center gap-2">
-                <Download className="h-4 w-4" aria-hidden />
-                {t("nav.addin")}
+              <Download className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform" />
+              <span>{t("nav.addin")}</span>
+              <span className="bg-red-500 text-[10px] text-white px-1.5 py-0.2 rounded-full uppercase font-bold animate-pulse">
+                Hot
               </span>
             </Link>
-            <div className="flex items-center justify-between gap-3 pt-3">
-              <LanguageSwitcher />
-              <a
-                href="https://zalo.me/0865341745"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex h-10 flex-1 items-center justify-center rounded-lg bg-ink px-4 text-sm font-semibold text-ink-foreground"
+            <Link
+              href="/#lien-he"
+              className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
+            >
+              {t("nav.contact")}
+            </Link>
+          </nav>
+
+          {/* Desktop CTA and Language Switcher */}
+          <div className="hidden lg:flex items-center space-x-4 pr-4">
+            <LanguageSwitcher />
+            <a
+              href="https://zalo.me/0865341745"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button
+                size="lg"
+                className="font-medium flex items-center gap-2 p-2 relative overflow-hidden group"
               >
+                <span>{t("nav.contact")}</span>
+                <Phone size={18} />
+                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-500 ease-out"></span>
+              </Button>
+            </a>
+          </div>
+
+          {/* Mobile menu button */}
+          <button
+            className="lg:hidden p-2 rounded-md text-foreground/80 hover:text-primary hover:bg-muted/50 transition-colors pr-3"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <svg
+                className="h-6 w-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h12M4 18h8"
+                />
+              </svg>
+            )}
+          </button>
+        </div>
+
+        {/* Mobile Navigation with Enhanced Animation */}
+        <div
+          className={`lg:hidden border-t border-border bg-background/95 backdrop-blur-md overflow-hidden transition-all duration-300 ease-in-out ${
+            isMobileMenuOpen
+              ? "max-h-[500px] opacity-100 translate-y-0 scale-100"
+              : "max-h-0 opacity-0 translate-y-[-10%] scale-95"
+          }`}
+        >
+          <div className="px-2 pt-2 pb-3 space-y-1">
+            <Link
+              href="/#gioi-thieu"
+              className="block px-3 py-2 text-base font-medium text-foreground/80 hover:text-primary hover:bg-muted/50 rounded-md transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              {t("nav.about")}
+            </Link>
+            <Link
+              href="/#dich-vu"
+              className="block px-3 py-2 text-base font-medium text-foreground/80 hover:text-primary hover:bg-muted/50 rounded-md transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              {t("nav.services")}
+            </Link>
+            <Link
+              href="/#san-pham-thuc-te"
+              className="block px-3 py-2 text-base font-medium text-foreground/80 hover:text-primary hover:bg-muted/50 rounded-md transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              {t("nav.projects")}
+            </Link>
+            <Link
+              href="/#doi-tac"
+              className="block px-3 py-2 text-base font-medium text-foreground/80 hover:text-primary hover:bg-muted/50 rounded-md transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              {t("nav.products")}
+            </Link>
+            <Link
+              href="/add-in-office"
+              className="flex items-center justify-between px-3 py-2 text-base font-medium text-primary bg-primary/10 rounded-md transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              <span className="flex items-center gap-2">
+                <Download className="w-4 h-4" />
+                {t("nav.addin")}
+              </span>
+              <span className="bg-red-500 text-[10px] text-white px-1.5 py-0.5 rounded-full uppercase font-bold">
+                Hot
+              </span>
+            </Link>
+            <Link
+              href="/#lien-he"
+              className="block px-3 py-2 text-base font-medium text-foreground/80 hover:text-primary hover:bg-muted/50 rounded-md transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              {t("nav.contact")}
+            </Link>
+            <div className="px-3 py-2 space-y-2">
+              <LanguageSwitcher />
+              <Button size="sm" className="w-full font-medium">
                 {t("nav.contact")}
-              </a>
+              </Button>
             </div>
           </div>
         </div>
-      )}
+      </div>
     </header>
   )
 }

@@ -1,7 +1,10 @@
 "use client"
 
-import { Reveal } from "@/components/reveal"
-import { Smartphone, Globe, Database, Shield, Cpu, Cloud } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
+import { Card } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { ArrowRight, Smartphone, Globe, Database, Shield, Cpu, Cloud, Download } from "lucide-react"
+import Link from "next/link"
 import { useLanguage } from "@/lib/i18n"
 
 interface Product {
@@ -13,7 +16,26 @@ interface Product {
 }
 
 export function ProductsSection() {
+  const [isVisible, setIsVisible] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
   const { t } = useLanguage()
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+        }
+      },
+      { threshold: 0.1 },
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
 
   const products: Product[] = [
     {
@@ -61,45 +83,109 @@ export function ProductsSection() {
   ]
 
   return (
-    <section id="dich-vu" className="section-y">
-      <div className="container-x">
-        <Reveal className="max-w-2xl">
-          <span className="eyebrow">{t("nav.services")}</span>
-          <h2 className="h2 mt-4">
+    <section ref={sectionRef} id="dich-vu" className="py-24 bg-muted/30">
+      <div className="max-w-7xl mx-auto px-6">
+        <div
+          className={`text-center mb-16 transition-all duration-1000 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          }`}
+        >
+          <h2 className="text-4xl md:text-5xl font-bold text-balance mb-6">
             {t("products.title")} <span className="text-primary">{t("products.subtitle")}</span>
           </h2>
-          <p className="lead mt-4">{t("products.description")}</p>
-        </Reveal>
+          <p className="text-xl text-muted-foreground text-balance max-w-3xl mx-auto leading-relaxed">
+            {t("products.description")}
+          </p>
+        </div>
 
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {products.map((p, i) => (
-            <Reveal key={i} delay={(i % 3) * 70} className="surface surface-hover group flex flex-col overflow-hidden">
-              <div className="relative aspect-[16/10] overflow-hidden border-b border-border bg-muted">
+        {/* Featured Add-in Office Banner */}
+        <div className="mb-14 p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-blue-600/10 via-primary/10 to-indigo-600/10 border border-primary/20 backdrop-blur-sm relative overflow-hidden">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-6 relative z-10">
+            <div className="space-y-3 text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-semibold">
+                <span>🔥 TIỆN ÍCH MỚI NHẤT</span>
+                <span>•</span>
+                <span>Luôn cập nhật bản mới nhất</span>
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-bold text-foreground">
+                Bộ Add-in Chuẩn Hóa Thể Thức Văn Bản Word & Trang In Excel
+              </h3>
+              <p className="text-muted-foreground text-sm sm:text-base max-w-2xl leading-relaxed">
+                Tự động chuẩn hóa lề, font chữ, tiêu ngữ theo Nghị định 30/2020 & HD 05 VPTW (Khối Đảng, Chính quyền) và căn chỉnh trang in Excel A4 chỉ với 1 cú click. Tải miễn phí ngay!
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-3 shrink-0">
+              <Link href="/add-in-office">
+                <Button size="lg" className="gap-2 shadow-md">
+                  <Download className="w-4 h-4" />
+                  <span>Tải Add-in Ngay</span>
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          {products.map((product, index) => (
+            <Card
+              key={index}
+              className={`group overflow-hidden hover:shadow-xl transition-all duration-500 p-0 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+              }`}
+              style={{ transitionDelay: `${index * 150}ms` }}
+            >
+              <div className="relative overflow-hidden">
                 <img
-                  src={p.image}
-                  alt=""
-                  loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  src={product.image || "/placeholder.svg"}
+                  alt={product.title}
+                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
                 />
+                <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
-              <div className="flex flex-1 flex-col p-6">
-                <div className="flex items-center gap-3">
-                  <span className="grid h-9 w-9 place-items-center rounded-lg bg-accent text-primary">
-                    <p.icon className="h-[18px] w-[18px]" aria-hidden />
-                  </span>
-                  <h3 className="text-lg font-semibold leading-snug">{p.title}</h3>
+              <div className="p-6">
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mr-4">
+                    <product.icon className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-semibold">{product.title}</h3>
                 </div>
-                <p className="mt-3 flex-1 text-[15px] leading-relaxed text-muted-foreground">{p.description}</p>
-                <ul className="mt-5 flex flex-wrap gap-1.5">
-                  {p.features.map((f) => (
-                    <li key={f} className="rounded-md bg-muted px-2 py-1 text-xs font-medium text-muted-foreground">
-                      {f}
-                    </li>
-                  ))}
-                </ul>
+                <p className="text-muted-foreground mb-4 leading-relaxed">{product.description}</p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {Array.isArray(product.features) ? (
+                    product.features.map((feature, featureIndex) => (
+                      <span key={featureIndex} className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">
+                        {feature}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">
+                      No features available
+                    </span>
+                  )}
+                </div>
+                <Button 
+                  variant="ghost" 
+                  className="relative overflow-hidden group p-0 transition-colors hover:bg-primary/10"
+                >
+                  <span>{t("products.learnMore")}</span>
+                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+
+                  {/* Hiệu ứng sáng chạy ngang */}
+                  <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent transform -skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 ease-out"></span>
+                </Button>
+
               </div>
-            </Reveal>
+            </Card>
           ))}
+        </div>
+
+        <div className="text-center">
+          <Link href="/projects">
+            <Button size="lg" className="text-lg px-8 py-6">
+              {t("products.viewAll")}
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

@@ -1,11 +1,11 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { Reveal } from "@/components/reveal"
+import { Card } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import useEmblaCarousel from "embla-carousel-react"
 import AutoPlay from "embla-carousel-autoplay"
-import { Star, StarHalf } from "lucide-react"
+import { Star, Quote, StarHalf } from "lucide-react"
 import { useLanguage } from "@/lib/i18n"
 
 interface Testimonial {
@@ -26,13 +26,13 @@ function RatingStars({ rating }: { rating: number | string }) {
   return (
     <div className="flex items-center">
       {[...Array(fullStars)].map((_, i) => (
-        <Star key={`full-${i}`} className="h-4 w-4 fill-amber-400 text-amber-400" />
+        <Star key={`full-${i}`} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
       ))}
       {hasHalf && (
-        <StarHalf key="half" className="h-4 w-4 fill-amber-400 text-amber-400" />
+        <StarHalf key="half" className="h-5 w-5 fill-yellow-400 text-yellow-400" />
       )}
       {[...Array(emptyStars)].map((_, i) => (
-        <Star key={`empty-${i}`} className="h-4 w-4 text-border" />
+        <Star key={`empty-${i}`} className="h-5 w-5 text-gray-300" />
       ))}
     </div>
   )
@@ -143,65 +143,110 @@ export function TestimonialsSection() {
     return () => observer.disconnect()
   }, [])
 
-  const stats = [
-    { v: t("testimonials.trustIndicators.values.customerSatisfaction"), l: t("testimonials.trustIndicators.customerSatisfaction") },
-    { v: t("testimonials.trustIndicators.values.support"), l: t("testimonials.trustIndicators.support") },
-    { v: t("testimonials.trustIndicators.values.onTimeDelivery"), l: t("testimonials.trustIndicators.onTimeDelivery") },
-  ]
-
   return (
-    <section ref={sectionRef} className="section-y">
-      <div className="container-x">
-        <Reveal className="mx-auto max-w-2xl text-center">
-          <h2 className="h2">
+    <section ref={sectionRef} className="py-24 bg-background">
+      <div className="px-2 max-w-7xl mx-auto md:px-6">
+        <div
+          className={`text-center mb-16 transition-all duration-1000 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          }`}
+        >
+          <h2 className="text-4xl md:text-5xl font-bold text-balance mb-6">
             {t("testimonials.title")} <span className="text-primary">{t("testimonials.titleHighlight")}</span>
           </h2>
-          <p className="lead mt-4">{t("testimonials.description")}</p>
-        </Reveal>
+          <p className="text-xl text-muted-foreground text-balance max-w-3xl mx-auto leading-relaxed">
+            {t("testimonials.description")}
+          </p>
+        </div>
 
-        <div className="mt-12 overflow-hidden" ref={emblaRef}>
-          <div className="flex">
-            {testimonials.map((x, index) => (
-              <div key={index} className="min-w-0 pl-4 sm:pl-5" style={{ flex: "0 0 min(92%, 26rem)" }}>
-                <figure className="surface flex h-full flex-col p-6">
-                  <RatingStars rating={x.rating} />
-                  <blockquote className="mt-4 flex-1 text-[15px] leading-relaxed">{x.content}</blockquote>
-                  <figcaption className="mt-6 flex items-center gap-3 border-t border-border pt-5">
-                    <Avatar className="h-10 w-10">
-                      <AvatarImage src={x.avatar || "/placeholder.svg"} alt="" />
-                      <AvatarFallback className="bg-accent text-sm font-semibold text-primary">
-                        {x.name.split(" ").map((n) => n[0]).join("").slice(-2)}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="min-w-0 text-sm">
-                      <div className="truncate font-semibold">{x.name}</div>
-                      <div className="truncate text-muted-foreground">
-                        {x.position} · {x.company}
+        <div
+          className={`transition-all duration-1000 delay-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          }`}
+        >
+          <div className="embla overflow-hidden" ref={emblaRef}>
+            <div className="embla__container flex">
+              {testimonials.map((testimonial, index) => (
+                <div
+                  key={index}
+                  className="embla__slide flex-[0_0_auto] min-w-0 pl-4 md:pl-6"
+                  style={{ flex: "0 0 90%" }}
+                >
+                  <Card className="p-4 md:p-6 h-full bg-card/50 backdrop-blur-sm border-primary/10 hover:shadow-lg transition-all duration-300">
+                    <div className="flex items-start justify-between mb-6">
+                      <Quote className="h-8 w-8 text-primary/30" />
+                      <div className="flex items-center space-x-1">
+                        <RatingStars rating={testimonial.rating} />
                       </div>
                     </div>
-                  </figcaption>
-                </figure>
-              </div>
-            ))}
+
+                    <blockquote className="text-lg leading-relaxed mb-8 text-foreground/90">
+                      "{testimonial.content}"
+                    </blockquote>
+
+                    <div className="flex items-center space-x-4">
+                      <Avatar className="h-12 w-12">
+                        <AvatarImage src={testimonial.avatar || "/placeholder.svg"} alt={testimonial.name} />
+                        <AvatarFallback className="bg-primary/10 text-primary font-semibold">
+                          {testimonial.name
+                            .split(" ")
+                            .map((n) => n[0])
+                            .join("")}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <div className="font-semibold text-foreground">{testimonial.name}</div>
+                        <div className="text-sm text-muted-foreground">
+                          {testimonial.position} tại {testimonial.company}
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        <dl className="mx-auto mt-14 grid max-w-4xl grid-cols-2 gap-6 text-center md:grid-cols-4">
-          {stats.map((st, i) => (
-            <div key={i}>
-              <dd className="text-3xl font-extrabold tracking-tight text-primary">{st.v}</dd>
-              <dt className="mt-1 text-sm text-muted-foreground">{st.l}</dt>
+        <div className="mt-16 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-primary mb-2">
+                {t("testimonials.trustIndicators.values.customerSatisfaction")}
+              </div>
+              <div className="text-sm text-muted-foreground">
+                {t("testimonials.trustIndicators.customerSatisfaction")}
+              </div>
             </div>
-          ))}
-          <div>
-            <dd className="flex items-center justify-center gap-1 text-3xl font-extrabold tracking-tight text-primary">
-              {averageRating}
-              <Star className="h-6 w-6 fill-amber-400 text-amber-400" aria-hidden />
-            </dd>
-            <dt className="mt-1 text-sm text-muted-foreground">{t("testimonials.trustIndicators.averageRating")}</dt>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-primary mb-2">
+                {t("testimonials.trustIndicators.values.support")}
+              </div>
+              <div className="text-sm text-muted-foreground">
+                {t("testimonials.trustIndicators.support")}
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-primary mb-2">
+                {t("testimonials.trustIndicators.values.onTimeDelivery")}
+              </div>
+              <div className="text-sm text-muted-foreground">
+                {t("testimonials.trustIndicators.onTimeDelivery")}
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="flex justify-center items-center gap-1 text-3xl font-bold text-primary mb-2">
+                 <span>{averageRating}</span>
+                 <Star className="w-6 h-6"/>
+              </div>
+              <div className="text-sm text-muted-foreground">
+                {t("testimonials.trustIndicators.averageRating")}
+              </div>
+            </div>
           </div>
-        </dl>
+        </div>
       </div>
     </section>
   )
 }
+

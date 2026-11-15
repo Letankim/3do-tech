@@ -1,13 +1,15 @@
 "use client"
 
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { StickyHeader } from "@/components/sticky-header"
 import { Footer } from "@/components/footer"
-import { ArrowUpRight, Calendar, Users, Search, SearchX } from "lucide-react"
+import { ExternalLink, Calendar, Users, Search } from "lucide-react"
 import { useState, useMemo } from "react"
 import projectsData from "@/data/projects.json"
 import { useLanguage } from "@/lib/i18n"
-import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 const categories = [
   "Tất cả",
@@ -25,6 +27,7 @@ export default function ProjectsPage() {
   const { t } = useLanguage()
   const [selectedCategory, setSelectedCategory] = useState("Tất cả")
   const [searchQuery, setSearchQuery] = useState("")
+  const router = useRouter()
 
   const filteredProjects = useMemo(() => {
     return projectsData.filter((project) => {
@@ -41,122 +44,163 @@ export default function ProjectsPage() {
     <div className="min-h-screen bg-background">
       <StickyHeader />
 
-      <section className="relative overflow-hidden pt-28 sm:pt-32">
-        <div className="grid-paper pointer-events-none absolute inset-0" aria-hidden />
-        <div className="container-x relative pb-10">
-          <span className="eyebrow">{t("nav.projects")}</span>
-          <h1 className="display mt-4 max-w-3xl !text-[clamp(2rem,4.6vw,3.25rem)]">
+      {/* Hero Section */}
+      <section className="pt-24 pb-16 bg-gradient-to-br from-primary/10 via-background to-muted/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-balance mb-6">
             {t("projects.title")} <span className="text-primary">{t("projects.titleHighlight")}</span>
           </h1>
-          <p className="lead mt-5 max-w-2xl">{t("projects.description")}</p>
+          <p className="text-lg sm:text-xl text-muted-foreground text-balance max-w-3xl mx-auto leading-relaxed mb-8">
+            {t("projects.description")}
+          </p>
 
-          <div className="mt-8 max-w-xl">
-            <div className="relative">
-              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
-              <Input
-                placeholder={t("projects.searchPlaceholder")}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                aria-label={t("projects.searchPlaceholder")}
-                className="h-12 rounded-xl bg-card pl-11 text-base"
-              />
+          {/* Search and Filter */}
+          <div className="max-w-4xl mx-auto">
+            <div className="flex flex-col sm:flex-row gap-4 mb-8">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder={t("projects.searchPlaceholder")}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="px-5 py-6 pl-10 text-base"
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="-mx-5 mt-5 flex gap-2 overflow-x-auto px-5 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0" role="group" aria-label="Lọc theo lĩnh vực">
-            {categories.map((category) => {
-              const on = selectedCategory === category
-              return (
-                <button
+            {/* Category Filter */}
+            <div className="flex flex-wrap gap-2 justify-center">
+              {categories.map((category) => (
+                <Button
                   key={category}
-                  type="button"
+                  variant={selectedCategory === category ? "default" : "outline"}
+                  size="sm"
                   onClick={() => setSelectedCategory(category)}
-                  aria-pressed={on}
-                  className={`shrink-0 rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
-                    on ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-foreground"
-                  }`}
+                  className="text-sm hover:bg-primary/80 hover:text-white"
                 >
                   {category}
-                </button>
-              )
-            })}
+                </Button>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="pb-20 pt-6 sm:pb-28">
-        <div className="container-x">
+      {/* Projects Grid */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {filteredProjects.length > 0 && (
-            <p className="mb-6 text-sm text-muted-foreground">
-              {t("projects.showing")} <strong className="text-foreground">{filteredProjects.length}</strong> {t("projects.projects")}
-              {selectedCategory !== "Tất cả" && ` ${t("projects.inCategory")} "${selectedCategory}"`}
-            </p>
+            <div className="mb-8">
+              <p className="text-muted-foreground">
+                {t("projects.showing")} {filteredProjects.length} {t("projects.projects")}
+                {selectedCategory !== "Tất cả" && ` ${t("projects.inCategory")} "${selectedCategory}"`}
+              </p>
+            </div>
           )}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredProjects.map((project) => (
+              <div
+                key={project.id}
+                className="group bg-background rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-border"
+              >
+                <div className="relative overflow-hidden">
+                  <img
+                    src={project.image || "/placeholder.svg"}
+                    alt={project.title}
+                    className="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-4 left-4">
+                    <Badge variant="secondary" className="bg-background/90 text-foreground">
+                      {project.category}
+                    </Badge>
+                  </div>
+                  <div className="absolute top-4 right-4">
+                    <Badge
+                      variant={project.status === "Hoàn thành" ? "default" : "outline"}
+                      className={
+                        project.status === "Hoàn thành" ? "bg-green-500 text-white" : "bg-yellow-500 text-white"
+                      }
+                    >
+                      {project.status}
+                    </Badge>
+                  </div>
+                </div>
 
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {filteredProjects.map((project) => {
-              const done = project.status === "Hoàn thành"
-              return (
-                <article key={project.id} className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-colors hover:border-primary/40">
-                  <div className="relative aspect-[16/10] overflow-hidden bg-muted">
-                    <img
-                      src={project.image || "/placeholder.svg"}
-                      alt={project.title}
-                      loading="lazy"
-                      className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
-                    />
+                <div className="p-6">
+                  <h3 className="text-xl font-bold mb-3 text-balance group-hover:text-primary transition-colors">
+                    {project.title}
+                  </h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-4">{project.description}</p>
+
+                  <div className="grid grid-cols-2 gap-4 text-xs text-muted-foreground mb-4">
+                    <div className="flex items-center gap-1">
+                      <Calendar className="h-3 w-3" />
+                      {project.completedDate}
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Users className="h-3 w-3" />
+                      {project.teamSize}
+                    </div>
                   </div>
 
-                  <div className="flex flex-1 flex-col p-6">
-                    <div className="flex items-center justify-between gap-3 text-xs font-semibold">
-                      <span className="uppercase tracking-wider text-primary">{project.category}</span>
-                      <span className={`inline-flex items-center gap-1.5 ${done ? "text-success" : "text-signal"}`}>
-                        <span className="h-1.5 w-1.5 rounded-full bg-current" aria-hidden />
-                        {project.status}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.technologies.slice(0, 4).map((tech) => (
+                      <Badge key={tech} variant="outline" className="text-xs">
+                        {tech}
+                      </Badge>
+                    ))}
+                    {project.technologies.length > 4 && (
+                      <Badge variant="outline" className="text-xs">
+                        +{project.technologies.length - 4}
+                      </Badge>
+                    )}
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="text-sm font-medium text-primary block">{project.client}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {t("projects.duration")}: {project.duration}
                       </span>
                     </div>
-                    <h3 className="mt-3 text-xl font-bold leading-snug">{project.title}</h3>
-                    <p className="mt-2 flex-1 text-[15px] leading-relaxed text-muted-foreground">{project.description}</p>
-
-                    <div className="mt-4 flex gap-5 text-xs text-muted-foreground">
-                      <span className="inline-flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5" aria-hidden />{project.completedDate}</span>
-                      <span className="inline-flex items-center gap-1.5"><Users className="h-3.5 w-3.5" aria-hidden />{project.teamSize}</span>
-                    </div>
-
-                    <ul className="mt-4 flex flex-wrap gap-1.5">
-                      {project.technologies.slice(0, 4).map((tech) => (
-                        <li key={tech} className="rounded-md bg-muted px-2 py-1 text-xs font-medium text-muted-foreground">{tech}</li>
-                      ))}
-                      {project.technologies.length > 4 && (
-                        <li className="rounded-md bg-muted px-2 py-1 text-xs font-medium text-muted-foreground">+{project.technologies.length - 4}</li>
-                      )}
-                    </ul>
-
-                    <div className="mt-5 flex items-center justify-between gap-3 border-t border-border pt-4">
-                      <div className="min-w-0">
-                        <span className="block truncate text-sm font-semibold">{project.client}</span>
-                        <span className="text-xs text-muted-foreground">{t("projects.duration")}: {project.duration}</span>
-                      </div>
-                      {project.link && (
-                        <Link
-                          href={`${project.link}`}
-                          aria-label={`Mở ${project.title}`}
-                          className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-border transition-colors hover:border-primary hover:bg-primary hover:text-primary-foreground"
-                        >
-                          <ArrowUpRight className="h-4 w-4" aria-hidden />
-                        </Link>
-                      )}
-                    </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 px-3 hover:bg-primary hover:text-white transition-colors"
+                       onClick={() => router.push(`${project?.link}`)}
+                    >
+                      <ExternalLink className="h-3 w-3" />
+                    </Button>
                   </div>
-                </article>
-              )
-            })}
+                </div>
+              </div>
+            ))}
           </div>
 
           {filteredProjects.length === 0 && (
-            <div className="flex flex-col items-center py-20 text-center">
-              <SearchX className="h-12 w-12 text-muted-foreground/60" aria-hidden />
-              <p className="mt-4 text-lg text-muted-foreground">{t("projects.noResults")}</p>
+            <div className="text-center py-0 flex flex-col justify-center align-center">
+              <span className="text-center">
+                <svg
+                  data-v-ad307406=""
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="240"
+                  height="240"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="m-auto lucide animal-icon flip lucide-animal-icon lucide-animal animal-icon flip"
+                >
+                  <path d="M13 16a3 3 0 0 1 2.24 5"></path>
+                  <path d="M18 12h.01"></path>
+                  <path d="M18 21h-8a4 4 0 0 1-4-4 7 7 0 0 1 7-7h.2L9.6 6.4a1 1 0 1 1 2.8-2.8L15.8 7h.2c3.3 0 6 2.7 6 6v1a2 2 0 0 1-2 2h-1a3 3 0 0 0-3 3"></path>
+                  <path d="M20 8.54V4a2 2 0 1 0-4 0v3"></path>
+                  <path d="M7.612 12.524a3 3 0 1 0-1.6 4.3"></path>
+                </svg>
+              </span>
+              <p className="text-muted-foreground text-lg">{t("projects.noResults")}</p>
             </div>
           )}
         </div>

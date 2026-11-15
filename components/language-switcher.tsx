@@ -32,7 +32,7 @@ export function LanguageSwitcher() {
         <Button
           variant="ghost"
           size="sm"
-          className="h-9 gap-1 rounded-lg border border-border bg-background/60 px-3 text-sm font-semibold text-foreground hover:bg-muted"
+          className="h-9 px-3 text-sm font-semibold hover:bg-primary/10 transition-colors border rounded-md"
         >
           {currentLanguage && (
             <ReactCountryFlag

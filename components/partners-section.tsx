@@ -1,11 +1,13 @@
 "use client"
 
+import { useEffect, useRef, useState } from "react"
 import useEmblaCarousel from "embla-carousel-react"
 import AutoPlay from "embla-carousel-autoplay"
 import { useLanguage } from "@/lib/i18n"
-import { Reveal } from "@/components/reveal"
 
 export function PartnersSection() {
+  const [isVisible, setIsVisible] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
   const { t } = useLanguage()
 
   const [emblaRef] = useEmblaCarousel(
@@ -17,6 +19,23 @@ export function PartnersSection() {
     },
     [AutoPlay({ delay: 3000, stopOnInteraction: false })],
   )
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+        }
+      },
+      { threshold: 0.1 },
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
 
   const partners = [
     { name: "Dotesco", logo: "/dotesco.png" },
@@ -34,36 +53,52 @@ export function PartnersSection() {
   ]
 
   return (
-    <section id="doi-tac" className="section-y">
-      <div className="container-x">
-        <Reveal className="mx-auto max-w-2xl text-center">
-          <span className="eyebrow">{t("nav.products")}</span>
-          <h2 className="h2 mt-4">
+    <section ref={sectionRef} id="doi-tac" className="py-24 bg-background">
+      <div className="max-w-7xl mx-auto px-6">
+        <div
+          className={`text-center mb-16 transition-all duration-1000 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          }`}
+        >
+          <h2 className="text-4xl md:text-5xl font-bold text-balance mb-6">
             {t("partners.title")} <span className="text-primary">{t("partners.subtitle")}</span>
           </h2>
-          <p className="lead mt-4">{t("partners.description")}</p>
-        </Reveal>
+          <p className="text-xl text-muted-foreground text-balance max-w-3xl mx-auto leading-relaxed">
+            {t("partners.description")}
+          </p>
+        </div>
 
-        <div className="mt-12 overflow-hidden" ref={emblaRef}>
-          <div className="flex">
-            {partners.map((partner, index) => (
-              <div key={index} className="min-w-0 pl-4" style={{ flex: "0 0 190px" }}>
-                <div className="surface grid h-24 place-items-center p-5">
-                  <img
-                    src={partner.logo || "/placeholder.svg"}
-                    alt={`${partner.name} logo`}
-                    className="max-h-12 max-w-full object-contain opacity-70 grayscale transition hover:opacity-100 hover:grayscale-0"
-                  />
+        <div
+          className={`transition-all duration-1000 delay-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          }`}
+        >
+          <div className="embla overflow-hidden" ref={emblaRef}>
+            <div className="embla__container flex">
+              {partners.map((partner, index) => (
+                <div
+                  key={index}
+                  className="embla__slide flex-[0_0_auto] min-w-0 pl-4 md:pl-8"
+                  style={{ flex: "0 0 200px" }}
+                >
+                  <div className="flex items-center justify-center h-24 bg-card rounded-lg border hover:shadow-md transition-shadow duration-300 p-6">
+                    <img
+                      src={partner.logo || "/placeholder.svg"}
+                      alt={`${partner.name} logo`}
+                      className="max-h-12 max-w-full object-contain opacity-60 hover:opacity-100 transition-opacity duration-300 grayscale hover:grayscale-0"
+                    />
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
-        <p className="mt-10 text-center text-muted-foreground">
-          {t("partners.additional")} <span className="font-semibold text-primary">{t("partners.additionalHighlight")}</span>
-          {t("partners.additionalmore")}
-        </p>
+        <div className="text-center mt-12">
+          <p className="text-muted-foreground">
+            {t("partners.additional")} <span className="font-semibold text-primary">{t("partners.additionalHighlight")}</span>{t("partners.additionalmore")}
+          </p>
+        </div>
       </div>
     </section>
   )

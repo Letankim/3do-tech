@@ -73,7 +73,7 @@ export function FloatingContactWidget() {
             >
               <div className="flex items-center justify-end mb-2">
                 <div
-                  className={`mr-3 px-3 py-1 rounded-lg bg-ink text-ink-foreground text-sm whitespace-nowrap transition-all duration-200 ${
+                  className={`mr-3 px-3 py-1 rounded-lg bg-black/80 text-white text-sm whitespace-nowrap transition-all duration-200 ${
                     isOpen ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2"
                   }`}
                   style={{
@@ -105,12 +105,10 @@ export function FloatingContactWidget() {
       {/* Main Toggle Button */}
       <div className="relative">
         <Button
-          aria-label="Liên hệ nhanh"
-          aria-expanded={isOpen}
           onClick={() => setIsOpen(!isOpen)}
           size="icon"
           className={`h-14 w-14 rounded-full shadow-lg transition-all duration-300 hover:scale-105 ${
-            isOpen ? "bg-ink hover:bg-ink/90" : "bg-primary hover:bg-primary/90"
+            isOpen ? "bg-red-500 hover:bg-red-600" : "bg-blue-500 hover:bg-blue-600"
           }`}
         >
           <div className={`transition-transform duration-300 ${isOpen ? "rotate-45" : "rotate-0"}`}>
