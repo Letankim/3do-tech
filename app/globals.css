@@ -1,83 +1,90 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap");
 
 @custom-variant dark (&:is(.dark *));
 
+/* ====== Thiet ke 2026: giay am + muc xanh dam + diem nhan do son ======
+   Mot mau chinh (xanh dam), mot mau nhan (do son) dung rat it. Chu Be Vietnam Pro. */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --background: oklch(0.985 0.004 85);
+  --foreground: oklch(0.21 0.035 262);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.21 0.035 262);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.6 0.15 250);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.95 0.02 250);
-  --secondary-foreground: oklch(0.145 0 0);
-  /* Updated muted to very light blue-gray */
-  --muted: oklch(0.97 0.01 250);
-  --muted-foreground: oklch(0.556 0 0);
-  /* Added green accent color for success/action buttons */
-  --accent: oklch(0.65 0.15 145);
-  --accent-foreground: oklch(1 0 0);
+  --popover-foreground: oklch(0.21 0.035 262);
+  --primary: oklch(0.45 0.15 259);
+  --primary-foreground: oklch(0.99 0.005 255);
+  --secondary: oklch(0.955 0.012 255);
+  --secondary-foreground: oklch(0.28 0.06 259);
+  --muted: oklch(0.962 0.006 85);
+  --muted-foreground: oklch(0.47 0.025 260);
+  --accent: oklch(0.945 0.02 255);
+  --accent-foreground: oklch(0.3 0.08 259);
+  --signal: oklch(0.58 0.19 30);
+  --signal-foreground: oklch(0.99 0.005 30);
+  --success: oklch(0.52 0.13 155);
+  --ink: oklch(0.2 0.04 262);
+  --ink-foreground: oklch(0.97 0.005 255);
   --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.6 0.15 250);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.6 0.15 250);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.96 0 0);
-  --sidebar-accent-foreground: oklch(0.145 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.6 0.15 250);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(0.9 0.01 255);
+  --input: oklch(0.9 0.01 255);
+  --ring: oklch(0.55 0.15 259);
+  --chart-1: oklch(0.45 0.15 259);
+  --chart-2: oklch(0.58 0.19 30);
+  --chart-3: oklch(0.52 0.13 155);
+  --chart-4: oklch(0.7 0.14 80);
+  --chart-5: oklch(0.55 0.15 310);
+  --radius: 0.75rem;
+  --sidebar: oklch(0.985 0.004 85);
+  --sidebar-foreground: oklch(0.21 0.035 262);
+  --sidebar-primary: oklch(0.45 0.15 259);
+  --sidebar-primary-foreground: oklch(0.99 0.005 255);
+  --sidebar-accent: oklch(0.945 0.02 255);
+  --sidebar-accent-foreground: oklch(0.3 0.08 259);
+  --sidebar-border: oklch(0.9 0.01 255);
+  --sidebar-ring: oklch(0.55 0.15 259);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  /* Updated dark mode primary to lighter blue */
-  --primary: oklch(0.7 0.15 250);
-  --primary-foreground: oklch(0.145 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  /* Updated dark mode accent to green */
-  --accent: oklch(0.7 0.15 145);
-  --accent-foreground: oklch(0.145 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.439 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.7 0.15 250);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
+  --background: oklch(0.17 0.025 262);
+  --foreground: oklch(0.965 0.006 255);
+  --card: oklch(0.2 0.03 262);
+  --card-foreground: oklch(0.965 0.006 255);
+  --popover: oklch(0.2 0.03 262);
+  --popover-foreground: oklch(0.965 0.006 255);
+  --primary: oklch(0.72 0.13 255);
+  --primary-foreground: oklch(0.17 0.03 262);
+  --secondary: oklch(0.26 0.035 262);
+  --secondary-foreground: oklch(0.965 0.006 255);
+  --muted: oklch(0.23 0.03 262);
+  --muted-foreground: oklch(0.72 0.02 260);
+  --accent: oklch(0.28 0.04 262);
+  --accent-foreground: oklch(0.965 0.006 255);
+  --signal: oklch(0.7 0.16 32);
+  --signal-foreground: oklch(0.17 0.03 262);
+  --success: oklch(0.72 0.14 155);
+  --ink: oklch(0.14 0.03 262);
+  --ink-foreground: oklch(0.965 0.006 255);
+  --destructive: oklch(0.65 0.2 25);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(0.3 0.03 262);
+  --input: oklch(0.3 0.03 262);
+  --ring: oklch(0.65 0.13 255);
+  --chart-1: oklch(0.72 0.13 255);
+  --chart-2: oklch(0.7 0.16 32);
+  --chart-3: oklch(0.72 0.14 155);
+  --chart-4: oklch(0.8 0.13 80);
+  --chart-5: oklch(0.7 0.14 310);
+  --sidebar: oklch(0.2 0.03 262);
+  --sidebar-foreground: oklch(0.965 0.006 255);
+  --sidebar-primary: oklch(0.72 0.13 255);
+  --sidebar-primary-foreground: oklch(0.17 0.03 262);
+  --sidebar-accent: oklch(0.28 0.04 262);
+  --sidebar-accent-foreground: oklch(0.965 0.006 255);
+  --sidebar-border: oklch(0.3 0.03 262);
+  --sidebar-ring: oklch(0.65 0.13 255);
 }
 
 @theme inline {
@@ -98,6 +105,11 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-signal: var(--signal);
+  --color-signal-foreground: var(--signal-foreground);
+  --color-success: var(--success);
+  --color-ink: var(--ink);
+  --color-ink-foreground: var(--ink-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
@@ -129,71 +141,58 @@
 
   body {
     @apply bg-background text-foreground font-sans;
+    font-feature-settings: "cv11", "ss01";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 }
 
-/* Added custom animations for scroll effects */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+@layer base {
+  html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+  h1, h2, h3 { letter-spacing: -0.02em; text-wrap: balance; }
+  p { text-wrap: pretty; }
+  :focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; border-radius: 4px; }
 }
 
-@keyframes countUp {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
+@layer components {
+  .container-x { width: 100%; max-width: 72rem; margin-inline: auto; padding-inline: 1.25rem; }
+  @media (min-width: 640px) { .container-x { padding-inline: 2rem; } }
+  .section-y { padding-block: clamp(3.5rem, 8vw, 6.5rem); }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: .5rem;
+    font-size: .75rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--primary);
   }
-
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
-}
-
-.animate-count-up {
-  animation: countUp 0.8s ease-out forwards;
-}
-
-/* Added floating contact widget styles */
-.floating-contact {
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-
-  50% {
-    transform: translateY(-10px);
+  .eyebrow::before { content: ""; width: 1.25rem; height: 2px; background: var(--signal); border-radius: 2px; }
+  .display { font-weight: 800; line-height: 1.08; font-size: clamp(2.25rem, 5.2vw, 4rem); }
+  .h2 { font-weight: 700; line-height: 1.15; font-size: clamp(1.65rem, 3.2vw, 2.5rem); }
+  .lead { font-size: clamp(1.02rem, 1.4vw, 1.2rem); line-height: 1.7; color: var(--muted-foreground); }
+  .surface { background: var(--card); border: 1px solid var(--border); border-radius: calc(var(--radius) + 4px); }
+  .surface-hover { transition: border-color .2s, transform .2s, box-shadow .2s; }
+  .surface-hover:hover { border-color: color-mix(in oklab, var(--primary) 40%, var(--border)); transform: translateY(-2px); box-shadow: 0 10px 30px -18px color-mix(in oklab, var(--primary) 45%, transparent); }
+  .grid-paper {
+    background-image:
+      linear-gradient(to right, color-mix(in oklab, var(--border) 55%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklab, var(--border) 55%, transparent) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 30%, transparent 75%);
   }
 }
 
-.contact-tooltip {
-  animation: slideIn 0.3s ease-out;
+/* Hieu ung xuat hien khi cuon: chi mo + truot nhe, tat khi nguoi dung chon giam chuyen dong */
+.reveal { opacity: 0; transform: translateY(14px); transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0ms); }
+.reveal.is-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
 }
 
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
+/* Giu cac class cu con duoc component khac dung */
+@keyframes float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-8px) } }
+.floating-contact { animation: float 4s ease-in-out infinite; }
+@keyframes slideIn { from { opacity: 0; transform: translateX(10px) } to { opacity: 1; transform: none } }
+.contact-tooltip { animation: slideIn .3s ease-out; }
+.animate-fade-in-up { animation: fadeInUp .6s ease-out forwards; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px) } to { opacity: 1; transform: none } }

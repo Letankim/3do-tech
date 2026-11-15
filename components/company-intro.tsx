@@ -1,78 +1,42 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import { Card } from "@/components/ui/card"
 import { Target, Eye, Lightbulb } from "lucide-react"
 import { useLanguage } from "@/lib/i18n"
+import { Reveal } from "@/components/reveal"
 
 export function CompanyIntro() {
-  const [isVisible, setIsVisible] = useState(false)
-  const sectionRef = useRef<HTMLElement>(null)
   const { t } = useLanguage()
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.1 },
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
+  const items = [
+    { icon: Target, title: t("company.mission.title"), text: t("company.mission.description") },
+    { icon: Eye, title: t("company.vision.title"), text: t("company.vision.description") },
+    { icon: Lightbulb, title: t("company.coreValues.title"), text: t("company.coreValues.description") },
+  ]
 
   return (
-    <section ref={sectionRef} id="gioi-thieu" className="py-24 bg-muted/30">
-      <div className="px-2 max-w-7xl mx-auto md:px-6">
-        <div
-          className={`text-center mb-16 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-balance mb-6">
-            {t("company.intro.title")} <span className="text-primary">{t("company.intro.subtitle")}</span>
-          </h2>
-          <p className="text-xl text-muted-foreground text-balance max-w-4xl mx-auto leading-relaxed">
-            {t("company.intro.description")}
-          </p>
-        </div>
+    <section id="gioi-thieu" className="section-y border-y border-border bg-card">
+      <div className="container-x">
+        <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
+          <Reveal>
+            <span className="eyebrow">{t("nav.about")}</span>
+            <h2 className="h2 mt-4">
+              {t("company.intro.title")} <span className="text-primary">{t("company.intro.subtitle")}</span>
+            </h2>
+            <p className="lead mt-5">{t("company.intro.description")}</p>
+          </Reveal>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {[
-            {
-              icon: Target,
-              title: t("company.mission.title"),
-              description: t("company.mission.description"),
-              delay: "delay-200",
-            },
-            {
-              icon: Eye,
-              title: t("company.vision.title"),
-              description: t("company.vision.description"),
-              delay: "delay-400",
-            },
-            {
-              icon: Lightbulb,
-              title: t("company.coreValues.title"),
-              description: t("company.coreValues.description"),
-              delay: "delay-600",
-            },
-          ].map((item, index) => (
-            <Card
-              key={index}
-              className={`p-8 text-center hover:shadow-lg transition-all duration-500 ${isVisible ? `opacity-100 translate-y-0 ${item.delay}` : "opacity-0 translate-y-10"}`}
-            >
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <item.icon className="h-8 w-8 text-primary" />
-              </div>
-              <h3 className="text-2xl font-semibold mb-4">{item.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{item.description}</p>
-            </Card>
-          ))}
+          <div className="divide-y divide-border rounded-2xl border border-border bg-background">
+            {items.map((it, i) => (
+              <Reveal key={i} delay={i * 80} className="flex gap-5 p-6 sm:p-7">
+                <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-accent text-primary">
+                  <it.icon className="h-5 w-5" aria-hidden />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold">{it.title}</h3>
+                  <p className="mt-1.5 text-[15px] leading-relaxed text-muted-foreground">{it.text}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </div>
     </section>
