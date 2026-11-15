@@ -30,6 +30,40 @@ export function StickyHeader() {
 
   useEffect(() => setOpen(false), [pathname])
 
+  // Danh dau muc dang xem: o trang chu theo khoi dang cuon toi, o trang /projects la "Du an"
+  const [active, setActive] = useState<string | null>(null)
+  useEffect(() => {
+    if (pathname !== "/") {
+      setActive(pathname?.startsWith("/projects") ? "san-pham-thuc-te" : null)
+      return
+    }
+    const ids = NAV.map((n) => n.href.split("#")[1])
+    const pick = () => {
+      const line = 96 // ngay duoi thanh header
+      // khoi nao da qua mep header va gan mep nhat thi la khoi dang xem (khong phu thuoc thu tu tren trang)
+      let cur: string | null = null
+      let best = -Infinity
+      for (const id of ids) {
+        const top = document.getElementById(id)?.getBoundingClientRect().top
+        if (top !== undefined && top <= line && top > best) {
+          best = top
+          cur = id
+        }
+      }
+      // cuon het trang thi chon Lien he (khoi cuoi trang)
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) cur = "lien-he"
+      setActive(cur)
+    }
+    pick()
+    window.addEventListener("scroll", pick, { passive: true })
+    window.addEventListener("resize", pick)
+    return () => {
+      window.removeEventListener("scroll", pick)
+      window.removeEventListener("resize", pick)
+    }
+  }, [pathname])
+  const isOn = (href: string) => active !== null && href.endsWith(`#${active}`)
+
   const onAddin = pathname?.startsWith("/add-in-office")
 
   return (
@@ -47,15 +81,21 @@ export function StickyHeader() {
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Điều hướng chính">
-          {NAV.map((n) => (
-            <Link
-              key={n.key}
-              href={n.href}
-              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {t(n.key)}
-            </Link>
-          ))}
+          {NAV.map((n) => {
+            const on = isOn(n.href)
+            return (
+              <Link
+                key={n.key}
+                href={n.href}
+                aria-current={on ? "location" : undefined}
+                className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                  on ? "bg-accent text-primary" : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {t(n.key)}
+              </Link>
+            )
+          })}
           <Link
             href="/add-in-office"
             aria-current={onAddin ? "page" : undefined}
@@ -98,7 +138,13 @@ export function StickyHeader() {
         <div className="border-t border-border bg-background lg:hidden">
           <div className="container-x flex flex-col gap-1 py-4">
             {NAV.map((n) => (
-              <Link key={n.key} href={n.href} className="rounded-lg px-3 py-3 text-base font-medium hover:bg-muted">
+              <Link
+                key={n.key}
+                href={n.href}
+                onClick={() => setOpen(false)}
+                aria-current={isOn(n.href) ? "location" : undefined}
+                className={`rounded-lg px-3 py-3 text-base font-medium ${isOn(n.href) ? "bg-accent text-primary" : "hover:bg-muted"}`}
+              >
                 {t(n.key)}
               </Link>
             ))}
