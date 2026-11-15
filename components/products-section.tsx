@@ -61,46 +61,32 @@ export function ProductsSection() {
   ]
 
   return (
-    <section id="dich-vu" className="section-y">
+    <section id="dich-vu" className="section-y border-t border-border">
       <div className="container-x">
-        <Reveal className="max-w-2xl">
-          <span className="eyebrow">{t("nav.services")}</span>
-          <h2 className="h2 mt-4">
-            {t("products.title")} <span className="text-primary">{t("products.subtitle")}</span>
-          </h2>
-          <p className="lead mt-4">{t("products.description")}</p>
+        <Reveal className="grid gap-6 lg:grid-cols-12">
+          <p className="eyebrow lg:col-span-3"><b>02</b>{t("nav.services")}</p>
+          <div className="lg:col-span-9">
+            <h2 className="h2 max-w-3xl">
+              {t("products.title")} <span className="text-primary">{t("products.subtitle")}</span>
+            </h2>
+            <p className="lead mt-6 max-w-2xl">{t("products.description")}</p>
+          </div>
         </Reveal>
 
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <ol className="mt-14 border-t border-foreground">
           {products.map((p, i) => (
-            <Reveal key={i} delay={(i % 3) * 70} className="surface surface-hover group flex flex-col overflow-hidden">
-              <div className="relative aspect-[16/10] overflow-hidden border-b border-border bg-muted">
-                <img
-                  src={p.image}
-                  alt=""
-                  loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                />
-              </div>
-              <div className="flex flex-1 flex-col p-6">
-                <div className="flex items-center gap-3">
-                  <span className="grid h-9 w-9 place-items-center rounded-lg bg-accent text-primary">
-                    <p.icon className="h-[18px] w-[18px]" aria-hidden />
-                  </span>
-                  <h3 className="text-lg font-semibold leading-snug">{p.title}</h3>
-                </div>
-                <p className="mt-3 flex-1 text-[15px] leading-relaxed text-muted-foreground">{p.description}</p>
-                <ul className="mt-5 flex flex-wrap gap-1.5">
-                  {p.features.map((f) => (
-                    <li key={f} className="rounded-md bg-muted px-2 py-1 text-xs font-medium text-muted-foreground">
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <Reveal key={i} as="li" delay={(i % 3) * 40} className="group grid gap-x-8 gap-y-3 border-b border-border py-7 md:grid-cols-12 md:items-baseline">
+              <span className="font-serif text-lg tabular-nums text-muted-foreground md:col-span-1">{String(i + 1).padStart(2, "0")}</span>
+              <h3 className="font-serif text-2xl font-semibold leading-tight transition-colors group-hover:text-primary md:col-span-4">{p.title}</h3>
+              <p className="text-[15px] leading-relaxed text-muted-foreground md:col-span-4">{p.description}</p>
+              <ul className="flex flex-wrap gap-x-3 gap-y-1 text-sm text-muted-foreground md:col-span-3 md:justify-end">
+                {p.features.map((f) => (
+                  <li key={f} className="after:ml-3 after:content-['/'] after:text-border last:after:hidden">{f}</li>
+                ))}
+              </ul>
             </Reveal>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   )

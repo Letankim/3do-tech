@@ -91,10 +91,10 @@ export function ContactSection({ lang = "vi" }: { lang?: string }) {
   ]
 
   return (
-    <section id="lien-he" className="section-y border-t border-border bg-card">
+    <section id="lien-he" className="section-y border-t border-border bg-muted/50">
       <div className="container-x">
-        <Reveal className="mx-auto max-w-2xl text-center">
-          <span className="eyebrow">{t("nav.contact")}</span>
+        <Reveal className="max-w-2xl">
+          <span className="eyebrow"><b>06</b>{t("nav.contact")}</span>
           <h2 className="h2 mt-4">
             {t("contact.header.title")} <span className="text-primary">{t("contact.header.titleHighlight")}</span>
           </h2>
@@ -102,14 +102,12 @@ export function ContactSection({ lang = "vi" }: { lang?: string }) {
         </Reveal>
 
         <div className="mt-12 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-          <Reveal className="rounded-2xl border border-border bg-background p-6 sm:p-8">
+          <Reveal className="rounded border border-border bg-background p-6 sm:p-8">
             <h3 className="text-xl font-bold">{t("contact.info.title")}</h3>
             <ul className="mt-6 space-y-6">
               {info.map((it, i) => (
                 <li key={i} className="flex gap-4">
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-accent text-primary">
-                    <it.icon className="h-5 w-5" aria-hidden />
-                  </span>
+                  <it.icon className="mt-1 h-5 w-5 shrink-0 text-muted-foreground" aria-hidden />
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">{it.label}</p>
                     <div className="mt-0.5 font-medium">{it.node}</div>
@@ -130,7 +128,7 @@ export function ContactSection({ lang = "vi" }: { lang?: string }) {
             </div>
           </Reveal>
 
-          <Reveal delay={80} className="rounded-2xl border border-border bg-background p-6 sm:p-8">
+          <Reveal delay={80} className="rounded border border-border bg-background p-6 sm:p-8">
             <h3 className="text-xl font-bold">{t("contact.form.title")}</h3>
             <form onSubmit={handleSubmit} className="mt-6 space-y-5">
               <div className="grid gap-4 md:grid-cols-2">
@@ -151,10 +149,10 @@ export function ContactSection({ lang = "vi" }: { lang?: string }) {
                 <Label htmlFor="message">{t("contact.form.messageLabel")}</Label>
                 <Textarea id="message" name="message" rows={5} placeholder={t("contact.form.messagePlaceholder")} value={formData.message} onChange={handleInputChange} required className="resize-none bg-card" />
               </div>
-              <Button type="submit" size="lg" disabled={isSubmitting} className="h-12 w-full rounded-xl text-base font-semibold">
+              <Button type="submit" size="lg" disabled={isSubmitting} className="h-12 w-full rounded-md text-base font-semibold">
                 {isSubmitting ? t("contact.form.submitting") : (<>{t("contact.form.submitButton")} <Send className="ml-2 h-4 w-4" aria-hidden /></>)}
               </Button>
-              <p className="text-center text-xs text-muted-foreground">{t("contact.form.consent")}</p>
+              <p className="text-xs text-muted-foreground">{t("contact.form.consent")}</p>
             </form>
           </Reveal>
         </div>

@@ -67,11 +67,11 @@ export function RealProjectsSection() {
   const { t } = useLanguage()
 
   return (
-    <section id="san-pham-thuc-te" className="section-y border-y border-border bg-card">
+    <section id="san-pham-thuc-te" className="section-y border-t border-border bg-muted/50">
       <div className="container-x">
         <Reveal className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div className="max-w-2xl">
-            <span className="eyebrow">{t("nav.projects")}</span>
+            <span className="eyebrow"><b>03</b>{t("nav.projects")}</span>
             <h2 className="h2 mt-4">
               {t("realProjects.title")} <span className="text-primary">{t("realProjects.titleHighlight")}</span>
             </h2>
@@ -79,7 +79,7 @@ export function RealProjectsSection() {
           </div>
           <Link
             href="/projects"
-            className="inline-flex h-11 shrink-0 items-center gap-2 rounded-xl border border-border bg-background px-5 text-sm font-semibold transition-colors hover:border-primary/50"
+            className="inline-flex h-11 shrink-0 items-center gap-2 rounded-md border border-border bg-background px-5 text-sm font-semibold transition-colors hover:border-primary/50"
           >
             {t("realProjects.button.viewAll")}
             <ArrowRight className="h-4 w-4" aria-hidden />
@@ -90,7 +90,7 @@ export function RealProjectsSection() {
           {products.map((p, i) => {
             const done = t(p.status) === "Hoàn thành"
             return (
-              <Reveal key={p.id} delay={(i % 3) * 70} className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-background transition-colors hover:border-primary/40">
+              <Reveal key={p.id} delay={(i % 3) * 70} className="group flex flex-col overflow-hidden rounded-md border border-border bg-card transition-colors hover:border-foreground">
                 <div className="relative aspect-[16/10] overflow-hidden bg-muted">
                   <img
                     src={p.image || "/placeholder.svg"}

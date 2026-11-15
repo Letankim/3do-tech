@@ -19,7 +19,7 @@ export function FloodRescuePopup() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
-      <div className="relative w-full max-w-2xl overflow-hidden rounded-xl shadow-2xl animate-in zoom-in-95 duration-300">
+      <div className="relative w-full max-w-2xl overflow-hidden rounded-md shadow-2xl animate-in zoom-in-95 duration-300">
         <button
           onClick={() => setIsOpen(false)}
           className="absolute right-4 top-4 z-10 rounded-full bg-black/50 p-2 text-white hover:bg-black/70 transition-colors"
