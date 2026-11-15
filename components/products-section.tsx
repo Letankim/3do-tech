@@ -1,10 +1,8 @@
 "use client"
 
-import { useState } from "react"
-import { ArrowRight, Smartphone, Globe, Database, Shield, Cpu, Cloud } from "lucide-react"
-import { useLanguage } from "@/lib/i18n"
 import { Reveal } from "@/components/reveal"
-import { SectionHead } from "@/components/section-head"
+import { Smartphone, Globe, Database, Shield, Cpu, Cloud } from "lucide-react"
+import { useLanguage } from "@/lib/i18n"
 
 interface Product {
   icon: React.ComponentType<{ className?: string }>
@@ -16,7 +14,6 @@ interface Product {
 
 export function ProductsSection() {
   const { t } = useLanguage()
-  const [active, setActive] = useState(0)
 
   const products: Product[] = [
     {
@@ -63,75 +60,46 @@ export function ProductsSection() {
     },
   ]
 
-  const cur = products[active]
-
-  const Detail = ({ p, idx }: { p: Product; idx: number }) => (
-    <div>
-      <div className="marks relative aspect-[4/3] overflow-hidden bg-ink text-brand">
-        <img key={p.image} src={p.image} alt="" className="fade h-full w-full object-cover" />
-        <span className="tag absolute left-3 top-3 bg-ink px-2 py-1 text-ink-text">
-          FIG. {String(idx + 1).padStart(2, "0")}
-        </span>
-      </div>
-      <p className="mt-6 text-lg leading-relaxed">{p.description}</p>
-      <ul className="mt-5 flex flex-wrap gap-2">
-        {p.features.map((f) => (
-          <li key={f} className="tag border border-line px-2.5 py-1.5 text-foreground">
-            {f}
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-
   return (
-    <section id="dich-vu" className="sec border-t border-line bg-paper-2">
-      <div className="wrap">
-        <SectionHead index="02" label={t("nav.services")} note={`${products.length} ${t("products.subtitle")}`} />
-        <div className="mt-12 grid gap-6 lg:grid-cols-12">
-          <Reveal className="lg:col-span-7">
-            <h2 className="title">
-              {t("products.title")} <span className="text-brand-deep">{t("products.subtitle")}</span>
-            </h2>
-          </Reveal>
-          <Reveal delay={80} className="lg:col-span-5 lg:pt-3">
-            <p className="text-lg leading-relaxed text-muted-foreground">{t("products.description")}</p>
-          </Reveal>
-        </div>
+    <section id="dich-vu" className="section-y">
+      <div className="container-x">
+        <Reveal className="max-w-2xl">
+          <span className="eyebrow">{t("nav.services")}</span>
+          <h2 className="h2 mt-4">
+            {t("products.title")} <span className="text-primary">{t("products.subtitle")}</span>
+          </h2>
+          <p className="lead mt-4">{t("products.description")}</p>
+        </Reveal>
 
-        <div className="mt-14 grid gap-10 lg:grid-cols-12 lg:gap-12">
-          <ol className="border-t lg:col-span-6" style={{ borderTopColor: "var(--line-strong)" }}>
-            {products.map((p, i) => {
-              const on = i === active
-              return (
-                <li key={i} className="border-b border-line">
-                  <button
-                    type="button"
-                    onClick={() => setActive(i)}
-                    onMouseEnter={() => setActive(i)}
-                    aria-expanded={on}
-                    className={`group flex w-full items-center gap-5 px-1 py-5 text-left transition-colors sm:py-6 ${on ? "text-foreground" : "text-foreground/55 hover:text-foreground"}`}
-                  >
-                    <span className={`tag w-8 shrink-0 ${on ? "text-brand-deep" : ""}`}>{String(i + 1).padStart(2, "0")}</span>
-                    <span className="flex-1 text-[clamp(1.4rem,2.6vw,2.1rem)] font-bold leading-tight tracking-[-0.03em]">{p.title}</span>
-                    <p.icon className={`h-5 w-5 shrink-0 transition-colors ${on ? "text-brand-deep" : "opacity-40"}`} />
-                    <ArrowRight className={`h-5 w-5 shrink-0 transition-transform ${on ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0"}`} aria-hidden />
-                  </button>
-                  {on && (
-                    <div className="pb-8 lg:hidden">
-                      <Detail p={p} idx={i} />
-                    </div>
-                  )}
-                </li>
-              )
-            })}
-          </ol>
-
-          <div className="hidden lg:col-span-6 lg:block">
-            <div className="sticky top-24">
-              <Detail p={cur} idx={active} />
-            </div>
-          </div>
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {products.map((p, i) => (
+            <Reveal key={i} delay={(i % 3) * 70} className="surface surface-hover group flex flex-col overflow-hidden">
+              <div className="relative aspect-[16/10] overflow-hidden border-b border-border bg-muted">
+                <img
+                  src={p.image}
+                  alt=""
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+              </div>
+              <div className="flex flex-1 flex-col p-6">
+                <div className="flex items-center gap-3">
+                  <span className="grid h-9 w-9 place-items-center rounded-lg bg-accent text-primary">
+                    <p.icon className="h-[18px] w-[18px]" aria-hidden />
+                  </span>
+                  <h3 className="text-lg font-semibold leading-snug">{p.title}</h3>
+                </div>
+                <p className="mt-3 flex-1 text-[15px] leading-relaxed text-muted-foreground">{p.description}</p>
+                <ul className="mt-5 flex flex-wrap gap-1.5">
+                  {p.features.map((f) => (
+                    <li key={f} className="rounded-md bg-muted px-2 py-1 text-xs font-medium text-muted-foreground">
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>

@@ -65,29 +65,23 @@ export function AchievementsSection() {
   ]
 
   return (
-    <section className="bg-ink text-ink-text" aria-label={`${t("achievements.title")}${t("achievements.subtitle")}`}>
-      <div className="wrap">
-        <div className="tag flex items-center gap-4 pb-4 text-ink-muted">
-          <span>
-            {t("achievements.title")}
-            {t("achievements.subtitle")}
-          </span>
-          <span className="h-px flex-1 bg-ink-line" aria-hidden />
-        </div>
-      </div>
-      <div className="border-y border-ink-line">
-        <dl className="wrap grid grid-cols-2 lg:grid-cols-4">
+    <section className="section-y bg-ink text-ink-foreground">
+      <div className="container-x">
+        <Reveal className="max-w-2xl">
+          <h2 className="h2">
+            {t("achievements.title")} <span className="text-signal">{t("achievements.subtitle")}</span>
+          </h2>
+          <p className="mt-4 text-lg leading-relaxed text-ink-foreground/70">{t("achievements.description")}</p>
+        </Reveal>
+
+        <dl className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 lg:grid-cols-4">
           {achievements.map((a, i) => (
-            <Reveal
-              key={i}
-              delay={i * 70}
-              className={`py-8 sm:py-10 ${i % 2 === 0 ? "pr-5" : "border-l border-ink-line pl-5"} ${i < 2 ? "border-b border-ink-line lg:border-b-0" : ""} lg:px-8 lg:first:pl-0 ${i > 0 ? "lg:border-l lg:border-ink-line" : ""}`}
-            >
-              <dd className="text-[clamp(3rem,6vw,5rem)] font-extrabold leading-none tracking-[-0.05em]">
+            <Reveal key={i} delay={i * 70} className="bg-ink p-6 sm:p-8">
+              <dd className="text-4xl font-extrabold tracking-tight sm:text-5xl">
                 <Counter end={a.number} suffix={a.suffix} />
               </dd>
-              <dt className="mt-4 font-semibold">{a.label}</dt>
-              <p className="tag mt-1.5 text-ink-muted">{a.description}</p>
+              <dt className="mt-3 font-semibold">{a.label}</dt>
+              <p className="mt-1 text-sm leading-relaxed text-ink-foreground/60">{a.description}</p>
             </Reveal>
           ))}
         </dl>

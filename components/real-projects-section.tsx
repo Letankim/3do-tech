@@ -1,8 +1,7 @@
 "use client"
 
-import { ArrowUpRight } from "lucide-react"
 import { Reveal } from "@/components/reveal"
-import { SectionHead } from "@/components/section-head"
+import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { useLanguage } from "@/lib/i18n"
 
@@ -64,58 +63,60 @@ const products = [
 ];
 
 
-// Bo cuc 12 cot: hang 1 rong-hep, hang 2 hep-rong, hang 3 chia doi
-const SPANS = ["lg:col-span-7", "lg:col-span-5", "lg:col-span-5", "lg:col-span-7", "lg:col-span-6", "lg:col-span-6"]
-
 export function RealProjectsSection() {
   const { t } = useLanguage()
 
   return (
-    <section id="san-pham-thuc-te" className="sec bg-ink text-ink-text">
-      <div className="wrap">
-        <SectionHead dark index="03" label={t("nav.projects")} note={`${products.length} / ${t("realProjects.subtitle")}`} />
-
-        <div className="mt-12 flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
-          <Reveal>
-            <h2 className="title">
-              {t("realProjects.title")} <span className="text-brand">{t("realProjects.titleHighlight")}</span>
+    <section id="san-pham-thuc-te" className="section-y border-y border-border bg-card">
+      <div className="container-x">
+        <Reveal className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <div className="max-w-2xl">
+            <span className="eyebrow">{t("nav.projects")}</span>
+            <h2 className="h2 mt-4">
+              {t("realProjects.title")} <span className="text-primary">{t("realProjects.titleHighlight")}</span>
             </h2>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-muted">{t("realProjects.description")}</p>
-          </Reveal>
-          <Reveal delay={80}>
-            <Link href="/projects" className="btn btn-ghost-dark">
-              {t("realProjects.button.viewAll")}
-              <ArrowUpRight className="h-4 w-4" aria-hidden />
-            </Link>
-          </Reveal>
-        </div>
+            <p className="lead mt-4">{t("realProjects.description")}</p>
+          </div>
+          <Link
+            href="/projects"
+            className="inline-flex h-11 shrink-0 items-center gap-2 rounded-xl border border-border bg-background px-5 text-sm font-semibold transition-colors hover:border-primary/50"
+          >
+            {t("realProjects.button.viewAll")}
+            <ArrowRight className="h-4 w-4" aria-hidden />
+          </Link>
+        </Reveal>
 
-        <div className="mt-14 grid gap-x-6 gap-y-14 md:grid-cols-2 lg:grid-cols-12">
+        <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {products.map((p, i) => {
-            const done = t(p.status) === t("realProjects.sucesss")
+            const done = t(p.status) === "Hoàn thành"
             return (
-              <Reveal key={p.id} delay={(i % 2) * 90} className={`group ${SPANS[i]}`}>
-                <div className="marks relative aspect-[16/10] overflow-hidden bg-ink-3 text-ink-muted">
+              <Reveal key={p.id} delay={(i % 3) * 70} className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-background transition-colors hover:border-primary/40">
+                <div className="relative aspect-[16/10] overflow-hidden bg-muted">
                   <img
                     src={p.image || "/placeholder.svg"}
                     alt={t(p.titleKey)}
                     loading="lazy"
-                    className="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                    className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
                   />
-                  <span className="tag absolute left-3 top-3 bg-ink/85 px-2 py-1 text-ink-text">
-                    P.{String(p.id).padStart(2, "0")}
-                  </span>
                 </div>
-                <div className="mt-5 flex items-center justify-between gap-4">
-                  <span className="tag text-ink-muted">{p.category}</span>
-                  <span className={`tag inline-flex items-center gap-2 ${done ? "text-ok" : "text-brand"}`}>
-                    <span className="h-1.5 w-1.5 bg-current" aria-hidden />
-                    {t(p.status)}
-                  </span>
+                <div className="flex flex-1 flex-col p-6">
+                  <div className="flex items-center justify-between gap-3 text-xs font-semibold">
+                    <span className="uppercase tracking-wider text-primary">{p.category}</span>
+                    <span className={`inline-flex items-center gap-1.5 ${done ? "text-success" : "text-signal"}`}>
+                      <span className="h-1.5 w-1.5 rounded-full bg-current" aria-hidden />
+                      {t(p.status)}
+                    </span>
+                  </div>
+                  <h3 className="mt-3 text-xl font-bold leading-snug">{t(p.titleKey)}</h3>
+                  <p className="mt-2 line-clamp-3 flex-1 text-[15px] leading-relaxed text-muted-foreground">{t(p.descriptionKey)}</p>
+                  <ul className="mt-5 flex flex-wrap gap-1.5">
+                    {p.features.map((f) => (
+                      <li key={f} className="rounded-md bg-muted px-2 py-1 text-xs font-medium text-muted-foreground">
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <h3 className="mt-3 text-2xl font-bold leading-tight tracking-[-0.02em]">{t(p.titleKey)}</h3>
-                <p className="mt-2 line-clamp-2 leading-relaxed text-ink-muted">{t(p.descriptionKey)}</p>
-                <p className="tag mt-4 text-ink-text/80">{p.features.join("  /  ")}</p>
               </Reveal>
             )
           })}

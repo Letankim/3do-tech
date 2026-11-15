@@ -3,7 +3,6 @@
 import { useState } from "react"
 import { StickyHeader } from "@/components/sticky-header"
 import { Footer } from "@/components/footer"
-import { Reveal } from "@/components/reveal"
 
 export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState("all")
@@ -79,23 +78,19 @@ export default function ProductsPage() {
     selectedCategory === "all" ? allProducts : allProducts.filter((product) => product.category === selectedCategory)
 
   return (
-    <div className="min-h-screen bg-paper">
+    <div className="min-h-screen bg-background">
       <StickyHeader />
 
-      <section className="bg-ink text-ink-text">
-        <div className="wrap pb-12 pt-28 sm:pt-32 lg:pt-40">
-          <Reveal>
-            <p className="tag text-ink-muted">
-              <span className="text-brand">[ Sản phẩm ]</span> {allProducts.length} / Catalog
-            </p>
-            <h1 className="mega mt-8 text-[clamp(3rem,9vw,8rem)]">
-              Tất cả <span className="text-brand">Sản phẩm</span>
-            </h1>
-            <p className="mt-8 max-w-2xl text-lg leading-relaxed text-ink-text/75">
-              Khám phá danh mục đầy đủ các sản phẩm và dịch vụ công nghệ mà chúng tôi đã phát triển
-            </p>
-          </Reveal>
-          <div className="-mx-5 mt-12 flex gap-2 overflow-x-auto border-t border-ink-line px-5 pb-1 pt-8 sm:mx-0 sm:flex-wrap sm:px-0" role="group" aria-label="Lọc theo nhóm">
+      <section className="relative overflow-hidden pt-28 sm:pt-32">
+        <div className="grid-paper pointer-events-none absolute inset-0" aria-hidden />
+        <div className="container-x relative pb-10">
+          <span className="eyebrow">Sản phẩm</span>
+          <h1 className="display mt-4 max-w-3xl !text-[clamp(2rem,4.6vw,3.25rem)]">
+            Tất cả <span className="text-primary">sản phẩm</span>
+          </h1>
+          <p className="lead mt-5 max-w-2xl">Danh mục đầy đủ các sản phẩm và dịch vụ công nghệ mà chúng tôi đã phát triển.</p>
+
+          <div className="-mx-5 mt-8 flex gap-2 overflow-x-auto px-5 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0" role="group" aria-label="Lọc theo nhóm">
             {categories.map((category) => {
               const on = selectedCategory === category.id
               return (
@@ -104,7 +99,9 @@ export default function ProductsPage() {
                   type="button"
                   onClick={() => setSelectedCategory(category.id)}
                   aria-pressed={on}
-                  className={`tag shrink-0 border px-3 py-2 transition-colors ${on ? "border-brand bg-brand text-ink" : "border-ink-line text-ink-text/75 hover:border-ink-text hover:text-ink-text"}`}
+                  className={`shrink-0 rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
+                    on ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-foreground"
+                  }`}
                 >
                   {category.name}
                 </button>
@@ -114,32 +111,35 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      <main className="sec !pt-12">
-        <div className="wrap">
-          <div className="grid border-l border-t border-line md:grid-cols-2 lg:grid-cols-3">
+      <main className="pb-20 pt-6 sm:pb-28">
+        <div className="container-x">
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {filteredProducts.map((product) => {
               const done = product.status === "Hoàn thành"
               return (
-                <Reveal key={product.id} as="article" className="group border-b border-r border-line bg-paper-3 p-5">
-                  <div className="aspect-[16/10] overflow-hidden bg-paper-2">
+                <article key={product.id} className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-colors hover:border-primary/40">
+                  <div className="aspect-[16/10] overflow-hidden bg-muted">
                     <img
                       src={product.image || "/placeholder.svg"}
                       alt={product.title}
                       loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                     />
                   </div>
-                  <div className="mt-5 flex items-center justify-between">
-                    <span className="tag text-muted-foreground">#{String(product.id).padStart(2, "0")}</span>
-                    <span className={`tag inline-flex items-center gap-2 ${done ? "text-ok" : "text-brand-deep"}`}>
-                      <span className="h-1.5 w-1.5 bg-current" aria-hidden />
+                  <div className="flex flex-1 flex-col p-6">
+                    <span className={`inline-flex items-center gap-1.5 text-xs font-semibold ${done ? "text-success" : "text-signal"}`}>
+                      <span className="h-1.5 w-1.5 rounded-full bg-current" aria-hidden />
                       {product.status}
                     </span>
+                    <h3 className="mt-3 text-xl font-bold leading-snug">{product.title}</h3>
+                    <p className="mt-2 flex-1 text-[15px] leading-relaxed text-muted-foreground">{product.description}</p>
+                    <ul className="mt-5 flex flex-wrap gap-1.5">
+                      {product.technologies.map((tech) => (
+                        <li key={tech} className="rounded-md bg-muted px-2 py-1 text-xs font-medium text-muted-foreground">{tech}</li>
+                      ))}
+                    </ul>
                   </div>
-                  <h3 className="mt-3 text-2xl font-bold tracking-[-0.02em]">{product.title}</h3>
-                  <p className="mt-2 leading-relaxed text-muted-foreground">{product.description}</p>
-                  <p className="tag mt-5 border-t border-line pt-4 text-foreground/70">{product.technologies.join("  /  ")}</p>
-                </Reveal>
+                </article>
               )
             })}
           </div>

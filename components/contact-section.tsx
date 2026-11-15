@@ -2,10 +2,13 @@
 
 import type React from "react"
 import { useState } from "react"
+import { Button } from "@/components/ui/button"
 import { Reveal } from "@/components/reveal"
-import { SectionHead } from "@/components/section-head"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Label } from "@/components/ui/label"
 import { useToast } from "@/hooks/use-toast"
-import { ArrowRight } from "lucide-react"
+import { Phone, Mail, MapPin, Facebook, Send, Youtube } from "lucide-react"
 import { useLanguage } from "@/lib/i18n"
 
 interface ContactFormData {
@@ -68,91 +71,90 @@ export function ContactSection({ lang = "vi" }: { lang?: string }) {
 }
 
 
-  const field =
-    "peer w-full border-0 border-b border-[color:var(--input)] bg-transparent px-0 pb-3 pt-7 text-lg outline-none transition-colors placeholder:text-transparent focus:border-ink focus:ring-0"
-  const label =
-    "tag pointer-events-none absolute left-0 top-1 text-muted-foreground transition-colors peer-focus:text-brand-deep"
+  const info = [
+    { icon: Mail, label: t("contact.info.email"), node: <span>{t("contact.info.emailValue")}</span> },
+    {
+      icon: Phone,
+      label: t("contact.info.phone"),
+      node: (
+        <div className="space-y-1">
+          <a href="tel:0774889191" className="block hover:underline">
+            <strong>0774.88.9191</strong> <span className="text-sm text-muted-foreground">Mr. Cường · Kỹ thuật Add-in</span>
+          </a>
+          <a href="tel:0865341745" className="block hover:underline">
+            <strong>0865.341.745</strong> <span className="text-sm text-muted-foreground">Mr. Kim · Tư vấn giải pháp</span>
+          </a>
+        </div>
+      ),
+    },
+    { icon: MapPin, label: t("contact.info.address"), node: <span>{t("contact.info.addressValue")}</span> },
+  ]
 
   return (
-    <section id="lien-he" className="sec bg-paper">
-      <div className="wrap">
-        <SectionHead index="06" label={t("nav.contact")} note="24H" />
-
-        <Reveal className="mt-12 max-w-4xl">
-          <h2 className="title">
-            {t("contact.header.title")} <span className="text-brand-deep">{t("contact.header.titleHighlight")}</span>
+    <section id="lien-he" className="section-y border-t border-border bg-card">
+      <div className="container-x">
+        <Reveal className="mx-auto max-w-2xl text-center">
+          <span className="eyebrow">{t("nav.contact")}</span>
+          <h2 className="h2 mt-4">
+            {t("contact.header.title")} <span className="text-primary">{t("contact.header.titleHighlight")}</span>
           </h2>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">{t("contact.header.description")}</p>
+          <p className="lead mt-4">{t("contact.header.description")}</p>
         </Reveal>
 
-        <div className="mt-14 grid gap-12 lg:grid-cols-12">
-          <Reveal className="lg:col-span-5">
-            <h3 className="tag text-muted-foreground">{t("contact.info.title")}</h3>
-            <dl className="mt-5 border-t border-line">
-              <div className="border-b border-line py-5">
-                <dt className="tag text-muted-foreground">{t("contact.info.email")}</dt>
-                <dd className="mt-1.5">
-                  <a href={`mailto:${t("contact.info.emailValue")}`} className="link-u text-xl font-semibold">{t("contact.info.emailValue")}</a>
-                </dd>
+        <div className="mt-12 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+          <Reveal className="rounded-2xl border border-border bg-background p-6 sm:p-8">
+            <h3 className="text-xl font-bold">{t("contact.info.title")}</h3>
+            <ul className="mt-6 space-y-6">
+              {info.map((it, i) => (
+                <li key={i} className="flex gap-4">
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-accent text-primary">
+                    <it.icon className="h-5 w-5" aria-hidden />
+                  </span>
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">{it.label}</p>
+                    <div className="mt-0.5 font-medium">{it.node}</div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-8 border-t border-border pt-6">
+              <p className="text-sm font-medium text-muted-foreground">{t("contact.info.followMe")}</p>
+              <div className="mt-3 flex gap-2">
+                <a href="https://www.youtube.com/@3DO-Corp" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="grid h-10 w-10 place-items-center rounded-lg border border-border transition-colors hover:border-primary/50 hover:text-primary">
+                  <Youtube className="h-4 w-4" />
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=61581499790956" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="grid h-10 w-10 place-items-center rounded-lg border border-border transition-colors hover:border-primary/50 hover:text-primary">
+                  <Facebook className="h-4 w-4" />
+                </a>
               </div>
-              <div className="border-b border-line py-5">
-                <dt className="tag text-muted-foreground">{t("contact.info.phone")}</dt>
-                <dd className="mt-1.5 space-y-2">
-                  <a href="tel:0774889191" className="flex flex-wrap items-baseline justify-between gap-x-4">
-                    <span className="link-u font-mono text-xl font-semibold">0774.88.9191</span>
-                    <span className="text-sm text-muted-foreground">Mr. Cường · Kỹ thuật Add-in</span>
-                  </a>
-                  <a href="tel:0865341745" className="flex flex-wrap items-baseline justify-between gap-x-4">
-                    <span className="link-u font-mono text-xl font-semibold">0865.341.745</span>
-                    <span className="text-sm text-muted-foreground">Mr. Kim · Tư vấn giải pháp</span>
-                  </a>
-                </dd>
-              </div>
-              <div className="border-b border-line py-5">
-                <dt className="tag text-muted-foreground">{t("contact.info.address")}</dt>
-                <dd className="mt-1.5 text-xl font-semibold">{t("contact.info.addressValue")}</dd>
-              </div>
-              <div className="py-5">
-                <dt className="tag text-muted-foreground">{t("contact.info.followMe")}</dt>
-                <dd className="mt-2 flex gap-6 font-semibold">
-                  <a href="https://www.youtube.com/@3DO-Corp" target="_blank" rel="noopener noreferrer" className="link-u">YouTube ↗</a>
-                  <a href="https://www.facebook.com/profile.php?id=61581499790956" target="_blank" rel="noopener noreferrer" className="link-u">Facebook ↗</a>
-                </dd>
-              </div>
-            </dl>
+            </div>
           </Reveal>
 
-          <Reveal delay={90} className="lg:col-span-7">
-            <form onSubmit={handleSubmit} className="marks bg-paper-3 p-6 text-foreground/40 sm:p-10">
-              <div className="flex items-center justify-between text-foreground">
-                <h3 className="text-2xl font-bold tracking-tight">{t("contact.form.title")}</h3>
-                <span className="tag text-muted-foreground">FORM / 01</span>
-              </div>
-              <div className="mt-6 grid gap-x-8 text-foreground md:grid-cols-2">
-                <div className="relative mt-4">
-                  <input id="name" name="name" type="text" placeholder={t("contact.form.namePlaceholder")} value={formData.name} onChange={handleInputChange} required className={field} />
-                  <label htmlFor="name" className={label}>{t("contact.form.nameLabel")}</label>
+          <Reveal delay={80} className="rounded-2xl border border-border bg-background p-6 sm:p-8">
+            <h3 className="text-xl font-bold">{t("contact.form.title")}</h3>
+            <form onSubmit={handleSubmit} className="mt-6 space-y-5">
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="name">{t("contact.form.nameLabel")}</Label>
+                  <Input id="name" name="name" type="text" placeholder={t("contact.form.namePlaceholder")} value={formData.name} onChange={handleInputChange} required className="h-11 bg-card" />
                 </div>
-                <div className="relative mt-4">
-                  <input id="email" name="email" type="email" placeholder={t("contact.form.emailPlaceholder")} value={formData.email} onChange={handleInputChange} required className={field} />
-                  <label htmlFor="email" className={label}>{t("contact.form.emailLabel")}</label>
+                <div className="space-y-2">
+                  <Label htmlFor="email">{t("contact.form.emailLabel")}</Label>
+                  <Input id="email" name="email" type="email" placeholder={t("contact.form.emailPlaceholder")} value={formData.email} onChange={handleInputChange} required className="h-11 bg-card" />
                 </div>
               </div>
-              <div className="relative mt-4 text-foreground">
-                <input id="subject" name="subject" type="text" placeholder={t("contact.form.subjectPlaceholder")} value={formData.subject} onChange={handleInputChange} required className={field} />
-                <label htmlFor="subject" className={label}>{t("contact.form.subjectLabel")}</label>
+              <div className="space-y-2">
+                <Label htmlFor="subject">{t("contact.form.subjectLabel")}</Label>
+                <Input id="subject" name="subject" type="text" placeholder={t("contact.form.subjectPlaceholder")} value={formData.subject} onChange={handleInputChange} required className="h-11 bg-card" />
               </div>
-              <div className="relative mt-4 text-foreground">
-                <textarea id="message" name="message" rows={4} placeholder={t("contact.form.messagePlaceholder")} value={formData.message} onChange={handleInputChange} required className={`${field} resize-none`} />
-                <label htmlFor="message" className={label}>{t("contact.form.messageLabel")}</label>
+              <div className="space-y-2">
+                <Label htmlFor="message">{t("contact.form.messageLabel")}</Label>
+                <Textarea id="message" name="message" rows={5} placeholder={t("contact.form.messagePlaceholder")} value={formData.message} onChange={handleInputChange} required className="resize-none bg-card" />
               </div>
-              <div className="mt-10 flex flex-col gap-5 text-foreground sm:flex-row sm:items-center sm:justify-between">
-                <p className="max-w-xs text-xs leading-relaxed text-muted-foreground">{t("contact.form.consent")}</p>
-                <button type="submit" disabled={isSubmitting} className="btn btn-ink disabled:opacity-60">
-                  {isSubmitting ? t("contact.form.submitting") : t("contact.form.submitButton")}
-                  <ArrowRight className="h-4 w-4" aria-hidden />
-                </button>
-              </div>
+              <Button type="submit" size="lg" disabled={isSubmitting} className="h-12 w-full rounded-xl text-base font-semibold">
+                {isSubmitting ? t("contact.form.submitting") : (<>{t("contact.form.submitButton")} <Send className="ml-2 h-4 w-4" aria-hidden /></>)}
+              </Button>
+              <p className="text-center text-xs text-muted-foreground">{t("contact.form.consent")}</p>
             </form>
           </Reveal>
         </div>

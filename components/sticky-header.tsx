@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
-import { ArrowUpRight } from "lucide-react"
+import { Download, Menu, X, Phone } from "lucide-react"
 import { useLanguage } from "@/lib/i18n"
 import { LanguageSwitcher } from "./language-switcher"
 
@@ -22,97 +22,107 @@ export function StickyHeader() {
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12)
+    const onScroll = () => setScrolled(window.scrollY > 8)
     onScroll()
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
   useEffect(() => setOpen(false), [pathname])
-  useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : ""
-    return () => {
-      document.body.style.overflow = ""
-    }
-  }, [open])
 
   const onAddin = pathname?.startsWith("/add-in-office")
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 text-ink-text transition-colors duration-300 ${
-        scrolled || open ? "border-b border-ink-line bg-ink/92 backdrop-blur-md" : "border-b border-transparent bg-transparent"
+      className={`fixed inset-x-0 top-0 z-50 transition-[background,border-color,box-shadow] duration-200 ${
+        scrolled || open ? "border-b border-border bg-background/90 backdrop-blur-xl" : "border-b border-transparent bg-transparent"
       }`}
     >
-      <div className="wrap flex h-16 items-center justify-between gap-6">
-        <Link href="/" className="group flex items-center gap-3" aria-label="3DO TECH, về trang chủ">
-          <img src="/android-chrome-192x192.png" alt="" width={34} height={34} className="h-[34px] w-[34px] ring-1 ring-ink-line" />
-          <span className="text-[15px] font-extrabold tracking-tight">
-            3DO<span className="text-brand">.</span>TECH
+      <div className="container-x flex h-16 items-center justify-between gap-6">
+        <Link href="/" className="flex items-center gap-2.5" aria-label="3DO TECH - trang chủ">
+          <img src="/android-chrome-192x192.png" alt="" width={36} height={36} className="h-9 w-9 rounded-lg" />
+          <span className="text-[17px] font-extrabold tracking-tight">
+            3DO<span className="text-primary"> TECH</span>
           </span>
         </Link>
 
-        <nav className="hidden items-center lg:flex" aria-label="Điều hướng chính">
+        <nav className="hidden items-center gap-1 lg:flex" aria-label="Điều hướng chính">
           {NAV.map((n) => (
-            <Link key={n.key} href={n.href} className="px-3.5 py-2 text-[14px] text-ink-text/70 transition-colors hover:text-ink-text">
+            <Link
+              key={n.key}
+              href={n.href}
+              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            >
               {t(n.key)}
             </Link>
           ))}
           <Link
             href="/add-in-office"
             aria-current={onAddin ? "page" : undefined}
-            className={`ml-2 inline-flex items-center gap-2 border px-3.5 py-1.5 text-[14px] font-semibold transition-colors ${
-              onAddin ? "border-brand text-brand" : "border-ink-line hover:border-brand hover:text-brand"
+            className={`ml-1 inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm font-semibold transition-colors ${
+              onAddin
+                ? "border-primary bg-primary text-primary-foreground"
+                : "border-primary/25 bg-accent text-primary hover:border-primary hover:bg-primary hover:text-primary-foreground"
             }`}
           >
-            <span className="blink h-1.5 w-1.5 bg-brand" aria-hidden />
+            <Download className="h-3.5 w-3.5" aria-hidden />
             {t("nav.addin")}
           </Link>
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
           <LanguageSwitcher />
-          <a href="https://zalo.me/0865341745" target="_blank" rel="noopener noreferrer" className="btn btn-brand !h-9 !px-4 !text-[14px]">
+          <a
+            href="https://zalo.me/0865341745"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-9 items-center gap-2 rounded-lg bg-ink px-4 text-sm font-semibold text-ink-foreground transition-opacity hover:opacity-90"
+          >
             {t("nav.contact")}
-            <ArrowUpRight className="h-4 w-4" aria-hidden />
+            <Phone className="h-3.5 w-3.5" aria-hidden />
           </a>
         </div>
 
         <button
           type="button"
+          className="-mr-2 rounded-md p-2 text-foreground lg:hidden"
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
-          aria-controls="menu-di-dong"
-          className="tag -mr-1 flex h-10 items-center gap-2 px-2 lg:hidden"
+          aria-label={open ? "Đóng menu" : "Mở menu"}
         >
-          {open ? "Đóng" : "Menu"}
-          <span className="relative block h-3 w-5" aria-hidden>
-            <span className={`absolute left-0 h-px w-5 bg-current transition-transform ${open ? "top-1.5 rotate-45" : "top-0"}`} />
-            <span className={`absolute left-0 h-px w-5 bg-current transition-transform ${open ? "top-1.5 -rotate-45" : "top-3"}`} />
-          </span>
+          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </div>
 
       {open && (
-        <div id="menu-di-dong" className="h-[calc(100dvh-4rem)] overflow-y-auto border-t border-ink-line bg-ink lg:hidden">
-          <nav className="wrap flex flex-col py-6" aria-label="Điều hướng di động">
-            {NAV.map((n, i) => (
-              <Link key={n.key} href={n.href} className="flex items-baseline gap-4 border-b border-ink-line py-4 text-3xl font-bold tracking-tight">
-                <span className="tag text-ink-muted">0{i + 1}</span>
+        <div className="border-t border-border bg-background lg:hidden">
+          <div className="container-x flex flex-col gap-1 py-4">
+            {NAV.map((n) => (
+              <Link key={n.key} href={n.href} className="rounded-lg px-3 py-3 text-base font-medium hover:bg-muted">
                 {t(n.key)}
               </Link>
             ))}
-            <Link href="/add-in-office" className="flex items-baseline gap-4 border-b border-ink-line py-4 text-3xl font-bold tracking-tight text-brand">
-              <span className="tag text-ink-muted">06</span>
-              {t("nav.addin")}
+            <Link
+              href="/add-in-office"
+              className="mt-1 flex items-center justify-between rounded-lg bg-accent px-3 py-3 text-base font-semibold text-primary"
+            >
+              <span className="flex items-center gap-2">
+                <Download className="h-4 w-4" aria-hidden />
+                {t("nav.addin")}
+              </span>
             </Link>
-            <div className="mt-8 flex items-center gap-3">
+            <div className="flex items-center justify-between gap-3 pt-3">
               <LanguageSwitcher />
-              <a href="https://zalo.me/0865341745" target="_blank" rel="noopener noreferrer" className="btn btn-brand flex-1">
+              <a
+                href="https://zalo.me/0865341745"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-10 flex-1 items-center justify-center rounded-lg bg-ink px-4 text-sm font-semibold text-ink-foreground"
+              >
                 {t("nav.contact")}
               </a>
             </div>
-          </nav>
+          </div>
         </div>
       )}
     </header>
