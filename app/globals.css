@@ -90,7 +90,7 @@
 @theme inline {
   /* Updated font to Be Vietnam Pro */
   --font-sans: "Be Vietnam Pro", sans-serif;
-  --font-mono: "Roboto Mono", monospace;
+  --font-mono: "Be Vietnam Pro", sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

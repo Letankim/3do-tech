@@ -1,19 +1,11 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { JetBrains_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import { FloatingContactWidget } from "@/components/floating-contact-widget"
 import "./globals.css"
 import { LanguageProvider } from "@/lib/i18n"
 import { Toaster } from "@/components/ui/toaster"
-
-const jetbrains = JetBrains_Mono({
-  subsets: ["latin", "vietnamese"],
-  weight: ["400", "500"],
-  variable: "--font-jetbrains",
-  display: "swap",
-})
 
 export const metadata: Metadata = {
   title: "3DO TECH - Công nghệ chuyển đổi số",
@@ -46,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="vi" className={jetbrains.variable}>
+    <html lang="vi">
       <body className="font-sans antialiased">
         <a
           href="#noi-dung"
