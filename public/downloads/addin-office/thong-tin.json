@@ -1,34 +1,34 @@
 {
-  "version": "v2026.11.15.1",
-  "published": "2026-11-15T09:04:39",
+  "version": "v2026.11.16.1",
+  "published": "2026-11-16T15:12:27",
   "files": {
     "Bo_Cai_Dat_AddIn_Windows.zip": {
-      "size": 263805,
-      "sha256": "3a4f54ed3d4e6452e73627898fb2b5b1c194f47fc6867f581768a7612163b49a"
+      "size": 235016,
+      "sha256": "dd0bf57d8f5b9b46ff37107e3ac206c003d5868a957668d24708639a78f64494"
     },
     "Bo_Cai_Dat_AddIn_Mac.zip": {
-      "size": 266519,
-      "sha256": "7820fce09aca7ee817549fbb38cc48ac2127abc8189cfdfaf90f41ef99c8807b"
+      "size": 296273,
+      "sha256": "e7cf9f576b25d01a3f47d23f4cd0f1c1b3e1386769e6290ce18504433b3ebe87"
     },
     "ChuanHoa_VanBanDang.dotm": {
-      "size": 217863,
-      "sha256": "fdc34b7d054eb6638d89967999c337f55bfbe355712cc019901f608bd4f83736"
+      "size": 220090,
+      "sha256": "72c46622a7b83f5ea33f11d24984687bf9fed64037cae992c26070e0bae3a37b"
     },
     "ChuanHoa_Excel.xlam": {
-      "size": 45368,
-      "sha256": "021df59748df4f74a2e2e486b2a41b293cc9c3856468611c4088c67b8c0a574a"
+      "size": 72410,
+      "sha256": "583ce60e61a83942d9fc9eb0c77256e4c32b1b371e80ad163e0bc87dc913db43"
     },
     "ChuanHoa_VanBanDang_Win.dotm": {
-      "size": 217089,
-      "sha256": "da7dcb1f00ef6b60a2db82d5800802f49b1cd74bfe14f6d1df2121f5ee2e0908"
+      "size": 174108,
+      "sha256": "a5482ff04e75b6cb76ee656bf70b26307bfb91b2c2e089967e37ee4164dcdf7a"
     },
     "ChuanHoa_Excel_Win.xlam": {
-      "size": 44683,
-      "sha256": "a4c839924007f5fe0708740c0dcbe8efe793a063f9ec2acafa4f6bb4052c979f"
+      "size": 58929,
+      "sha256": "75c75d2dc55f7c4c14c46faed7c5e420c042ea757a32fe547b30e75a4cd32811"
     },
     "version.json": {
       "size": 1213,
-      "sha256": "b63c380a68741f6108dc3ab2d326d795fec8df0dc09f0b8df87b1fc9f3a462d1"
+      "sha256": "033bf525d43c0282c28d078614801a15cb29ff687c112cccf68db864bbe80cdb"
     }
   }
 }
