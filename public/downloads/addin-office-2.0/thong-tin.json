@@ -1,0 +1,19 @@
+{
+  "version": "2.0 (bản thử)",
+  "published": "2026-11-21",
+  "engine": "0.1.0",
+  "files": {
+    "CaiDat_ChuanHoaTheThuc.zip": {
+      "size": 5841558,
+      "sha256": "e42cba2767d759d76c55a7d481d4d04dd415bcee5a81e275b4404bd7aff15a2d"
+    },
+    "Bo_Cai_Dat_Windows.zip": {
+      "size": 4909980,
+      "sha256": "e029b3beb9649a00b13b4c9e7801d61cb8ef175f7cd6ae6436f5b54425a1c1b2"
+    },
+    "Bo_Cai_Dat_Mac.zip": {
+      "size": 17977244,
+      "sha256": "f231be727e33ad41c7143d8fef89e2f5199c32e4b322e82627b1f7be17de73ce"
+    }
+  }
+}
