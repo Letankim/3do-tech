@@ -4,16 +4,16 @@
   "engine": "0.1.0",
   "files": {
     "CaiDat_ChuanHoaTheThuc.zip": {
-      "size": 5841558,
-      "sha256": "e42cba2767d759d76c55a7d481d4d04dd415bcee5a81e275b4404bd7aff15a2d"
+      "size": 5841574,
+      "sha256": "0e54df6d534bee05a62d575226d6922c8da8512d688b68783355d0339319722e"
     },
     "Bo_Cai_Dat_Windows.zip": {
-      "size": 4909980,
-      "sha256": "e029b3beb9649a00b13b4c9e7801d61cb8ef175f7cd6ae6436f5b54425a1c1b2"
+      "size": 4909992,
+      "sha256": "9db3d5b94e6effc97c211a49141e5a7d39afe90d10343926df1a885a42a27ae4"
     },
     "Bo_Cai_Dat_Mac.zip": {
-      "size": 17977244,
-      "sha256": "f231be727e33ad41c7143d8fef89e2f5199c32e4b322e82627b1f7be17de73ce"
+      "size": 17977790,
+      "sha256": "e72c253ea5596c7391d50498a7c31bf9714c42cb390218776879c2a005b32d53"
     }
   }
 }

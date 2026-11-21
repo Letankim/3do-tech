@@ -116,16 +116,21 @@ export default function AddInOffice2Page() {
               <Apple className="h-5 w-5" /> macOS
             </h2>
             <div className="mt-4 grid gap-3">
-              <NutTai tep="Bo_Cai_Dat_Mac.zip" nhan="Tải bộ cài macOS" phu="Gói .pkg (Mac Intel và Apple Silicon)" chinh />
+              <NutTai tep="Bo_Cai_Dat_Mac.zip" nhan="Tải bộ cài macOS" phu="Cài bằng .pkg hoặc .sh (Mac Intel và Apple Silicon)" chinh />
             </div>
             <ol className="mt-6 grid gap-3">
               <Buoc so={1}>Nhấp đúp tệp .zip để giải nén.</Buoc>
               <Buoc so={2}>Lưu bài, thoát hẳn Word và Excel bằng <strong>Cmd+Q</strong>.</Buoc>
               <Buoc so={3}>
-                Trong Finder, nhấp đúp <code className={codeCls}>CaiDat_Mac.pkg</code>, bấm <strong>Tiếp tục</strong> → <strong>Cài đặt</strong>.
+                <strong>Cách 1:</strong> trong Finder, nhấp đúp <code className={codeCls}>CaiDat_Mac.pkg</code>, bấm <strong>Tiếp tục</strong> → <strong>Cài đặt</strong>.
                 <span className="mt-2 block rounded-lg border border-amber-500/30 bg-amber-500/10 p-2.5 text-sm">
                   Máy báo &quot;Apple không thể xác minh…&quot;: bấm <em>Xong</em> (không bấm Chuyển vào Thùng rác), vào{" "}
                   <strong>Cài đặt hệ thống → Quyền riêng tư &amp; Bảo mật</strong>, kéo xuống cuối, bấm <em>Vẫn mở</em>, nhập mật khẩu máy rồi bấm <em>Mở</em>.
+                </span>
+                <span className="mt-3 block">
+                  <strong>Cách 2</strong> (không cần bước &quot;Vẫn mở&quot;): mở <strong>Terminal</strong>, kéo tệp{" "}
+                  <code className={codeCls}>CaiDat_Mac.sh</code> vào cửa sổ rồi nhấn <strong>Enter</strong>. Báo &quot;permission denied&quot; thì gõ{" "}
+                  <code className={codeCls}>bash</code> và một dấu cách, kéo tệp vào rồi nhấn Enter.
                 </span>
               </Buoc>
               <Buoc so={4}>
