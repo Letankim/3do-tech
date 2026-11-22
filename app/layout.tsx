@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next"
 import { Be_Vietnam_Pro } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
+import Script from "next/script"
 import { FloatingContactWidget } from "@/components/floating-contact-widget"
 import "./globals.css"
 import { LanguageProvider } from "@/lib/i18n"
@@ -65,6 +66,11 @@ export default function RootLayout({
         </LanguageProvider>
         <Toaster />
         <Analytics />
+        {/* Bé Đô: linh vật trả lời cách tải, cài, dùng add-in (Worker pet-3do). Token chỉ cho nhúng trên 3docorp.id.vn. */}
+        <Script
+          src="https://pet-3do.cuongbc-work.workers.dev/pet.js?t=eyJvIjpbImh0dHBzOi8vM2RvY29ycC5pZC52biIsImh0dHBzOi8vd3d3LjNkb2NvcnAuaWQudm4iXSwiZXhwIjoxODU4MzUyNjA5LCJnIjoiM2RvY29ycCJ9.ReHlFhkhKbnUH4OCEi7edNhbOtQnlGnBD4VPCGkxQX8"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   )
