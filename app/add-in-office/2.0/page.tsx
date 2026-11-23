@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Download, Apple, ShieldAlert, Zap, MessageSquareWarning, Undo2, FlaskConical, Info } from "lucide-react";
+import { Download, Apple, ShieldAlert, Zap, MessageSquareWarning, Undo2, Sparkles, Info } from "lucide-react";
 import { StickyHeader } from "@/components/sticky-header";
 import { Footer } from "@/components/footer";
 import info from "../../../public/downloads/addin-office-2.0/thong-tin.json";
@@ -7,8 +7,8 @@ import info from "../../../public/downloads/addin-office-2.0/thong-tin.json";
 // Trang tai BAN THU 2.0 (add-in + engine OfficePartyEngine) cho nguoi duoc moi. Khong lien ket tu menu / trang add-in-office,
 // khong cho may tim kiem lap chi muc. Tep cai dat: public/downloads/addin-office-2.0 (dung tu tools/gd7/dong_goi.py cua repo engine).
 export const metadata: Metadata = {
-  title: "Add-in Chuẩn hóa thể thức 2.0 - bản thử | 3DO TECH",
-  description: "Bản thử nghiệm 2.0 dành cho người được mời.",
+  title: "Add-in Chuẩn hóa thể thức 2.0 - bản trải nghiệm sớm | 3DO TECH",
+  description: "Bản trải nghiệm sớm 2.0 dành cho người được mời.",
   robots: { index: false, follow: false, nocache: true, googleBot: { index: false, follow: false } },
 };
 
@@ -76,7 +76,7 @@ export default function AddInOffice2Page() {
 
       <section className="container-x pt-28 pb-12 sm:pt-32">
         <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/40 bg-amber-500/10 px-3.5 py-1.5 text-sm font-semibold text-amber-700 dark:text-amber-400">
-          <FlaskConical className="h-4 w-4" /> Bản thử nghiệm · chỉ dành cho người được mời
+          <Sparkles className="h-4 w-4" /> Bản trải nghiệm sớm · chỉ dành cho người được mời
         </div>
         <h1 className="mt-5 text-3xl font-bold tracking-tight sm:text-4xl">Add-in Chuẩn hóa thể thức văn bản 2.0</h1>
         <p className="mt-3 max-w-2xl text-lg text-muted-foreground">
