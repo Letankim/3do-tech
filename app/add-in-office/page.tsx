@@ -234,11 +234,18 @@ export default function AddInOfficePage() {
   };
 
   const wordFeatures = [
+    {
+      icon: Building2,
+      title: "Ba nhóm người dùng",
+      text: <>Chọn một lần nhóm <strong>Cán bộ</strong> (Đảng, Đoàn, Chính quyền, Công an, Quân đội), <strong>Giáo viên</strong> hoặc <strong>Văn phòng</strong>: thanh công cụ chỉ hiện đúng những nút bạn cần. Giáo viên có chuẩn hóa đề và mẫu riêng, văn phòng có đơn từ và hợp đồng.</>,
+    },
     { icon: Building2, title: "Tự động nhận diện khối", text: <>Nhận biết văn bản thuộc <strong>khối Đảng</strong> (HD 05-HD/VPTW), <strong>Đoàn TNCS</strong> (HD 29), <strong>Chính quyền</strong> (NĐ 30/2020/NĐ-CP), Công an, Quân đội.</> },
-    { icon: Sliders, title: "Chuẩn hóa thể thức 1 click", text: "Sửa lề trang, font Times New Roman, Quốc hiệu, Tiêu ngữ, số ký hiệu và chữ ký đúng quy định của từng khối." },
-    { icon: Eye, title: "Xử lý tên cơ quan dài", text: "Tự hạ cỡ chữ hoặc nới cột chữ ký đối với tên đơn vị dài, không để tiêu ngữ bị rớt dòng sai chuẩn." },
+    { icon: Sliders, title: "Chuẩn hóa thể thức 1 click", text: "Sửa lề trang, font Times New Roman, Quốc hiệu, Tiêu ngữ, số ký hiệu và chữ ký đúng quy định của từng khối. Tên cơ quan dài tự hạ cỡ chữ hoặc nới cột, không để tiêu ngữ rớt dòng." },
     { icon: FileCheck, title: "Báo cáo soát lỗi trước khi ký", text: "Liệt kê điểm cần lưu ý (lệch khối, thiếu thông tin, số ký hiệu chưa khớp) để cán bộ kiểm tra trước khi trình ký." },
     { icon: BookOpen, title: "Kho văn bản mẫu quy chuẩn", text: "Tạo nhanh Nghị quyết, Quyết định, Kế hoạch, Báo cáo, Thông báo, Tờ trình, Công văn, Giấy mời, Biên bản." },
+    { icon: FileText, title: "Chuẩn hóa đề kiểm tra", text: "Dành cho giáo viên: chuẩn hóa đề kiểm tra trắc nghiệm chỉ một cú click, kèm bộ mẫu văn bản riêng cho giáo viên." },
+    { icon: Layers, title: "Đơn từ, hợp đồng, khen thưởng", text: "Tạo nhanh đơn xin nghỉ phép, giấy ủy quyền, bản cam kết, hợp đồng lao động, hợp đồng thuê nhà, tờ trình và báo cáo thành tích thi đua - khen thưởng." },
+    { icon: CheckCheck, title: "Chính tả, văn phong, sửa chữ", text: "Soát lỗi chính tả tiếng Việt và văn phong hành chính, gợi ý ngay trong văn bản. Đổi mã TCVN3 sang Unicode, xóa dấu cách thừa, đặt dấu, đọc số tiền thành chữ." },
     { icon: RefreshCw, title: "Xuất / Nhập cấu hình, cập nhật ngay trên Ribbon", text: "Chuyển toàn bộ thiết lập đơn vị sang máy khác bằng một file. Nút [Cập nhật] nằm cạnh nút Chuẩn hóa." },
   ];
   const excelFeatures = [
@@ -248,6 +255,9 @@ export default function AddInOfficePage() {
     { icon: CheckCheck, title: "Gom chữ ký về chung trang", text: "Co giãn hợp lý để phần người ký nằm cùng trang, không bị đẩy trơ trọi sang trang riêng." },
     { icon: FileSpreadsheet, title: "Đánh số trang tự động", text: "Chèn footer \"Trang x/y\" chuẩn chỉnh cho tài liệu in ấn." },
     { icon: Zap, title: "Hoàn tác nhanh", text: <>Nhấn <strong>Ctrl+Z</strong> hoặc nút [Hoàn tác] trên Ribbon để quay về trạng thái ban đầu.</> },
+    { icon: Layers, title: "Sắp xếp đúng thứ tự tiếng Việt", text: "Sắp theo tên (đúng thứ tự tiếng Việt), ngày hoặc số. Dòng tiêu đề, dòng tổng cộng và khối chữ ký đứng yên, STT tự đánh lại." },
+    { icon: Sliders, title: "Chuẩn hóa họ tên và ngày", text: "Viết hoa đúng họ tên (NGUYỄN văn a thành Nguyễn Văn A), đưa ngày gõ tay về dạng dd/mm/yyyy, tách hoặc gộp cột Họ đệm và Tên." },
+    { icon: Eye, title: "Tô dòng trùng", text: "Tô màu cam các dòng trùng để bạn tự kiểm tra, không xóa bất cứ dòng nào của bạn." },
   ];
   const faqs = [
     {
@@ -335,8 +345,9 @@ export default function AddInOfficePage() {
               Chuẩn hóa thể thức văn bản Word <span className="text-primary">và trang in Excel</span>
             </h1>
             <p className="lead mt-6 max-w-xl">
-              Tự động hóa thể thức văn bản hành chính theo <strong className="text-foreground">Nghị định 30/2020/NĐ-CP</strong> và{" "}
-              <strong className="text-foreground">Hướng dẫn 05-HD/VPTW</strong>, cho khối Đảng, Đoàn, Chính quyền, Công an, Quân đội. Căn trang Excel chuẩn A4 chỉ một cú click.
+              Soạn văn bản đúng chuẩn chỉ với một cú click. Thể thức văn bản hành chính theo <strong className="text-foreground">Nghị định 30/2020/NĐ-CP</strong> và{" "}
+              <strong className="text-foreground">Hướng dẫn 05-HD/VPTW</strong>, cho khối <strong className="text-foreground">Đảng, Đoàn, Chính quyền, Công an, Quân đội</strong>. Có thêm đề kiểm tra cho <strong className="text-foreground">giáo viên</strong>,
+              đơn từ và hợp đồng cho <strong className="text-foreground">nhân viên văn phòng</strong>, kiểm tra chính tả, và căn trang in Excel chuẩn A4.
             </p>
 
             {/* Nut tai theo he dieu hanh. An (van giu cho) cho den khi nhan dang xong de khong nhay giao dien. */}
@@ -381,6 +392,12 @@ export default function AddInOfficePage() {
                   </div>
                 </div>
               )}
+              <p className="mt-2 text-sm text-muted-foreground">
+                <a href="#ban-1-0" className="inline-flex items-center gap-1.5 hover:text-foreground">
+                  <Undo2 className="h-4 w-4" aria-hidden />
+                  <span className="underline-offset-4 hover:underline">Cần quay lại bản 1.0?</span>
+                </a>
+              </p>
             </div>
 
             <ul className="mt-9 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
@@ -492,17 +509,15 @@ export default function AddInOfficePage() {
             ))}
           </div>
 
-          <p className="mt-8 flex items-start gap-2 text-sm text-muted-foreground">
-            <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-            <span>Phát hành bởi <strong className="text-foreground">3Do-Hubs</strong>. Tương thích Office 2016, 2019, 2021, 2024 và Microsoft 365.</span>
-          </p>
-
-          <details className="group mt-4 text-sm text-muted-foreground">
-            <summary className="inline-flex cursor-pointer list-none items-center gap-1.5 hover:text-foreground [&::-webkit-details-marker]:hidden">
-              <Undo2 className="h-4 w-4" aria-hidden />
-              <span className="underline-offset-4 group-open:text-foreground hover:underline">Cần quay lại bản 1.0?</span>
-            </summary>
-            <div className="mt-3 max-w-2xl rounded-xl border border-border bg-background p-4 leading-relaxed">
+          {/* Khung tai ban 1.0: luon hien, duoc nhay toi tu dong "Can quay lai ban 1.0?" o dau trang (#ban-1-0; :target lam khung noi len nhe). */}
+          <div
+            id="ban-1-0"
+            className="mt-8 rounded-2xl border border-border bg-background p-5 text-sm leading-relaxed text-muted-foreground transition-shadow duration-500 target:border-primary/60 target:ring-2 target:ring-primary/30 sm:px-7"
+          >
+            <p className="flex items-center gap-1.5 font-semibold text-foreground">
+              <Undo2 className="h-4 w-4 text-primary" aria-hidden /> Cần quay lại bản 1.0?
+            </p>
+            <div className="mt-1.5">
               <p>
                 Bản 1.0{ban1 ? ` (${ban1.version})` : ""} vẫn được giữ lại cho ai muốn dùng lại. Bạn làm theo 3 bước:
               </p>
@@ -527,7 +542,12 @@ export default function AddInOfficePage() {
                 </li>
               </ol>
             </div>
-          </details>
+          </div>
+
+          <p className="mt-6 flex items-start gap-2 text-sm text-muted-foreground">
+            <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+            <span>Phát hành bởi <strong className="text-foreground">3Do-Hubs</strong>. Tương thích Office 2016, 2019, 2021, 2024 và Microsoft 365.</span>
+          </p>
         </div>
       </section>
 
