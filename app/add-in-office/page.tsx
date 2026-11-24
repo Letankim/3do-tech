@@ -59,9 +59,10 @@ export default function AddInOfficePage() {
   }, []);
   const isDesktopOS = clientOS === "windows" || clientOS === "mac";
 
-  // File add-in luu ngay trong public/downloads/addin-office cua trang (khong phu thuoc GitHub khi tai).
-  // thong-tin.json (phien ban, ngay, dung luong, SHA-256) do tools/phat_hanh.py cua repo add-in ghi moi lan phat hanh.
-  const downloadBase = "/downloads/addin-office";
+  // Nguoi dung MOI tai ban 2.0 (add-in + engine OfficePartyEngine) tu public/downloads/addin-office-2.0; thong-tin.json o do ghi
+  // phien ban, ngay, dung luong, SHA-256 (do tools/gd7/dong_goi.py cua repo engine tao). Thu muc public/downloads/addin-office (ban 1.0,
+  // do tools/phat_hanh.py cua repo add-in ghi) GIU NGUYEN: dong nghiep dang dung 1.0 van cap nhat tu version.json tren GitHub Releases.
+  const downloadBase = "/downloads/addin-office-2.0";
   const latestDownload = (fileName: string) => `${downloadBase}/${fileName}`;
   const [release, setRelease] = useState<{
     version: string;
@@ -77,7 +78,7 @@ export default function AddInOfficePage() {
         if (cancelled || !data?.version) return;
         const published = data.published ? new Date(data.published) : null;
         setRelease({
-          version: data.version,
+          version: String(data.version).replace(/\s*\(.*\)\s*$/, ""),
           date:
             published && !isNaN(published.getTime())
               ? published.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" })
@@ -93,51 +94,42 @@ export default function AddInOfficePage() {
 
   const fileSizeOf = (fileName: string) => {
     const size = release?.assets[fileName]?.size;
-    return size ? `${Math.round(size / 1024)} KB` : null;
+    if (!size) return null;
+    return size >= 1024 * 1024 ? `${(size / (1024 * 1024)).toFixed(1).replace(".", ",")} MB` : `${Math.round(size / 1024)} KB`;
   };
   const sha256Of = (fileName: string) => release?.assets[fileName]?.sha256 ?? null;
 
   const winPack = {
-    title: "Bộ Cài Đặt Trọn Gói Windows",
-    fileName: "Bo_Cai_Dat_AddIn_Windows.zip",
-    description: "Gồm cả Word & Excel. Giải nén rồi nhấp đúp CaiDat_AddIn_Windows.bat là xong.",
+    title: "Bộ cài Windows (một tệp .exe)",
+    fileName: "CaiDat_ChuanHoaTheThuc.zip",
+    description: "Gồm Word, Excel và chương trình nền OfficePartyEngine. Giải nén rồi nhấp đúp CaiDat_ChuanHoaTheThuc.exe, bấm Yes.",
     guide: "#huong-dan-windows",
     primary: clientOS !== "mac",
   };
+  const winBackup = {
+    title: "Bộ cài dự phòng Windows",
+    fileName: "Bo_Cai_Dat_Windows.zip",
+    description: "Dùng khi tệp .exe bị chặn. Giải nén rồi nhấp đúp CaiDat_Windows.bat.",
+    guide: "#huong-dan-windows",
+    primary: false,
+  };
   const macPack = {
-    title: "Bộ Cài Đặt Trọn Gói macOS",
-    fileName: "Bo_Cai_Dat_AddIn_Mac.zip",
-    description: "Dành cho Microsoft Office trên máy Mac. Kèm script CaiDat_AddIn_Mac.sh cài đặt tự động.",
+    title: "Bộ cài macOS (.pkg)",
+    fileName: "CaiDat_ChuanHoaTheThuc_Mac.pkg",
+    description: "Một tệp cho Mac Intel và Apple Silicon. Nhấp đúp, bấm Tiếp tục → Cài đặt.",
     guide: "#huong-dan-mac",
     primary: clientOS === "mac",
   };
-  const winGroup = { id: "windows", title: "Windows", subtitle: "Windows 10 / 11", icon: WindowsLogo, files: [winPack] };
-  const macGroup = { id: "mac", title: "macOS", subtitle: "Máy Mac (Intel & Apple)", icon: Apple, files: [macPack] };
-  const downloadGroups = [
-    ...(clientOS === "mac" ? [macGroup, winGroup] : [winGroup, macGroup]),
-    {
-      id: "files",
-      title: "Tệp riêng lẻ",
-      subtitle: "Cho người tự cài thủ công",
-      icon: Layers,
-      files: [
-        {
-          title: "Add-in Word (ChuanHoa_VanBanDang)",
-          fileName: "ChuanHoa_VanBanDang.dotm",
-          description: "Tab THỂ THỨC VĂN BẢN trong Word: chuẩn hóa theo NĐ 30/2020 & HD 05 VPTW, tạo văn bản mẫu, rà soát lỗi.",
-          guide: null,
-          primary: false,
-        },
-        {
-          title: "Add-in Excel (ChuanHoa_Excel)",
-          fileName: "ChuanHoa_Excel.xlam",
-          description: "Căn trang in A4: chống che ô mất chữ, lặp lại tiêu đề, gom chữ ký về chung trang, đánh số trang x/y.",
-          guide: null,
-          primary: false,
-        },
-      ],
-    },
-  ];
+  const macBackup = {
+    title: "Bộ cài dự phòng macOS (.zip)",
+    fileName: "Bo_Cai_Dat_Mac.zip",
+    description: "Cài bằng Terminal (CaiDat_Mac.sh), không cần bước \"Vẫn mở\".",
+    guide: "#huong-dan-mac",
+    primary: false,
+  };
+  const winGroup = { id: "windows", title: "Windows", subtitle: "Windows 10 / 11", icon: WindowsLogo, files: [winPack, winBackup] };
+  const macGroup = { id: "mac", title: "macOS", subtitle: "Máy Mac (Intel & Apple)", icon: Apple, files: [macPack, macBackup] };
+  const downloadGroups = clientOS === "mac" ? [macGroup, winGroup] : [winGroup, macGroup];
 
   const codeCls = "rounded bg-muted px-1.5 py-0.5 font-mono text-[12px] text-foreground";
   const winGuide = {
@@ -145,15 +137,18 @@ export default function AddInOfficePage() {
     title: "Windows",
     icon: WindowsLogo,
     steps: [
-      { title: "Tải & giải nén", body: <>Tải <code className={codeCls}>Bo_Cai_Dat_AddIn_Windows.zip</code>, chuột phải vào file chọn <strong>Extract All… (Giải nén tất cả)</strong>.</> },
+      { title: "Tải & giải nén", body: <>Tải <code className={codeCls}>CaiDat_ChuanHoaTheThuc.zip</code>, chuột phải vào file chọn <strong>Extract All… (Giải nén tất cả)</strong>.</> },
       { title: "Đóng Word & Excel", body: <>Lưu tài liệu đang mở và thoát hẳn Word, Excel.</> },
       {
         title: "Chạy tệp cài đặt",
         body: (
           <>
-            Nhấp đúp <code className={codeCls}>CaiDat_AddIn_Windows.bat</code> trong thư mục vừa giải nén.
+            Nhấp đúp <code className={codeCls}>CaiDat_ChuanHoaTheThuc.exe</code>, bấm <strong>Yes</strong>. Hiện &quot;CÀI ĐẶT THÀNH CÔNG&quot; là xong.
             <span className="mt-2 block rounded-lg border border-signal/25 bg-signal/10 p-2.5 text-xs text-foreground">
               Nếu hiện khung xanh SmartScreen: bấm <em>More info (Thông tin khác)</em> → <em>Run anyway (Vẫn chạy)</em>.
+            </span>
+            <span className="mt-2 block text-xs text-muted-foreground">
+              Tệp .exe bị chặn? Tải <code className={codeCls}>Bo_Cai_Dat_Windows.zip</code>, giải nén rồi nhấp đúp <code className={codeCls}>CaiDat_Windows.bat</code>.
             </span>
           </>
         ),
@@ -166,17 +161,29 @@ export default function AddInOfficePage() {
     title: "macOS",
     icon: Apple,
     steps: [
-      { title: "Tải & giải nén", body: <>Tải <code className={codeCls}>Bo_Cai_Dat_AddIn_Mac.zip</code> và nhấp đúp để giải nén trong Finder.</> },
+      { title: "Thoát Word & Excel", body: <>Lưu bài, thoát hẳn Word và Excel bằng <strong>Cmd+Q</strong>.</> },
       {
-        title: "Chạy script cài đặt",
+        title: "Cách 1: cài bằng .pkg",
         body: (
           <>
-            Mở <strong>Terminal</strong>, kéo thả file <code className={codeCls}>CaiDat_AddIn_Mac.sh</code> vào cửa sổ rồi nhấn <strong>Enter</strong>.
-            <span className="mt-2 block rounded-lg bg-muted p-2.5 font-mono text-xs text-foreground">bash CaiDat_AddIn_Mac.sh</span>
+            Tải <code className={codeCls}>CaiDat_ChuanHoaTheThuc_Mac.pkg</code>, nhấp đúp trong Finder, bấm <strong>Tiếp tục</strong> → <strong>Cài đặt</strong>.
+            <span className="mt-2 block rounded-lg border border-signal/25 bg-signal/10 p-2.5 text-xs text-foreground">
+              Máy báo &quot;Apple không thể xác minh…&quot;: bấm <em>Xong</em> (không bấm Chuyển vào Thùng rác), vào <strong>Cài đặt hệ thống → Quyền riêng tư &amp; Bảo mật</strong>,
+              kéo xuống cuối, bấm <em>Vẫn mở</em>, nhập mật khẩu máy rồi bấm <em>Mở</em>.
+            </span>
           </>
         ),
       },
-      { title: "Cho phép macro", body: <>Mở Word / Excel → Preferences → Security → cho phép macro chạy khi được hỏi.</> },
+      {
+        title: "Cách 2: bộ cài dự phòng (.zip)",
+        body: (
+          <>
+            Tải <code className={codeCls}>Bo_Cai_Dat_Mac.zip</code>, nhấp đúp để giải nén. Mở <strong>Terminal</strong>, kéo tệp <code className={codeCls}>CaiDat_Mac.sh</code> vào cửa sổ rồi nhấn <strong>Enter</strong>.
+            <span className="mt-2 block rounded-lg bg-muted p-2.5 font-mono text-xs text-foreground">bash CaiDat_Mac.sh</span>
+          </>
+        ),
+      },
+      { title: "Hoàn tất", body: <>Mở lại Word: thẻ Home có nhóm <strong>THỂ THỨC VĂN BẢN</strong>. macOS có thể báo &quot;Đã thêm mục nền&quot; OfficePartyEngine: đó là dịch vụ của add-in, đừng tắt.</> },
     ],
   };
   const updateGuide = {
@@ -216,7 +223,20 @@ export default function AddInOfficePage() {
   const faqs = [
     {
       q: "Word/Excel hiện cảnh báo đỏ \"SECURITY RISK: Microsoft has blocked macros from running\"?",
-      a: <>Đây là chính sách bảo vệ file tải từ mạng của Windows. Cách mở khóa: chuột phải vào file <code className={codeCls}>ChuanHoa_VanBanDang.dotm</code> hoặc <code className={codeCls}>ChuanHoa_Excel.xlam</code> → <strong>Properties</strong> → ở góc dưới thẻ General, tích ô <strong>Unblock (Bỏ chặn)</strong> → <strong>OK</strong>.</>,
+      a: <>Đây là chính sách bảo vệ file tải từ mạng của Windows (thường gặp khi cài bằng bộ cài dự phòng). Cách mở khóa: chuột phải vào tệp <code className={codeCls}>.zip</code> vừa tải → <strong>Properties</strong> → ở góc dưới thẻ General, tích ô <strong>Unblock (Bỏ chặn)</strong> → <strong>OK</strong>, rồi giải nén và cài lại.</>,
+    },
+    {
+      q: "Windows Security hoặc phần mềm diệt virus cảnh báo, chặn hay xóa tệp OfficePartyEngine.exe?",
+      a: (
+        <>
+          OfficePartyEngine là chương trình nền của add-in: xử lý văn bản ngay trên máy bạn và chỉ nghe ở địa chỉ nội bộ <code className={codeCls}>127.0.0.1</code>. Bộ cài chưa có chữ ký số nên
+          một số phần mềm diệt virus có thể cảnh báo nhầm. Bản này đã được gửi Microsoft Defender và Kaspersky phân tích, cả hai không ghi nhận mối đe dọa (24/11/2026).
+          <span className="mt-2 block">
+            Nếu vẫn bị chặn: mở <strong>Windows Security → Virus &amp; threat protection → Protection history</strong>, chọn mục vừa bị chặn → <strong>Actions → Restore</strong> (hoặc <em>Allow on device</em>),
+            rồi chạy lại bộ cài. Chụp màn hình mục đó gửi Mr. Cường để được hỗ trợ.
+          </span>
+        </>
+      ),
     },
     {
       q: "Tôi có phải trả phí hay mua mã bản quyền không?",
@@ -238,8 +258,10 @@ export default function AddInOfficePage() {
     },
   ];
 
-  const primaryFile = clientOS === "mac" ? "Bo_Cai_Dat_AddIn_Mac.zip" : "Bo_Cai_Dat_AddIn_Windows.zip";
-  const otherFile = clientOS === "mac" ? "Bo_Cai_Dat_AddIn_Windows.zip" : "Bo_Cai_Dat_AddIn_Mac.zip";
+  const fileWin = "CaiDat_ChuanHoaTheThuc.zip";
+  const fileMac = "CaiDat_ChuanHoaTheThuc_Mac.pkg";
+  const primaryFile = clientOS === "mac" ? fileMac : fileWin;
+  const otherFile = clientOS === "mac" ? fileWin : fileMac;
   const btnPrimary =
     "inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-primary px-6 py-2.5 whitespace-nowrap text-base font-semibold text-primary-foreground shadow-sm transition-opacity hover:opacity-90";
   const btnGhost =
@@ -305,11 +327,11 @@ export default function AddInOfficePage() {
                     </span>
                   </div>
                   <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                    <a href={latestDownload("Bo_Cai_Dat_AddIn_Windows.zip")} download className={btnPrimary}>
+                    <a href={latestDownload(fileWin)} download className={btnPrimary}>
                       <Laptop className="h-5 w-5" aria-hidden /> Tải bản Windows (.zip)
                     </a>
-                    <a href={latestDownload("Bo_Cai_Dat_AddIn_Mac.zip")} download className={btnGhost}>
-                      <Apple className="h-5 w-5" aria-hidden /> Tải bản macOS (.zip)
+                    <a href={latestDownload(fileMac)} download className={btnGhost}>
+                      <Apple className="h-5 w-5" aria-hidden /> Tải bản macOS (.pkg)
                     </a>
                   </div>
                 </div>
