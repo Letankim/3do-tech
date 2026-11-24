@@ -3,13 +3,14 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
   Download, FileText, FileSpreadsheet, ShieldCheck, ArrowRight, Copy, Check, Laptop, Apple,
-  RefreshCw, Sliders, Eye, BookOpen, Zap, CheckCheck, Building2, FileCheck, Layers, Info, Phone,
+  RefreshCw, Sliders, Eye, BookOpen, Zap, CheckCheck, Building2, FileCheck, Layers, Info, Phone, Undo2,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { StickyHeader } from "@/components/sticky-header";
 import { Footer } from "@/components/footer";
 import { Reveal } from "@/components/reveal";
+import { InstallGuideDialog, daAnHuongDan, kindOfFile, type InstallKind } from "@/components/install-guide-dialog";
 
 // He dieu hanh cua nguoi xem, chi biet duoc o trinh duyet.
 // null = chua nhan dang (luc render phia server va truoc khi hydrate xong).
@@ -52,6 +53,34 @@ const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffec
 export default function AddInOfficePage() {
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
   const [clientOS, setClientOS] = useState<ClientOS | null>(null);
+  const [huongDan, setHuongDan] = useState<InstallKind | null>(null);
+  // Goc nho "quay lai ban 1.0": tep ban 1.0 van nam o public/downloads/addin-office (thong-tin.json cua tools/phat_hanh.py). Chi doc phien ban + dung luong.
+  const [ban1, setBan1] = useState<{ version: string; sizes: Record<string, number> } | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/downloads/addin-office/thong-tin.json")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (cancelled || !d?.version) return;
+        const sizes: Record<string, number> = {};
+        for (const [k, v] of Object.entries(d.files ?? {})) sizes[k] = (v as { size: number }).size;
+        setBan1({ version: String(d.version), sizes });
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+  const dungLuong = (tep: string) => {
+    const n = ban1?.sizes[tep];
+    return n ? ` · ${Math.round(n / 1024)} KB` : "";
+  };
+
+  // Bam tai: viec tai van chay nhu thuong; ~0,5 giay sau hien hop thoai huong dan dung loai tep (tru dien thoai, hoac khi nguoi dung chon "Khong hien lai").
+  const khiBamTai = (tep: string) => {
+    if (clientOS === "mobile" || daAnHuongDan()) return;
+    window.setTimeout(() => setHuongDan(kindOfFile(tep)), 500);
+  };
 
   useIsomorphicLayoutEffect(() => {
     const os = detectClientOS();
@@ -226,14 +255,30 @@ export default function AddInOfficePage() {
       a: <>Đây là chính sách bảo vệ file tải từ mạng của Windows (thường gặp khi cài bằng bộ cài dự phòng). Cách mở khóa: chuột phải vào tệp <code className={codeCls}>.zip</code> vừa tải → <strong>Properties</strong> → ở góc dưới thẻ General, tích ô <strong>Unblock (Bỏ chặn)</strong> → <strong>OK</strong>, rồi giải nén và cài lại.</>,
     },
     {
-      q: "Windows Security hoặc phần mềm diệt virus cảnh báo, chặn hay xóa tệp OfficePartyEngine.exe?",
+      q: "Máy báo virus hoặc chặn tệp cài đặt, có phải mã độc không?",
       a: (
         <>
-          OfficePartyEngine là chương trình nền của add-in: xử lý văn bản ngay trên máy bạn và chỉ nghe ở địa chỉ nội bộ <code className={codeCls}>127.0.0.1</code>. Bộ cài chưa có chữ ký số nên
-          một số phần mềm diệt virus có thể cảnh báo nhầm. Bản này đã được gửi Microsoft Defender và Kaspersky phân tích, cả hai không ghi nhận mối đe dọa (24/11/2026).
+          Không phải mã độc. Bộ công cụ xử lý văn bản ngay trên máy bạn và không gửi nội dung văn bản đi đâu. Vì bộ cài còn mới và chưa có chữ ký số (chứng nhận trả phí của Microsoft),
+          nên đôi khi Windows báo nhầm. Bản này đã được <strong>Kaspersky</strong> và <strong>Microsoft</strong> kiểm tra, cả hai đều không phát hiện mối đe dọa (24/11/2026).
+          <span className="mt-4 grid gap-4 sm:grid-cols-2">
+            <figure className="m-0 sm:col-span-2 sm:max-w-lg">
+              <a href="/images/add-in-office/kiem-tra-kaspersky.png" target="_blank" rel="noopener" className="block">
+                <img
+                  src="/images/add-in-office/kiem-tra-kaspersky.png"
+                  alt="Kết quả quét của Kaspersky: không có tên mối đe dọa, 0 phát hiện"
+                  loading="lazy"
+                  className="w-full rounded-lg border border-border bg-background"
+                />
+              </a>
+              <figcaption className="mt-1.5 text-xs text-muted-foreground">Kaspersky: 0 phát hiện. Bấm vào ảnh để xem lớn.</figcaption>
+            </figure>
+          </span>
+          <span className="mt-4 block">
+            Nếu Windows vẫn chặn, bạn làm như sau: mở <strong>Windows Security → Virus &amp; threat protection → Protection history</strong>, bấm vào mục vừa bị chặn,
+            chọn <strong>Actions → Allow on device</strong> (hoặc <em>Restore</em>), rồi chạy lại bộ cài. Chỉ làm vậy với tệp tải từ trang này.
+          </span>
           <span className="mt-2 block">
-            Nếu vẫn bị chặn: mở <strong>Windows Security → Virus &amp; threat protection → Protection history</strong>, chọn mục vừa bị chặn → <strong>Actions → Restore</strong> (hoặc <em>Allow on device</em>),
-            rồi chạy lại bộ cài. Chụp màn hình mục đó gửi Mr. Cường để được hỗ trợ.
+            Chưa rõ cách làm? Hỏi <strong>Bé Đô</strong> ở góc màn hình, hoặc gọi Mr. Cường để được chỉ từng bước.
           </span>
         </>
       ),
@@ -299,7 +344,7 @@ export default function AddInOfficePage() {
               {isDesktopOS ? (
                 <>
                   <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                    <a href={latestDownload(primaryFile)} download className={btnPrimary}>
+                    <a href={latestDownload(primaryFile)} download onClick={() => khiBamTai(primaryFile)} className={btnPrimary}>
                       {clientOS === "mac" ? <Apple className="h-6 w-6" aria-hidden /> : <Laptop className="h-6 w-6" aria-hidden />}
                       <span className="flex flex-col items-start text-left leading-tight">
                         <span>{clientOS === "mac" ? "Tải bản cho máy Mac" : "Tải bản cho Windows"}</span>
@@ -313,7 +358,7 @@ export default function AddInOfficePage() {
                   </div>
                   <p className="mt-4 text-sm text-muted-foreground">
                     {clientOS === "mac" ? "Bạn dùng máy Windows?" : "Bạn dùng máy Mac?"}{" "}
-                    <a href={latestDownload(otherFile)} download className="font-semibold text-primary underline underline-offset-4">
+                    <a href={latestDownload(otherFile)} download onClick={() => khiBamTai(otherFile)} className="font-semibold text-primary underline underline-offset-4">
                       {clientOS === "mac" ? "Tải bản Windows" : "Tải bản macOS"}
                     </a>
                   </p>
@@ -327,10 +372,10 @@ export default function AddInOfficePage() {
                     </span>
                   </div>
                   <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                    <a href={latestDownload(fileWin)} download className={btnPrimary}>
+                    <a href={latestDownload(fileWin)} download onClick={() => khiBamTai(fileWin)} className={btnPrimary}>
                       <Laptop className="h-5 w-5" aria-hidden /> Tải bản Windows (.zip)
                     </a>
-                    <a href={latestDownload(fileMac)} download className={btnGhost}>
+                    <a href={latestDownload(fileMac)} download onClick={() => khiBamTai(fileMac)} className={btnGhost}>
                       <Apple className="h-5 w-5" aria-hidden /> Tải bản macOS (.pkg)
                     </a>
                   </div>
@@ -406,6 +451,7 @@ export default function AddInOfficePage() {
                             <a
                               href={latestDownload(file.fileName)}
                               download
+                              onClick={() => khiBamTai(file.fileName)}
                               className={`col-span-3 inline-flex h-11 items-center justify-center gap-2 rounded-lg px-5 text-sm font-semibold transition md:col-span-1 md:w-40 ${
                                 file.primary ? "bg-primary text-primary-foreground hover:opacity-90" : "border border-border bg-card hover:border-primary/50"
                               }`}
@@ -448,8 +494,40 @@ export default function AddInOfficePage() {
 
           <p className="mt-8 flex items-start gap-2 text-sm text-muted-foreground">
             <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-            <span>Phát hành bởi <strong className="text-foreground">VPĐU xã Thạnh Phú</strong>. Tương thích Office 2016, 2019, 2021, 2024 và Microsoft 365.</span>
+            <span>Phát hành bởi <strong className="text-foreground">3Do-Hubs</strong>. Tương thích Office 2016, 2019, 2021, 2024 và Microsoft 365.</span>
           </p>
+
+          <details className="group mt-4 text-sm text-muted-foreground">
+            <summary className="inline-flex cursor-pointer list-none items-center gap-1.5 hover:text-foreground [&::-webkit-details-marker]:hidden">
+              <Undo2 className="h-4 w-4" aria-hidden />
+              <span className="underline-offset-4 group-open:text-foreground hover:underline">Cần quay lại bản 1.0?</span>
+            </summary>
+            <div className="mt-3 max-w-2xl rounded-xl border border-border bg-background p-4 leading-relaxed">
+              <p>
+                Bản 1.0{ban1 ? ` (${ban1.version})` : ""} vẫn được giữ lại cho ai muốn dùng lại. Bạn làm theo 3 bước:
+              </p>
+              <ol className="mt-3 list-decimal space-y-2 pl-5">
+                <li>
+                  <strong className="text-foreground">Gỡ bản hiện tại trước.</strong> Windows: chạy lại <code className={codeCls}>CaiDat_ChuanHoaTheThuc.exe</code>, bấm <strong>No</strong>. Mac: mở Terminal, kéo tệp{" "}
+                  <code className={codeCls}>GoCai_Mac.sh</code> (trong bộ <code className={codeCls}>Bo_Cai_Dat_Mac.zip</code>) vào rồi nhấn Enter.
+                </li>
+                <li>
+                  <strong className="text-foreground">Tải bản 1.0:</strong>{" "}
+                  <a href="/downloads/addin-office/Bo_Cai_Dat_AddIn_Windows.zip" download className="font-semibold text-primary underline underline-offset-4">
+                    Windows (.zip{dungLuong("Bo_Cai_Dat_AddIn_Windows.zip")})
+                  </a>
+                  {" · "}
+                  <a href="/downloads/addin-office/Bo_Cai_Dat_AddIn_Mac.zip" download className="font-semibold text-primary underline underline-offset-4">
+                    macOS (.zip{dungLuong("Bo_Cai_Dat_AddIn_Mac.zip")})
+                  </a>
+                </li>
+                <li>
+                  <strong className="text-foreground">Cài đặt:</strong> Windows giải nén rồi nhấp đúp <code className={codeCls}>CaiDat_AddIn_Windows.bat</code>. Mac giải nén, mở Terminal, kéo{" "}
+                  <code className={codeCls}>CaiDat_AddIn_Mac.sh</code> vào rồi nhấn Enter. Mở lại Word / Excel.
+                </li>
+              </ol>
+            </div>
+          </details>
         </div>
       </section>
 
@@ -569,6 +647,7 @@ export default function AddInOfficePage() {
         </div>
       </section>
 
+      <InstallGuideDialog kind={huongDan} onClose={() => setHuongDan(null)} />
       <Footer />
     </main>
   );
