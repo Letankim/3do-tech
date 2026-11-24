@@ -116,23 +116,22 @@ export default function AddInOffice2Page() {
               <Apple className="h-5 w-5" /> macOS
             </h2>
             <div className="mt-4 grid gap-3">
-              <NutTai tep="CaiDat_ChuanHoaTheThuc_Mac.pkg" nhan="Tải bộ cài macOS (.pkg)" phu="Một tệp, Mac Intel và Apple Silicon" chinh />
-              <NutTai tep="Bo_Cai_Dat_Mac.zip" nhan="Bộ cài dự phòng (.zip)" phu="Cài bằng Terminal, không cần bước Vẫn mở" />
+              <NutTai tep="Bo_Cai_Dat_Mac.zip" nhan="Tải bộ cài macOS" phu="Cài bằng .pkg hoặc .sh (Mac Intel và Apple Silicon)" chinh />
             </div>
             <ol className="mt-6 grid gap-3">
-              <Buoc so={1}>Lưu bài, thoát hẳn Word và Excel bằng <strong>Cmd+Q</strong>.</Buoc>
-              <Buoc so={2}>
-                <strong>Cách 1 (.pkg):</strong> trong Finder, nhấp đúp tệp <code className={codeCls}>CaiDat_ChuanHoaTheThuc_Mac.pkg</code> vừa tải, bấm{" "}
-                <strong>Tiếp tục</strong> → <strong>Cài đặt</strong>.
+              <Buoc so={1}>Nhấp đúp tệp .zip để giải nén.</Buoc>
+              <Buoc so={2}>Lưu bài, thoát hẳn Word và Excel bằng <strong>Cmd+Q</strong>.</Buoc>
+              <Buoc so={3}>
+                <strong>Cách 1:</strong> trong Finder, nhấp đúp <code className={codeCls}>CaiDat_Mac.pkg</code>, bấm <strong>Tiếp tục</strong> → <strong>Cài đặt</strong>.
                 <span className="mt-2 block rounded-lg border border-amber-500/30 bg-amber-500/10 p-2.5 text-sm">
                   Máy báo &quot;Apple không thể xác minh…&quot;: bấm <em>Xong</em> (không bấm Chuyển vào Thùng rác), vào{" "}
                   <strong>Cài đặt hệ thống → Quyền riêng tư &amp; Bảo mật</strong>, kéo xuống cuối, bấm <em>Vẫn mở</em>, nhập mật khẩu máy rồi bấm <em>Mở</em>.
                 </span>
-              </Buoc>
-              <Buoc so={3}>
-                <strong>Cách 2 (.zip dự phòng):</strong> nhấp đúp tệp .zip để giải nén, mở <strong>Terminal</strong>, kéo tệp{" "}
-                <code className={codeCls}>CaiDat_Mac.sh</code> vào cửa sổ rồi nhấn <strong>Enter</strong>. Báo &quot;permission denied&quot; thì gõ{" "}
-                <code className={codeCls}>bash</code> và một dấu cách, kéo tệp vào rồi nhấn Enter.
+                <span className="mt-3 block">
+                  <strong>Cách 2</strong> (không cần bước &quot;Vẫn mở&quot;): mở <strong>Terminal</strong>, kéo tệp{" "}
+                  <code className={codeCls}>CaiDat_Mac.sh</code> vào cửa sổ rồi nhấn <strong>Enter</strong>. Báo &quot;permission denied&quot; thì gõ{" "}
+                  <code className={codeCls}>bash</code> và một dấu cách, kéo tệp vào rồi nhấn Enter.
+                </span>
               </Buoc>
               <Buoc so={4}>
                 Mở lại Word: thẻ Home có nhóm <strong>THỂ THỨC VĂN BẢN</strong>. macOS có thể báo &quot;Đã thêm mục nền&quot; OfficePartyEngine: đó là dịch vụ của add-in, đừng tắt.
@@ -180,7 +179,7 @@ export default function AddInOffice2Page() {
               <code className={codeCls}>GoCai_Windows.bat</code>).
             </li>
             <li>
-              • macOS: mở Terminal, kéo tệp <code className={codeCls}>GoCai_Mac.sh</code> trong bộ cài dự phòng (.zip, đã giải nén) vào rồi nhấn Enter.
+              • macOS: mở Terminal, kéo tệp <code className={codeCls}>GoCai_Mac.sh</code> trong thư mục bộ cài vào rồi nhấn Enter.
             </li>
             <li>
               • Sau khi gỡ, cài lại bản đang phát hành ở trang{" "}

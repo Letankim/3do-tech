@@ -1,23 +1,19 @@
 {
   "version": "2.0 (bản thử)",
-  "published": "2026-11-24",
+  "published": "2026-11-23",
   "engine": "0.1.0",
   "files": {
     "CaiDat_ChuanHoaTheThuc.zip": {
-      "size": 15972478,
-      "sha256": "c89765704bf8205885cd6d41ec42b04aaca3638fba846df165affb29498c253d"
+      "size": 9391818,
+      "sha256": "5a867f502b7c619d0d01e208a372a0affa7f69d671030329bd96b0eccaebe72f"
     },
     "Bo_Cai_Dat_Windows.zip": {
-      "size": 15046087,
-      "sha256": "145239396adbaf0e84edc0be28640872f285297b30a963f886a6230072ed669f"
+      "size": 8464658,
+      "sha256": "1b00b65364b6fc5ae1db3bb39627beb77275808ca5bd7ced635c8da00c9c9127"
     },
     "Bo_Cai_Dat_Mac.zip": {
-      "size": 28859073,
-      "sha256": "441a589419c8f8b5b50447303e9afeeef0d67cffdcd2bce59138d54ce66e652f"
-    },
-    "CaiDat_ChuanHoaTheThuc_Mac.pkg": {
-      "size": 28857037,
-      "sha256": "c6933b32cc718f5015592f9a74a8a3d99c6b3a9f5bda71373357bf500ad506fc"
+      "size": 32117139,
+      "sha256": "ccf549141e89322186a57ac9eed86b6203d6f6c352da906f3181b73e44f30379"
     }
   }
 }
