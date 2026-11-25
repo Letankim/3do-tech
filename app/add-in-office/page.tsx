@@ -96,7 +96,7 @@ export default function AddInOfficePage() {
   const [release, setRelease] = useState<{
     version: string;
     date: string;
-    assets: Record<string, { size: number; sha256: string | null }>;
+    assets: Record<string, { size: number; sha256: string | null; published?: string }>;
   } | null>(null);
 
   useEffect(() => {
@@ -121,6 +121,12 @@ export default function AddInOfficePage() {
     };
   }, []);
 
+  // Tep phat hanh rieng sau bo 2.0 (vd bo cai du phong 25/11) ghi "published" (YYYY-MM-DD) trong files cua thong-tin.json;
+  // doc thang chuoi ngay (khong qua Date) de mui gio nao cung ra dung ngay
+  const fileDateOf = (fileName: string) => {
+    const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(release?.assets[fileName]?.published ?? "");
+    return m ? `${m[3]}/${m[2]}/${m[1]}` : release?.date || null;
+  };
   const fileSizeOf = (fileName: string) => {
     const size = release?.assets[fileName]?.size;
     if (!size) return null;
@@ -464,7 +470,7 @@ export default function AddInOfficePage() {
                             </div>
                             <div>
                               <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Ngày</p>
-                              <p className="text-sm font-medium tabular-nums">{release?.date || "—"}</p>
+                              <p className="text-sm font-medium tabular-nums">{fileDateOf(file.fileName) || "—"}</p>
                             </div>
                             <a
                               href={latestDownload(file.fileName)}

@@ -9,11 +9,13 @@
     },
     "Bo_Cai_Dat_Windows.zip": {
       "size": 8707177,
-      "sha256": "bdd85d27b9ebf0720125676340f3ebf4210d1fe7be08fae966117d0d2add69be"
+      "sha256": "bdd85d27b9ebf0720125676340f3ebf4210d1fe7be08fae966117d0d2add69be",
+      "published": "2026-11-25"
     },
     "Bo_Cai_Dat_Mac.zip": {
       "size": 16561936,
-      "sha256": "274f8089bb3a1582664823d04804a16a2ef4a13a03958de978bc67bdc81a63e9"
+      "sha256": "274f8089bb3a1582664823d04804a16a2ef4a13a03958de978bc67bdc81a63e9",
+      "published": "2026-11-25"
     },
     "CaiDat_ChuanHoaTheThuc_Mac.pkg": {
       "size": 16565551,
