@@ -324,6 +324,8 @@ export default function AddInOfficePage() {
   const fileMac = "CaiDat_ChuanHoaTheThuc_Mac.pkg";
   const primaryFile = clientOS === "mac" ? fileMac : fileWin;
   const otherFile = clientOS === "mac" ? fileWin : fileMac;
+  // Bo cai du phong (.zip, add-in khong tu tai ban moi): cho may bi Kaspersky / phan mem diet virus chan .exe hoac add-in
+  const backupFile = clientOS === "mac" ? "Bo_Cai_Dat_Mac.zip" : "Bo_Cai_Dat_Windows.zip";
   const btnPrimary =
     "inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-primary px-6 py-2.5 whitespace-nowrap text-base font-semibold text-primary-foreground shadow-sm transition-opacity hover:opacity-90";
   const btnGhost =
@@ -369,6 +371,15 @@ export default function AddInOfficePage() {
                         <span className="text-xs font-normal opacity-80">{primaryFile}{fileSizeOf(primaryFile) ? ` · ${fileSizeOf(primaryFile)}` : ""}</span>
                       </span>
                       <Download className="h-5 w-5" aria-hidden />
+                    </a>
+                    <a href={latestDownload(backupFile)} download onClick={() => khiBamTai(backupFile)} className={btnGhost}>
+                      <ShieldCheck className="h-5 w-5 text-primary" aria-hidden />
+                      <span className="flex flex-col items-start text-left leading-tight">
+                        <span>Bộ cài dự phòng</span>
+                        <span className="text-xs font-normal text-muted-foreground">
+                          {backupFile}{fileSizeOf(backupFile) ? ` · ${fileSizeOf(backupFile)}` : ""}
+                        </span>
+                      </span>
                     </a>
                     <a href="#huong-dan" className={btnGhost}>
                       <BookOpen className="h-5 w-5" aria-hidden /> Hướng dẫn cài đặt
