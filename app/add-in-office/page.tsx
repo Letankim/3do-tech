@@ -138,7 +138,7 @@ export default function AddInOfficePage() {
   const winBackup = {
     title: "Bộ cài dự phòng Windows",
     fileName: "Bo_Cai_Dat_Windows.zip",
-    description: "Dùng khi tệp .exe bị chặn. Giải nén rồi nhấp đúp CaiDat_Windows.bat.",
+    description: "Dùng khi tệp .exe hoặc add-in bị Kaspersky / phần mềm diệt virus chặn. Giải nén rồi nhấp đúp CaiDat_Windows.bat.",
     guide: "#huong-dan-windows",
     primary: false,
   };
@@ -177,7 +177,8 @@ export default function AddInOfficePage() {
               Nếu hiện khung xanh SmartScreen: bấm <em>More info (Thông tin khác)</em> → <em>Run anyway (Vẫn chạy)</em>.
             </span>
             <span className="mt-2 block text-xs text-muted-foreground">
-              Tệp .exe bị chặn? Tải <code className={codeCls}>Bo_Cai_Dat_Windows.zip</code>, giải nén rồi nhấp đúp <code className={codeCls}>CaiDat_Windows.bat</code>.
+              Tệp .exe hoặc add-in bị Kaspersky / phần mềm diệt virus chặn? Tải <code className={codeCls}>Bo_Cai_Dat_Windows.zip</code>, giải nén rồi nhấp
+              đúp <code className={codeCls}>CaiDat_Windows.bat</code>.
             </span>
           </>
         ),

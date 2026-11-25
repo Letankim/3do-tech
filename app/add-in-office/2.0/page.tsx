@@ -93,7 +93,7 @@ export default function AddInOffice2Page() {
             </h2>
             <div className="mt-4 grid gap-3">
               <NutTai tep="CaiDat_ChuanHoaTheThuc.zip" nhan="Tải bộ cài Windows" phu="Một tệp cài đặt .exe" chinh />
-              <NutTai tep="Bo_Cai_Dat_Windows.zip" nhan="Bộ cài dự phòng" phu="Dùng khi tệp .exe bị chặn" />
+              <NutTai tep="Bo_Cai_Dat_Windows.zip" nhan="Bộ cài dự phòng" phu="Dùng khi .exe hoặc add-in bị diệt virus chặn" />
             </div>
             <ol className="mt-6 grid gap-3">
               <Buoc so={1}>Chuột phải tệp .zip vừa tải → <strong>Extract All (Giải nén tất cả)</strong>.</Buoc>
@@ -107,7 +107,8 @@ export default function AddInOffice2Page() {
               <Buoc so={4}>Mở lại Word: tab Home có nhóm <strong>THỂ THỨC VĂN BẢN</strong>.</Buoc>
             </ol>
             <p className="mt-4 text-sm text-muted-foreground">
-              Bộ cài dự phòng: giải nén rồi nhấp đúp <code className={codeCls}>CaiDat_Windows.bat</code>.
+              Bộ cài dự phòng: giải nén rồi nhấp đúp <code className={codeCls}>CaiDat_Windows.bat</code>. Máy bị Kaspersky / phần mềm diệt
+              virus chặn add-in thì dùng bộ cài dự phòng: bản này không tự tải bản mới, nút <strong>Cập nhật</strong> mở trang này để anh/chị tự tải.
             </p>
           </div>
 
@@ -166,7 +167,7 @@ export default function AddInOffice2Page() {
             <li>• Văn bản quan trọng: nên lưu một bản trước khi Chuẩn hóa. Sai thì bấm <strong>Hoàn tác</strong> trên Ribbon.</li>
             <li>
               • Phần mềm diệt virus chặn: mở Windows Security → Virus &amp; threat protection → Protection history, chụp tên mối đe dọa và gửi cho
-              người hỗ trợ.
+              người hỗ trợ. Máy bị Kaspersky / phần mềm diệt virus chặn add-in thì cài bằng bộ cài dự phòng.
             </li>
           </ul>
         </div>
